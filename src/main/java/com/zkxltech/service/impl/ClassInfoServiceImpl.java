@@ -1,12 +1,5 @@
 package com.zkxltech.service.impl;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.ejet.cache.RedisMapBind;
 import com.ejet.core.util.comm.ListUtils;
 import com.ejet.core.util.constant.Constant;
@@ -23,6 +16,13 @@ import com.zkxltech.thread.BaseThread;
 import com.zkxltech.thread.CardInfoThread;
 import com.zkxltech.thread.ThreadManager;
 import com.zkxltech.ui.util.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class ClassInfoServiceImpl implements ClassInfoService{
     private static final Logger log = LoggerFactory.getLogger(ClassInfoServiceImpl.class);
@@ -173,7 +173,7 @@ public class ClassInfoServiceImpl implements ClassInfoService{
 			/** 根据班级id查询学生信息 */
 			StudentInfoServiceImpl sis = new StudentInfoServiceImpl();
 			Result result = sis.selectStudentInfo(param);
-			List<StudentInfo> studentInfos = (List) result.getItem();
+			List<StudentInfo> studentInfos = (List) result.getItem();//查询所有的学生信息
 			if (result == null || ListUtils.isEmpty(studentInfos)) {
 				r.setMessage("您还未上传学生信息");
 				return r;
@@ -182,11 +182,17 @@ public class ClassInfoServiceImpl implements ClassInfoService{
 			Map<String, StudentInfo> studentInfoMap = new HashMap<>();
 			/** 按绑定状态进行分类 */
 			int bind = 0, notBind = 0;
+			//未绑定的学生信息
+			List<StudentInfo> noStudentInfos = new ArrayList<>();
+			//已绑定的学生信息
+			List<StudentInfo> studentInfosl = new ArrayList<>();
 			for (StudentInfo studentInfo : studentInfos) {
 				if (studentInfo.getStatus().equals(Constant.BING_YES)) {
 					++bind;
+					studentInfosl.add(studentInfo);
 				} else {
 					++notBind;
+					noStudentInfos.add(studentInfo);
 				}
 				if (!StringUtils.isEmpty(studentInfo.getIclickerId())) {
 					studentInfoMap.put(studentInfo.getIclickerId(), studentInfo);
@@ -199,7 +205,8 @@ public class ClassInfoServiceImpl implements ClassInfoService{
 				r.setMessage("指令发送失败");
 				return r;
 			}
-
+			RedisMapBind.setNoStudentInfos(noStudentInfos);
+			RedisMapBind.setStudentInfosl(studentInfosl);
 			RedisMapBind.setStudentInfoMap(studentInfoMap);
 			BaseThread thread = new CardInfoThread();
 			thread.start();
