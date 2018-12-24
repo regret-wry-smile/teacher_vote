@@ -111,12 +111,12 @@ public class ScoreServiceImpl implements ScoreService {
 				String type = "d";
 				String range = "";
 				try {
-					range = "0-9";
+					range = "0-5";
 				} catch (Exception e2) {
 					range = "";
 				}
+                strBuilder.append("'type':'" + type + "',");
 				strBuilder.append("'id':'" + id + "',");
-				strBuilder.append("'type':'" + type + "',");
 				strBuilder.append("'range':'" + range + "'");
 				strBuilder.append("}");
 
