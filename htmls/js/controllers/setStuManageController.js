@@ -707,7 +707,7 @@ app.controller('editStudentModalCtrl',function($scope,$modalInstance,toastr,info
 	$scope.title="EditMember";
 	if(infos){
 		$scope.student=angular.copy(infos);
-		console.log(JSON.stringify(infos))
+		//console.log(JSON.stringify(infos))
 	}		
 		
 	//校验学号

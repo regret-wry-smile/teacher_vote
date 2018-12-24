@@ -66,20 +66,20 @@
 			<div ng-cloak class="content content1 bgf5 clearfix">		
 				<form class="form-horizontal clearfix" name="myForm" novalidate>
 			  			<div class="form-group">
-					  	<label for="firstname" class="col-sm-2 control-label text-right">subject</label>
+					  	<label for="firstname" class="col-sm-2 control-label text-right">Subject</label>
 					    <div class="col-sm-9">
 				    	<input type="text" autocomplete="off" name="title" placeholder="Required Field" id="" value=""  class="form-control" ng-model="markInfo.title" maxlength="20" required />					
 						</div>
 						<span ng-show="myForm.title.$invalid" class="warning">*</span>
 						</div>
 						<div class="form-group">
-					  	<label for="firstname" class="col-sm-2 control-label text-right">description</label>
+					  	<label for="firstname" class="col-sm-2 control-label text-right">Description</label>
 					    <div class="col-sm-9">
 					    	<textarea  class="form-control" rows="3" ng-model="markInfo.describe" maxlength="100"></textarea>
 						</div>
 						</div>
 	  					<div class="form-group ">
-					  	<label for="firstname pull-left" class="col-sm-2 control-label text-right">object</label>
+					  	<label for="firstname pull-left" class="col-sm-2 control-label text-right">Object</label>
 						<div class="col-sm-2 object" ng-repeat="item in obejctList track by $index">
 							<input type="checkbox" ng-model="item.isChecked" style="display: none;"/>
 					  		<input type="text" autocomplete="off" name="object"  id="" value=""  class="form-control" ng-class="{'select':item.isChecked==true}"  ng-model="item.txt" maxlength="5" required ng-click="seldelObject($index,item)" />						    	
@@ -87,8 +87,8 @@
 					  	<span ng-show="myForm.object.$invalid" class="warning">*</span>
 					  	</div>
 						<p class="text-center mb10">
-					  	<a href="javascript:;" class="mr10" style="background: #31D884;padding: 5px;color: #fff;border-radius: 4px;" ng-click="additem()">+ add object</a>
-					  	<a href="javascript:;" ng-click="delObject()" class="del" style="background: red;padding: 5px;color: #fff;border-radius: 4px;">- delete object</a>
+					  	<a href="javascript:;" class="mr10" style="background: #31D884;padding: 5px;color: #fff;border-radius: 4px;" ng-click="additem()">+ AddObject</a>
+					  	<a href="javascript:;" ng-click="delObject()" class="del" style="background: red;padding: 5px;color: #fff;border-radius: 4px;">- DeleteObject</a>
 						</p>
 						<p class="text-center warning">Instuction：
 							1 for very dissatisfied.  2 for dissatisfied.  3 for neutral. 4 for satisfeid. 4 for very satisfeid.
