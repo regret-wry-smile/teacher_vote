@@ -168,7 +168,7 @@ public class MainPage{
 			titleText.setLayoutData(fd_titleText);
 			titleText.setFont(SWTResourceManager.getFont("微软雅黑", 12, SWT.NORMAL));
 			titleText.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-			titleText.setText("Voting System ");
+			titleText.setText("Audience Response System");
 
 			CLabel closeLabel = new CLabel(composite_set, SWT.NONE);
 //			FormData fd_closeLabel = new FormData();
