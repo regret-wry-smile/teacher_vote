@@ -36,15 +36,15 @@ app.controller('setClassCtrl', function($rootScope,$scope, toastr,$modal,$window
 		}
 	};
 	//查询科目
-	var _getsubject=function(){
+	/*var _getsubject=function(){
 		$scope.subjectlists= JSON.parse(execute_testPaper("get_subject"));
 		if($scope.subjectlists.length>0){
 			$scope.setClass.subject=$scope.subjectlists[0];
 			$scope.setClass.subject1=angular.copy($scope.setClass.subject);
 		}
-	}
+	}*/
 	//查询课程
-	var _selectClassHour=function(){
+	/*var _selectClassHour=function(){
 		$scope.result=JSON.parse(execute_record("select_class_hour",$scope.setClass.classes,$scope.setClass.subject));
 		console.log("课程"+JSON.stringify($scope.result))
 		if($scope.result.ret=='success'){			
@@ -64,17 +64,18 @@ app.controller('setClassCtrl', function($rootScope,$scope, toastr,$modal,$window
 		}else{
 			toastr.error($scope.result.message);
 		}
-	}
+	}*/
 	//切换班级
 	$scope.changeClass=function(classes){
 		$scope.setClass.classes=classes;
+		$scope.setClass.classes1=classes;
 		angular.forEach($scope.classList,function(i){
 			if($scope.setClass.classes==i.key){
 				$scope.classesobject=i;
-				$scope.classhourList=[];
-				$scope.setClass.sujectName="";
-				$scope.sujectNameobject="";
-				_selectClassHour();
+//				$scope.classhourList=[];
+				//$scope.setClass.sujectName="";
+				/*$scope.sujectNameobject="";
+				_selectClassHour();*/
 			}
 		})
 		
@@ -123,12 +124,14 @@ app.controller('setClassCtrl', function($rootScope,$scope, toastr,$modal,$window
 	}
 	//跳转到答题中心页面
 	$scope.startClass=function(){
+		console.log(JSON.stringify($scope.classesobject))
        var param={
        	classId:$scope.setClass.classes,
        	className:$scope.classesobject.value,
        	subjectName:$scope.setClass.subject,
-       	classHourId:$scope.sujectNameobject.key,
-       	classHourName:$scope.sujectNameobject.value
+       	/*classHourId:$scope.sujectNameobject.key,*/
+//     	classHourName:$scope.sujectNameobject.value
+		classHourName:$scope.setClass.sujectName
        }
        console.log(JSON.stringify(param))
       	$scope.result=JSON.parse(execute_record("start_class",JSON.stringify(param))); 
@@ -221,8 +224,8 @@ app.controller('setClassCtrl', function($rootScope,$scope, toastr,$modal,$window
 	}
 	var _init=function(){
 		_selectClass();
-		_getsubject();
-		_selectClassHour();
+		/*_getsubject();
+		_selectClassHour();*/
 		_isStartClass();
 	}();
 	
@@ -429,7 +432,7 @@ app.directive('select', function() {
 				$(element).multiselect({
 				width: "10rem",
 				multiple: false,
-				selectedHtmlValue: '请选择',
+				selectedHtmlValue: 'please selected',
 				defalutvalue:scope.defalutvalue,
 				change: function() {
 					$(element).val($(this).val());
@@ -471,7 +474,7 @@ app.directive('select1', function() {
 			}
 			$(element).multiselect({
 				multiple: false,
-				selectedHtmlValue: '请选择',
+				selectedHtmlValue: 'please selected',
 				defalutvalue:scope.defalutvalue,
 				change: function() {
 					$(element).val($(this).val());
@@ -509,7 +512,7 @@ app.directive('select2', function() {
 			}
 			$(element).multiselect({
 				multiple: false,
-				selectedHtmlValue: '请选择',
+				selectedHtmlValue: 'please selected',
 				defalutvalue:scope.defalutvalue,
 				change: function() {
 					$(element).val($(this).val());

@@ -32,7 +32,8 @@
     	<![endif]-->
 	</head>
 	<style>
-		/*登录*/		
+		/*登录*/
+		
 		.loginwrap {
 			position: fixed;
 			height: 100%;
@@ -122,20 +123,25 @@
 		}
 	</style>
 
-	<body class="bg" ng-controller="LoginCtrl">
-		<div ng-cloak   class="loginwrap">
+	<body class="" ng-controller="LoginCtrl">
+		<div id="bg" ng-cloak>
+			<canvas width="1920" height="150"></canvas>
+			<canvas width="1920" height="150"></canvas>
+			<canvas width="1920" height="150"></canvas>
+		</div>
+		<div ng-cloak class="loginwrap">
 			<div class="loginmain" ng-keypress="enterEvent($event)">
 				<p class="text-center mt30 warning"></p>
 				<div class="loginbox">
 					<form name="myForm" role="form">
-						<h5>登录</h5>
+						<h5>Login</h5>
 						<div class="fixed"><input type="text" autocomplete="off" name="name" id="" value="" placeholder="" ng-model="login.name" required maxlength="10" disabled="true" /></div>
-						<div class="fixed"><input type="password" autocomplete="off" name="password" id="password" value="" ng-model="login.password" required placeholder="请输入正确的密码"/></div>
+						<div class="fixed"><input type="password" autocomplete="off" name="password" id="password" value="" ng-model="login.password" required placeholder="请输入正确的密码" /></div>
 						<div class="mt10">
 							<span ng-show="myForm.password.$dirty && myForm.password.$invalid" class="warning">*</span>
 						</div>
 					</form>
-					<button type="submit" class="btn savebtn mt15" ng-click="Login()" ng-disabled="myForm.$invalid">登录</button>
+					<button type="submit" class="btn savebtn mt15" ng-click="Login()" ng-disabled="myForm.$invalid">Login</button>
 				</div>
 			</div>
 		</div>

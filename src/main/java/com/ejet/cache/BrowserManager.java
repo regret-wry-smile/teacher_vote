@@ -38,6 +38,7 @@ public class BrowserManager {
 			shell.getDisplay().syncExec(new Runnable() {
 				@Override
 				public void run() {
+					log.info("刷新绑定页面：3");
 					boolean  doRet = b.execute("document.getElementById('refreshBindCard').click();");
 					log.info("刷新绑定页面："+doRet);
 				}

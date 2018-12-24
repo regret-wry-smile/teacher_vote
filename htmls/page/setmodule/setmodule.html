@@ -23,7 +23,7 @@
 		<script type="text/javascript" src="../../js/select/select.jquery.js" ></script>
 		<script src="../../js/jquery.nicescroll.min.js"></script>
 		<script src="../../js/common.js"></script>
-		<!--<script src="../../js/vconsole.min.js"></script>-->		
+		<script src="../../js/vconsole.min.js"></script>		
 		<script type="text/javascript" src="../../js/bootstrap.js" ></script>
 		<script src="../../js/controllers/setmoduleController.js"></script>
 		
@@ -40,14 +40,28 @@
 		}
 		.content1 .form-group label.control-label{
 			text-align: left !important;
+			width: 6.0rem;
+		}
+		.opbtn a{
+			width: 100px;
+			background: #04BE02;
+			padding: 5px;
+			color: #fff;
+			text-align: center;
+			border-radius: 4px;
 		}
 		
 	</style>
-	<body class="bg clearfix" ng-controller="setmoduleCtrl">
+	<body class="clearfix" ng-controller="setmoduleCtrl">
+		<div id="bg" ng-cloak>
+		  <canvas width="1920" height="150"></canvas>
+		  <canvas width="1920" height="150"></canvas>
+		  <canvas width="1920" height="150"></canvas>
+		</div>
 			<div class="header clearfix">
 				<div class="pull-left">
 					<img src="../../image/set.png" class="ml25" />
-					<span>设置</span>
+					<span>Setting</span>
 				</div>
 				<!--<div class="pull-right">
 					<img src="../../image/return.png" />
@@ -56,10 +70,22 @@
 			<div ng-cloak class="content content1 bgf5 clearfix">
 				<form class="form-horizontal clearfix" role="form">
 				  <div class="form-group">
-				    <label for="firstname" class="col-sm-2 control-label">系统信道设置</label>
-				    <div class="col-sm-5">
-				    <select class="single" select1 ng-model="chain" defalutvalue='chain1' ng-change="changeChain(chain)" list='infoAllNameList'>
+				    <label for="firstname" class="col-sm-2 control-label">Setting of System channel </label>
+				    <div class="col-sm-10">
+				    <!--<select class="single" select1 ng-model="chain" defalutvalue='chain1' ng-change="changeChain(chain)" list='infoAllNameList'>
 						<!--<option ng-repeat="item in infoAllNameList track by $index" value="{{item}}">{{item}}</option>-->
+						<!--</select>-->
+					<select class="single" select ng-model="chain" defalutvalue='chain1' ng-change="changeChain(chain)" >
+								<option value="第一组">first group</option>
+				   			<option value="第二组">second group</option>
+				   			<option value="第三组">third group</option>
+				   			<option value="第四组">fourth group</option>
+				   			<option value="第五组">fifth group</option>
+				   			<option value="第六组">sixth group</option>
+				   			<option value="第七组">seventh group</option>
+				   			<option value="第八组">eighth group</option>
+				   			<option value="第九组">ninth group</option>
+				   			<option value="第十组">tenth group</option>
 					</select>
 			    	<!--<select class="mySelect" id="mySelect" >
 			            <option value="1">第一组</option>
@@ -70,7 +96,7 @@
 				    </div>
 				  </div>
 				  <div class="form-group">
-				    <label for="lastname" class="col-sm-2 control-label">答题器发送功率</label>
+				    <label for="lastname" class="col-sm-2 control-label">Transmitting Power of Answer</label>
 				   	<div class="col-sm-10">
 				   		<select class="single" select ng-model="sendpower" defalutvalue='sendpower1' ng-change="changeSendPower(sendpower)" >
 				   			<option value="1">1</option>
@@ -101,13 +127,13 @@
 				  
 				</form>
 				<div class="opbtn clearfix">
-				  	<a href="javascript:;" ng-click="readSet()">读取</a>
-				  	<a href="javascript:;" ng-click="set()">设置</a>
-				  	<a href="javascript:;" ng-click="setDefault()">设为默认值</a>
+				  	<a href="javascript:;" ng-click="readSet()">Read</a>
+				  	<a href="javascript:;" ng-click="set()">Set</a>
+				  	<a href="javascript:;" ng-click="setDefault()">UseAsDefault</a>
 			  	</div>
 			  	<div class="operatebtn mt20 clearfix">
-			  		<button class="btn btn-primary btn-lg mr5" ng-click="stuManage()">学生管理</button>
-				 	<button class="btn btn-primary btn-lg " ng-click="paperManage()">试卷管理</button>
+			  		<button class="btn btn-primary btn-lg mr5" ng-click="stuManage()" style="width: 200px;">Group Management</button>
+				 		<!--<button class="btn btn-primary btn-lg " ng-click="paperManage()">试卷管理</button>-->
 			  	</div>
 				  
 			</div>

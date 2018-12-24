@@ -48,33 +48,38 @@
 		}
 		
 	</style>
-	<body class="bg" ng-controller="quickMarkCtrl">
+	<body class="" ng-controller="quickMarkCtrl">
+		<div id="bg" ng-cloak>
+		  <canvas width="1920" height="150"></canvas>
+		  <canvas width="1920" height="150"></canvas>
+		  <canvas width="1920" height="150"></canvas>
+		</div>
 			<div class="header clearfix">
 				<div class="pull-left">
 					<img src="../../image/stars.png" class="ml25 pt20" />
-					<span>即时评分</span>
+					<span>Survey</span>
 				</div>
 				<div class="pull-right">
-					<img src="../../image/return.png" ng-click="returnPage()" class="rebtn" title="返回"/>
+					<img src="../../image/return.png" ng-click="returnPage()" class="rebtn" title="return"/>
 				</div>
 			</div>
 			<div ng-cloak class="content content1 bgf5 clearfix">		
 				<form class="form-horizontal clearfix" name="myForm" novalidate>
 			  			<div class="form-group">
-					  	<label for="firstname" class="col-sm-2 control-label text-right">评分主题</label>
+					  	<label for="firstname" class="col-sm-2 control-label text-right">subject</label>
 					    <div class="col-sm-9">
-				    	<input type="text" autocomplete="off" name="title" id="" value=""  class="form-control" ng-model="markInfo.title" maxlength="20" required />					
+				    	<input type="text" autocomplete="off" name="title" placeholder="Required Field" id="" value=""  class="form-control" ng-model="markInfo.title" maxlength="20" required />					
 						</div>
 						<span ng-show="myForm.title.$invalid" class="warning">*</span>
 						</div>
 						<div class="form-group">
-					  	<label for="firstname" class="col-sm-2 control-label text-right">主题描述</label>
+					  	<label for="firstname" class="col-sm-2 control-label text-right">description</label>
 					    <div class="col-sm-9">
 					    	<textarea  class="form-control" rows="3" ng-model="markInfo.describe" maxlength="100"></textarea>
 						</div>
 						</div>
 	  					<div class="form-group ">
-					  	<label for="firstname pull-left" class="col-sm-2 control-label text-right">评分对象</label>
+					  	<label for="firstname pull-left" class="col-sm-2 control-label text-right">object</label>
 						<div class="col-sm-2 object" ng-repeat="item in obejctList track by $index">
 							<input type="checkbox" ng-model="item.isChecked" style="display: none;"/>
 					  		<input type="text" autocomplete="off" name="object"  id="" value=""  class="form-control" ng-class="{'select':item.isChecked==true}"  ng-model="item.txt" maxlength="5" required ng-click="seldelObject($index,item)" />						    	
@@ -82,11 +87,14 @@
 					  	<span ng-show="myForm.object.$invalid" class="warning">*</span>
 					  	</div>
 						<p class="text-center mb10">
-					  	<a href="javascript:;" class="mr10" ng-click="additem()">+新增对象</a><a href="javascript:;" ng-click="delObject()" class="del">-删除对象</a>
+					  	<a href="javascript:;" class="mr10" style="background: #31D884;padding: 5px;color: #fff;border-radius: 4px;" ng-click="additem()">+ add object</a>
+					  	<a href="javascript:;" ng-click="delObject()" class="del" style="background: red;padding: 5px;color: #fff;border-radius: 4px;">- delete object</a>
 						</p>
-						<p class="text-center warning">说明：评分范围为0~9分；标题限制字数：20,；描述限制字数：100；评分对象限制字数：5</p>				
+						<p class="text-center warning">Instuction：
+							1 for very dissatisfied.  2 for dissatisfied.  3 for neutral. 4 for satisfeid. 4 for very satisfeid.
+						<!--评分范围为0~9分；标题限制字数：20,；描述限制字数：100；评分对象限制字数：5--></p>				
 						 <div class="operatebtn pt10 clearfix text-center">
-					  		<button class="btn savebtn" ng-click="startMark()" ng-disabled="myForm.$invalid">开始评分</button>
+					  		<button class="btn savebtn" ng-click="startMark()" ng-disabled="myForm.$invalid">Strat</button>
 					  	</div>
 			  	</form>
 			  </div>

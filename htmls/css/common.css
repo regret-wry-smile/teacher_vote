@@ -57,7 +57,21 @@ textarea {
 p {
 	margin: 0;
 }
-
+#bg {
+	position:fixed;
+	top:0;
+	left:0;
+	width:100%;
+	height:100%;
+	z-index:-1;
+}
+#bg canvas {
+	position:absolute;
+	top:0;
+	left:0;
+	width:100%;
+	height:100%;
+}
 .text-center{
 	text-align: center !important;
 }
@@ -188,6 +202,7 @@ ul.modbox li a{
 ul.modbox li a img{
 	display: inline-block;
 	width: 1.22rem;
+	z-index: 99999;
 }
 ul.modbox li a label.checked{
 	position: absolute;
@@ -205,9 +220,8 @@ ul.modbox li span.title{
 	/*margin-left: 0.12rem;*/
 }
 ul.modbox li.active a{	
-	/*background: rgb(146,182,255);*/
-	background: #99ccff;
-	/*opacity: 0.5;*/
+	background: rgba(146,182,255,.5);
+
 	
 }
 ul.modbox li.active span.title{
@@ -264,6 +278,20 @@ ul.modbox li.active span.title{
 .warning,.clwarning{
 	color: #ca4d4d;
 }
+.opbtn a{
+	width: auto;
+	min-width: 100px;
+	background: #04BE02;
+	padding: 5px;
+	color: #fff;
+	text-align: center;
+	border-radius: 4px;
+	opacity: 0.6;
+}
+.opbtn a.warning{
+	background:red;
+	color: #fff;
+}
 span.warning{
 	color: #ca4d4d;
 	font-weight: bold;
@@ -314,6 +342,10 @@ button.btnfff,a.btnfff,a.hover{
 	width: 2.0rem;
 	height: 0.48rem;
 	/*position: relative;*/
+}
+span.bgtitle{
+	color: #fff;
+	font-size: 0.18rem;
 }
 a.btnfff,a.btnfff:active{
 	cursor: default;
@@ -634,9 +666,13 @@ table.classlist thead tr th,table.userlist thead tr th{
 	/*border-bottom: 1px solid #f5f5f5 !important;*/
 	
 }
-table.userlist thead tr {
-	border-bottom: 2px solid #f5f5f5 !important;
+table.classlist tbody tr:first-child td,table.userlistchild tbody tr:first-child td{
+	border-top: none;
 }
+table.userlist thead tr {
+	/*border-bottom: 2px solid #f5f5f5 !important;*/
+}
+
 table.papertable{
 	background: #fff;
 }
@@ -721,7 +757,7 @@ label.circle{
 }
 .modboxs .box{
 	float: left;
-	width: 7%;
+	min-width: 7%;
 	background: #fff;
 	font-size: 0.18rem;
 	text-align: center;
@@ -878,7 +914,7 @@ ul.col-4 li{
 	text-align: center;	
 	cursor: pointer;
 }
-ul.col-4 li:hover a{
+ul.col-4 li:hover a,ul.col-3 li :hover a{
 	opacity: 0.8;
 }
 ul.col-4 li a{
@@ -889,11 +925,27 @@ ul.col-4 li a{
 	border-radius: 0.10rem;
 	
 }
-ul.col-4 li a img{
+ul.col-3{
+	display: flex;
+}
+ul.col-3 li{
+	flex: 1;
+	text-align: center;	
+	cursor: pointer;
+}
+ul.col-3 li a{
+	width: 2.8rem;
+	display: inline-block;
+	padding: 0.24rem 0;		
+	background: #fff;
+	border-radius: 0.10rem;
+	
+}
+ul.col-4 li a img,ul.col-3 li a img{
 	margin-top: -0.03rem;
 	vertical-align: middle;
 }
-ul.col-4 li a span{
+ul.col-4 li a span,ul.col-3 li a span{
 	margin-left: 0.08rem;
 	color: #90a4cc;
 	font-size: 0.32rem;
@@ -926,6 +978,13 @@ img.rebtn:active,img.rebtn:hover{
 		max-height: 3.5rem;
 		overflow-y: auto;
 	}
+	.tab-pane .header span{
+		font-size: 20px;
+	}
+	
+}
+.tab-pane .header span.view:hover{
+	color: #31D884 !important;
 }
 @media screen and (min-width: 921px) {
     .head ul li a{
@@ -948,8 +1007,13 @@ img.rebtn:active,img.rebtn:hover{
 		/*padding: 0.4rem 0*/
 		cursor: pointer;
 	}
+	ul.col-3 li a{
+		width: 4.0rem;
+	}
+
 	.modboxs1 .box{
-		width: 8%;
+		/*width: 8%;*/
+		min-width: 8%;
 	}
 	button.circlefff{
 		/*margin: 4%;*/
@@ -958,7 +1022,7 @@ img.rebtn:active,img.rebtn:hover{
 		border-radius: 100%;
 		background: #fff;
 		color: #90a4cc;
-		font-size: 0.30rem;
+		font-size: 0.50rem;
 	}
 	.text.vote label{
 		font-size: 0.26rem;
@@ -966,6 +1030,9 @@ img.rebtn:active,img.rebtn:hover{
 	.text.vote p{
 		font-size: 0.20rem;
 	}
+}
+select.single.error{
+	border-color: red !important;
 }
 /*div垂直水平正居中*/
 .maindiv{

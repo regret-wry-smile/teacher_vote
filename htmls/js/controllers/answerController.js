@@ -381,10 +381,10 @@ app.controller('stopSingeAnswerCtrl', function($scope,$rootScope, $location, toa
 					} else if($scope.answerType == 'number') {
 						rangeList = ["1", "2", "3", "4", "5", "6", "7", "8", "9"];
 					} else if($scope.answerType == 'judge') {
-						rangeList = ["对", "错"];
+						rangeList = ["Yes", "No"];
 						$scope.resultmap = {
-							"对": $scope.resultmap["true"],
-							"错": $scope.resultmap["false"]
+							"Yes": $scope.resultmap["true"],
+							"No": $scope.resultmap["false"]
 						}
 					}
 					//$scope.rangeList=["A","B","C","D","E"];
@@ -527,7 +527,7 @@ app.controller('stopSingeAnswerCtrl', function($scope,$rootScope, $location, toa
 							if(datavalue == params.name) {
 								option.series[0].data[params.dataIndex].itemStyle.normal.color = '#5ed6be';
 								if($scope.answerType == 'judge') {
-									if(datavalue == "对") {
+									if(datavalue == "Yes") {
 										datavalue = "true";
 									} else {
 										datavalue = "false";
@@ -857,7 +857,7 @@ app.directive('select', function() {
 					$(element).multiselect({
 						width: "10rem",
 						multiple: false,
-						selectedHtmlValue: '请选择',
+						selectedHtmlValue: 'please selected',
 						defalutvalue: scope.defalutvalue,
 						change: function() {
 							$(element).val($(this).val());
@@ -897,7 +897,7 @@ app.directive('select1', function() {
 
 					/*$(element).multiselect({
 						multiple: false,
-						selectedHtmlValue: '请选择',
+						selectedHtmlValue: 'please selected',
 						defalutvalue: scope.defalutvalue,
 						change: function() {
 							$(element).val($(this).val());
@@ -913,7 +913,7 @@ app.directive('select1', function() {
 				}
 				$(element).multiselect({
 					multiple: false,
-					selectedHtmlValue: '请选择',
+					selectedHtmlValue: 'please selected',
 					defalutvalue: scope.defalutvalue,
 					change: function() {
 						$(element).val($(this).val());
@@ -952,7 +952,7 @@ app.directive('select2', function() {
 				}
 				$(element).multiselect({
 					multiple: false,
-					selectedHtmlValue: '请选择',
+					selectedHtmlValue: 'please selected',
 					defalutvalue: scope.defalutvalue,
 					change: function() {
 						$(element).val($(this).val());

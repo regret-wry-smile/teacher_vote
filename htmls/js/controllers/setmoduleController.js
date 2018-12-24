@@ -26,11 +26,12 @@ app.controller('LoginCtrl', function($scope, toastr) {
 	}
 })
 app.controller('setmoduleCtrl', function($scope, toastr) {
-		$scope.infoAllNameList = ["第一组", "第二组", "第三组", "第四组", "第五组", "第六组", "第七组", "第八组", "第九组", "第十组"]; //信道设置数组
+		//$scope.infoAllNameList = ["第一组", "第二组", "第三组", "第四组", "第五组", "第六组", "第七组", "第八组", "第九组", "第十组"]; //信道设置数组
 		$scope.attendstatus = '1';
 		$scope.sendpower = '1';
 		$scope.sendpower1 = angular.copy($scope.sendpower);
-		$scope.chain = $scope.infoAllNameList[0];
+		//$scope.chain = $scope.infoAllNameList[0];
+		$scope.chain="第一组";
 		$scope.chain1 = angular.copy($scope.chain);
 		//同步数据库    该功能移动学生管理页面去了 setStuManageController.js
 		//	var _equipmentsynchron=function(){
@@ -191,13 +192,12 @@ app.directive('select', function() {
 				$(element).find('option').attr('selected', '');
 				var str = '';
 				for(var i = 0; i < $(element).find('option').length; i++) {
-					//alert($(element).find('option').eq(i).html());
-					str += '<option value=' + $(element).find('option').eq(i).html() + '>' + $(element).find('option').eq(i).html() + '</option>'
+					str += '<option value=' + $(element).find('option').eq(i).val() + '>' + $(element).find('option').eq(i).html() + '</option>'
 				}
 				$(element).html(str);
 				$(element).multiselect({
 					multiple: false,
-					selectedHtmlValue: '请选择',
+					selectedHtmlValue: 'please selected',
 					defalutvalue: scope.defalutvalue,
 					change: function() {
 						$(element).val($(this).val());
@@ -238,7 +238,7 @@ app.directive('select1', function() {
 				}
 				$(element).multiselect({
 					multiple: false,
-					selectedHtmlValue: '请选择',
+					selectedHtmlValue: 'please selected',
 					defalutvalue: scope.defalutvalue,
 					change: function() {
 						$(element).val($(this).val());
