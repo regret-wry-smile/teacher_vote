@@ -125,7 +125,8 @@ app.controller('quickMarkCountCtrl', function($rootScope,$scope,$modal,toastr) {
 				}else{
 					$scope.markInfoslist[i].average=$scope.markInfoslist[i].total/$scope.markInfoslist[i].peopleSum;
 				}*/			
-			$scope.datalist=[$scope.markInfoslist[i].total,$scope.markInfoslist[i].peopleSum,$scope.markInfoslist[i].average];
+//			$scope.datalist=[$scope.markInfoslist[i].total,$scope.markInfoslist[i].peopleSum,$scope.markInfoslist[i].average];
+			$scope.datalist=[$scope.markInfoslist[i].peopleSum,$scope.markInfoslist[i].average];
 			console.log("头部"+JSON.stringify($scope.datalist))
 				var item={
 					name:$scope.markInfoslist[i].program,
@@ -159,7 +160,7 @@ app.controller('quickMarkCountCtrl', function($rootScope,$scope,$modal,toastr) {
 		            type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
 		        }
 		    },
-		    legend: {
+		    legend: {    
 		        data: $scope.titleList,
 		        textStyle:{
 		        	fontSize:'26',
@@ -186,7 +187,8 @@ app.controller('quickMarkCountCtrl', function($rootScope,$scope,$modal,toastr) {
 		    xAxis : [
 		        {
 		            type : 'category',
-		            data : ['总分', '人数', '平均分'],
+//		            data : ['总分', '人数', '平均分'],
+					data : ['peopleNum', 'average'],
 		            axisTick: {
 		                alignWithLabel: true
 		            },

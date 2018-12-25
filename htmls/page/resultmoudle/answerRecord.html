@@ -45,12 +45,13 @@
 		}
 		.newOptions{
 			width: 1.5rem !important;
+			max-height: 200px !important;
 		}
 
 	</style>
 	<body class="bg" ng-controller="answerRecordCtrl">
 		<div id="myModal" class="modal fade" data-keyboard="false" data-backdrop="static" data-role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-			<div id="loading" class="loading">加载中</div>
+			<div id="loading" class="loading">loading</div>
 		</div>
 		<!--个人作答记录-->
 		<script type="text/ng-template" id="oneAnswerDetailModal.html">
@@ -111,7 +112,7 @@
 			<div class="header clearfix">
 				<div class="pull-left">
 					<img src="../../image/set.png" class="ml25" />
-					<span>作答记录</span>
+					<span>Records</span>
 				</div>
 				<div class="pull-right">
 					<!--<a href="javascript:history.go(-1);">

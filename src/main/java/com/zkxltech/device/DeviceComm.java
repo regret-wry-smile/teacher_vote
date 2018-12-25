@@ -50,7 +50,7 @@ public class DeviceComm {
 	 */
 	public static String getWirelessBindInfo(){
 		String str = SerialDll.INSTANTCE.get_wireless_bind_info();
-//		log.info("【调用dll- 获取无线绑定上报结果】"+str);
+		log.info("【调用dll- 获取无线绑定上报结果】"+str);
 		return str;
 	}
 	/**
@@ -84,7 +84,7 @@ public class DeviceComm {
 	 */
 	public static int answerStart(String answers){
 		int str = SerialDll.INSTANTCE.answer_start(1, EquipmentConstant.ANSWER_START_CODE(answers));
-		log.info("【调用dll- 开始答题(单题)】"+str);
+		log.info("【调用dll- 开始答题(单题)】"+EquipmentConstant.ANSWER_START_CODE(answers));
 		return str;
 	}
 	/**

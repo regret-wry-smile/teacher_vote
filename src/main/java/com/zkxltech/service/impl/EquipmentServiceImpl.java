@@ -1,15 +1,7 @@
 package com.zkxltech.service.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Vector;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.ejet.core.util.comm.ListUtils;
 import com.ejet.core.util.constant.Constant;
-import com.ejet.core.util.constant.EquipmentConstant;
 import com.ejet.core.util.constant.Global;
 import com.ejet.core.util.io.IOUtils;
 import com.zkxltech.device.DeviceComm;
@@ -20,9 +12,13 @@ import com.zkxltech.sql.StudentInfoSql;
 import com.zkxltech.thread.BaseThread;
 import com.zkxltech.thread.MultipleAnswerThread;
 import com.zkxltech.thread.ThreadManager;
-
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author: luozheng
@@ -145,8 +141,8 @@ public class EquipmentServiceImpl implements EquipmentService {
 					type = "d";
 				}
 				String range = requestVo.getRange();
-				strBuilder.append("'id':'" + id + "',");
 				strBuilder.append("'type':'" + type + "',");
+				strBuilder.append("'id':'" + id + "',");
 				strBuilder.append("'range':'" + range + "'");
 				strBuilder.append("}");
 

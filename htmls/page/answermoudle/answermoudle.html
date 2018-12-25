@@ -46,54 +46,65 @@
 			display: block;
 			visibility: visible;
 		}
-		
+		ul.col2 li{
+			width: 50%;
+		}
+		ul.modbox li a img{
+			display: inline-block;
+			width: 1.5rem;
+		}
 	</style>
-	<body class="bg clearfix" ng-controller="mainAnswerCtrl" >	
+	<body class="clearfix" ng-controller="mainAnswerCtrl" >	
+		<div id="bg" ng-cloak>
+	  <canvas width="1920" height="150"></canvas>
+	  <canvas width="1920" height="150"></canvas>
+	  <canvas width="1920" height="150"></canvas>
+	</div>
 		<div id="myModal" class="modal fade" data-keyboard="false" data-backdrop="static" data-role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-			<div id="loading" class="loading">加载中</div>
+			<div id="loading" class="loading">loading</div>
 		</div>
 			<div class="head clearfix ">
-				<ul>
+				<ul class="col2">
 					<li>
-						<a href="javascript:;" class="active" ng-click="selAnswerType('s')">单题单选</a>
+						<a href="javascript:;" class="active" ng-click="selAnswerType('s')">Single Choice</a>
 					</li>
 					<li>
-						<a href="javascript:;" ng-click="selAnswerType('m')">单题多选</a>
+						<a href="javascript:;" ng-click="selAnswerType('m')">Mutiple Choice</a>
 					</li>
-					<li>
+					<!--<li>
 						<!--<a href="classCheck.html">随堂检测</a>-->
-						<a href="javascript:;" ng-click="selAnswerType('c')">随堂检测</a>
-					</li>
+						<!--<a href="javascript:;" ng-click="selAnswerType('c')">随堂检测</a>
+					</li>-->
 				</ul>
 			</div>
 			<div class="tab-content" ng-cloak>
 				<div class="tab-pane" ng-show="tabpane=='s'" ng-controller="answerCtrl">
 				<div class="content clearfix">
-				<ul class="modbox" style="margin-top: 8%; margin-bottom: 8%;">
+				<ul class="modbox" style="margin-top: 10%; margin-bottom: 8%;">
 					<li class="active">
 						<a href="javascript:;" ng-click="selAnswerType('char')">
 							<img src="../../image/letter.png"/>
-							<span class="title">字母</span>
+							<!--<span class="title">字母</span>-->
 						</a>
 						</label>
 					</li>
 					<li>
 						<a href="javascript:;" ng-click="selAnswerType('number')">
 							<img src="../../image/number.png"/>
-							<span class="title">数字</span>
+							<!--<span class="title">数字</span>-->
 						</a>
 					</li>
 					<li>
 						<a href="javascript:;" ng-click="selAnswerType('judge')">
 							<img src="../../image/gou.png"/>
-							<span class="title">判断</span>
+						<!--	<span class="title">判断</span>-->
 						</a>
 					</li>
 				</ul>	  
 				</div>
 				<div class="operatebtn mt20 clearfix text-center">
-			  		<button class="btn savebtn" ng-click="startAnswer()">开始答题</button>
-			  		<a href="javascript:history.go(-1);" style="position: absolute;right: 30px;"title="返回">
+			  		<button class="btn savebtn" ng-click="startAnswer()">Start</button>
+			  		<a href="javascript:history.go(-1);"title="return"  style="position: absolute;right: 30px;">
 						<img src="../../image/return01.png"  class="rebtn"/>
 					</a>
 			 	</div>
@@ -103,7 +114,7 @@
 					<div class="modbox" >
 					<label class="lettercon">
 						<img src="../../image/letter.png"/>
-						<span class="title">字母</span>
+						<!--<span class="title">字母</span>-->
 					</label>
 					<a href="javascript:;" class="letters">A</a>
 					<select class="single" select1 ng-model="range" defalutvalue='range1' ng-change="changeRange(range)" list='rangeList'>
@@ -113,9 +124,9 @@
 				</div>
 				<div class="operatebtn mt20 clearfix text-center">
 					<!-- <a href="../../page/answermoudle/stopAnswerType.html"> -->
-			  		<button class="btn savebtn" ng-click="startAnswer()">开始答题</button>
+			  		<button class="btn savebtn" ng-click="startAnswer()">Start</button>
 			  		<!-- </a> -->		
-			  		<a href="javascript:history.go(-1);" style="position: absolute;right: 30px;" title="返回">
+			  		<a href="javascript:history.go(-1);" title="return"  style="position: absolute;right: 30px;">
 						<img src="../../image/return01.png"  class="rebtn"/>
 					</a>
 			  </div>	
@@ -168,7 +179,7 @@
 			  		<button class="btn savebtn" ng-click="AnswerSrcoe()">主观题记分</button>
 			  		<!--</a>	-->		  		
 			  		<button class="btn savebtn" ng-click="uploadServer()">上传服务</button>
-			  		<a href="javascript:history.go(-1);" style="position: absolute;right: 30px;" title="返回">
+			  		<a href="javascript:history.go(-1);" style="position: absolute;right: 30px;">
 						<img src="../../image/return01.png"  class="rebtn"/>
 					</a>
 			  </div>

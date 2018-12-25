@@ -22,7 +22,7 @@
 		<link href="../../js/select/font-awesome.min.css" />
 		<script type="text/javascript" src="../../js/select/select.jquery.js" ></script>
 		<script src="../../js/common.js"></script>
-	<!--	<script src="../../js/vconsole.min.js"></script>-->
+		<!--<script src="../../js/vconsole.min.js"></script>-->
 		<script src="../../js/jquery.nicescroll.min.js"></script>
 		<script type="text/javascript" src="../../js/bootstrap.js" ></script>
 		<script src="../../js/controllers/setClassController.js"></script>
@@ -36,18 +36,22 @@
 		}
 		.operatebtn{
 			position: absolute;
-			bottom: 0.50rem;
+			bottom: 0.40rem;
 			left: 0;
 			right: 0;
 			z-index: 666;
 		}
-		.newSelect{
-			width:3.9rem !important;
+		.newSelect,.newOptions,input[type='text'].text,textarea.text{
+			/*width:3.9rem !important;*/
+			width: 98% !important;
 			z-index: 999;
+
 		}
 		.newOptions{
-			width:3.9rem !important;
-			z-index: 999;
+			height: 150px;
+		}
+		textarea.text{
+			height: 40px !important;
 		}
 		.modboxs{			
 			width: 5.2rem;
@@ -74,18 +78,23 @@
 				width: 8.0rem;
 				padding: 0.5rem;
 			}
-			.newSelect{
-				width:6.0rem !important;
-				z-index: 999;
-			}
-			.newOptions{
-				width:6.0rem !important;
-				z-index: 999;
-			}
-			
+		}
+		.newSelect .newSelectTitle span{
+			width: 98% !important;
+			max-width: 98% !importan;
+		}
+		.text label.labelwd{
+			width: 100% !important;
+			color: #3e3e3e;
+			font-weight: bold;
 		}
 	</style>
-	<body ng-cloak class="bg clearfix" ng-controller="setClassCtrl" >
+	<body ng-cloak class="clearfix" ng-controller="setClassCtrl" >
+		<div id="bg" ng-cloak>
+		  <canvas width="1920" height="150"></canvas>
+		  <canvas width="1920" height="150"></canvas>
+		  <canvas width="1920" height="150"></canvas>
+		</div>
 		<!--添加课程start-->
 			<script type="text/ng-template" id="addClassHourModal.html">
 				<form class="form-horizontal clearfix" role="form" name="myForm" novalidate="novalidate">
@@ -128,7 +137,7 @@
 			<div class="header clearfix">
 				<div class="pull-left">
 					<img src="../../image/set.png" class="ml25" />
-					<span>课程设置</span>
+					<span>Setting</span>
 				</div>
 				<!--<div class="pull-right">
 					<img src="../../image/return.png" />
@@ -138,37 +147,42 @@
 				<form name="myForm" novalidate>
 				<div class="modboxs bgfff">
 					<p class="text clearfix">
-						<label class="labelwd pull-left">班级</label>
+						<label class="labelwd pull-left">Group name</label>
 						<select class="single" select2 ng-model="setClass.classes" name="classes" defalutvalue='setClass.classes1' list="classList" ng-change="changeClass(setClass.classes)" required>
 				   			<option ng-repeat="classitem in classList track by $index" value="{{classitem}}">{{classitem.value}}</option>
 						</select>
 						<span ng-show="myForm.classes.$invalid" class="check warning">*</span>
 					</p>
 					<p class="text clearfix">
-						<label class="labelwd pull-left">科目</label>
-						<select class="single" select1 ng-model="setClass.subject" name="subject" defalutvalue='setClass.subject1' list="subjectlists" ng-change="changeSubject(setClass.subject)" required>
+						<label class="labelwd pull-left">Senarie</label>
+						<input type="text" ng-model="setClass.subject" class="text" name="subject" required/>
+						<!--<select class="single" select1 ng-model="setClass.subject" name="subject" defalutvalue='setClass.subject1' list="subjectlists" ng-change="changeSubject(setClass.subject)" required>
 				   			<option ng-repeat="subjectitem in subjectlists track by $index" value="{{subjectitem}}">{{subjectitem}}</option>
-						</select>
+						</select>-->
 						<span ng-show="myForm.subject.$invalid" class="check warning">*</span>
 					</p>
-					<p class="text clearfix">
-						<label class="labelwd pull-left">课程名</label>
+					<!--<p class="text clearfix">
+						<label class="labelwd pull-left">Audience amount</label>
 						<select class="single" select2 ng-model="setClass.sujectName" name="sujectName" defalutvalue='setClass.sujectName1' list="classhourList" ng-change="changeClassHour(setClass.sujectName)" required>
 				   			<option ng-repeat="houritem in classhourList track by $index" value="{{houritem}}">{{houritem.value}}</option>
 						</select>	
 						<span ng-show="myForm.sujectName.$invalid" class="check warning">*</span>
+					</p>-->
+					<p class="text clearfix">
+						<label class="labelwd pull-left">Remark</label>
+						<textarea ng-model="setClass.sujectName" class="text"></textarea>
 					</p>
-					<a href="javascript:;" ng-click="delClassHour()">
-					<img src="../../image/delbtn.png" class="delbtn" title="删除课程"/>
+					<!--<a href="javascript:;" ng-click="delClassHour()">
+					<img src="../../image/delbtn.png" class="delbtn" title="delete"/>
 					</a>
 					<a href="javascript:;" ng-click="addClassHour()">
-					<img src="../../image/answer.png" class="editbtn" title="添加课程"/>
-					</a>
+					<img src="../../image/answer.png" class="editbtn" title="add"/>
+					</a>-->
 				</div>			  	
 			   </form> 
 			</div>
 			<div class="operatebtn mt20 text-center clearfix">
-		  		<button class="btn savebtn mr5" ng-click="startClass()" style="z-index: 666;" ng-disabled="!myForm.$valid">开始上课</button>
+		  		<button class="btn savebtn mr5" ng-click="startClass()" style="z-index: 666;" ng-disabled="!myForm.$valid">Next</button>
 		  	</div>
 		
 	</body>

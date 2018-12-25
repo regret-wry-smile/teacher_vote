@@ -39,7 +39,7 @@ public class PageConstant {
 	/**
 	 * 头部左上角图片
 	 */
-	public static String titleImg = imagePack + "/title.png";
+	public static String titleImg = imagePack + "/logoxk.png";
 	
 	/**
 	 * 悬浮框默认图片

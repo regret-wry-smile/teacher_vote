@@ -32,13 +32,21 @@
 		body{
 			position: relative;
 		}
+	
 	</style>
-	<body class="bg clearfix" ng-controller="setClassCtrl">
+	<body class="bg clearfix" ng-controller="setClassCtrl" >
+		<!--<div id="bg" ng-cloak ng-if="!isSign">
+	  <canvas width="1920" height="150"></canvas>
+	  <canvas width="1920" height="150"></canvas>
+	  <canvas width="1920" height="150"></canvas>
+	</div>-->
 		<div ng-show="!isSign" ng-cloak class="clearfix">
+			
 			<label class="dot" ng-class="{'1': 'green', '0': 'grey'}[equipstatus]"></label>
 			<div class="header clearfix">			
 				<div class="pull-left">
-					<a class="btn btnfff" class="mr25">{{curclassName}}</a>
+					<span class="ml10"><img src="../../image/title.png" style="width: auto;margin-right: 5px;vertical-align: text-bottom;"/>{{curclassName}}</span>					
+					<!--<a class="btn btnfff" class="mr25"></a>-->
 				</div>
 				<div class="pull-right">
 					<!--<a href="../../page/answermoudle/userAttend.html" ng-click="signIn()">-->
@@ -48,36 +56,41 @@
 				</div>				
 			</div>
 			<!--<div class="text-center">-->
-				<button class="btn circlefff" ng-click="stopClass()">下课</button>
+				<button class="btn circlefff" ng-click="stopClass()">End</button>
 		<!--	</div>-->
 		  	<div class="block">
-		  	<ul class="col-4">
+		  	<ul class="col-3">
 		  		<li>
 		  			<a href="../../page/answermoudle/answermoudle.html">
 		  				<img src="../../image/answer.png" />
-		  				<span>答题</span>
+		  				<span>Questionnaire</span>
 		  			</a>
 		  		</li>
-		  		<li>
+		  		<!--<li>-->
 		  			<!--<a href="../../page/answermoudle/stopAnswer.html" ng-click="quickAnswer()">-->
-	  				 <a href="javascript:;" ng-href={{objectUrl}} ng-click="quickAnswer()"> 
+	  				 <!--<a href="javascript:;" ng-href={{objectUrl}} ng-click="quickAnswer()"> 
 		  				<img src="../../image/quickanswer.png" />
 		  				<span>抢答</span>
+		  			</a>
+		  		</li>-->
+		  		<li>
+		  			<!--<a href="../../page/answermoudle/setvotemoudle.html">
+		  				<img src="../../image/vote.png" />
+		  				<span>Vote</span>
+		  			</a>-->
+		  			<a href="../../page/answermoudle/votemoudle.html">
+		  				<img src="../../image/vote.png" />
+		  				<span>Vote</span>
 		  			</a>
 		  		</li>
 		  		<li>
 		  			<a href="../../page/answermoudle/setMarkmoudle.html">
 	  				<!--<a href="javascript:;" ng-href={{MarkobjectUrl}} ng-click="skipMark()">-->
 		  				<img src="../../image/mark.png" />
-		  				<span>评分</span>
+		  				<span>Survey</span>
 		  			</a>
 		  		</li>
-		  		<li>
-		  			<a href="../../page/answermoudle/setvotemoudle.html">
-		  				<img src="../../image/vote.png" />
-		  				<span>投票</span>
-		  			</a>
-		  		</li>
+		  		
 		  	</ul>
 		  	</div>
 		  	<div id="refreEquipmentState" ng-click="refreEquipmentState()" style="display:none"></div>
@@ -86,11 +99,12 @@
 			<div class="header clearfix">
 				<div class="pull-left">
 					<img src="../../image/menu.png" class="ml25 pt20" />
-					<span class="mr10">已签到 {{signList}}/{{studentAttendList.length}}人</span>
+					<span class="mr10">Attendance rate 
+					<span style="color: #31D884;">{{signList}}/{{studentAttendList.length}}</span></span>
 				</div>
 				<div class="pull-right">
-					<a href="javascript:;" ng-click="returnPage()" title="返回">
-					<img src="../../image/return.png" class="rebtn" />
+					<a href="javascript:;" ng-click="returnPage()" title="return">
+					<img src="../../image/return.png" class="rebtn"/>
 					<!--<img src="../../image/return.png" ng-click="returnPage()"/>-->
 					</a>
 				</div>
@@ -116,5 +130,6 @@
 		cursorcolor: "#d9d9d9",
 		boxzoom: true
 	});
+	
 	})
 </script>
