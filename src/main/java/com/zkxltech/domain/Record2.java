@@ -13,6 +13,7 @@ public class Record2 {
 	private String studentName;
 	private String answer;
 	private String answerStart;
+	private String answerClick;
 	private String answerEnd;
 	
 	public Integer getId() {
@@ -92,6 +93,12 @@ public class Record2 {
 	}
 	public void setQuestion(String question) {
 		this.question = question;
+	}
+	public String getAnswerClick() {
+		return answerClick;
+	}
+	public void setAnswerClick(String answerClick) {
+		this.answerClick = answerClick;
 	}
 	
 }

@@ -50,7 +50,7 @@ public class DeviceComm {
 	 */
 	public static String getWirelessBindInfo(){
 		String str = SerialDll.INSTANTCE.get_wireless_bind_info();
-		log.info("【调用dll- 获取无线绑定上报结果】"+str);
+	//	log.info("【调用dll- 获取无线绑定上报结果】"+str);
 		return str;
 	}
 	/**
