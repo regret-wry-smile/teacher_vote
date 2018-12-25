@@ -1,17 +1,5 @@
 package com.ejet.cache;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.GridData;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.ejet.core.util.RedisMapUtil;
 import com.ejet.core.util.StringUtils;
 import com.ejet.core.util.constant.Global;
@@ -19,9 +7,13 @@ import com.zkxltech.domain.Answer;
 import com.zkxltech.domain.Score;
 import com.zkxltech.domain.ScoreVO;
 import com.zkxltech.domain.StudentInfo;
-
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.math.BigDecimal;
+import java.util.*;
 /**
  *评分相关缓存
  * @author zkxl
@@ -45,7 +37,11 @@ public class RedisMapScore {
 	 * 评分详情信息缓存
 	 */
 	public static Map<String, Object> barMap = Collections.synchronizedMap(new HashMap<String, Object>());
-	
+
+	public static List<ScoreVO> getScoreVos() {
+		return scoreVos;
+	}
+
 	public static List<ScoreVO> scoreVos =new ArrayList<ScoreVO>();
 	
 	private static String[] keyScoreInfoMap = {"uuid"};

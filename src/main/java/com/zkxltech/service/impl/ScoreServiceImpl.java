@@ -1,8 +1,5 @@
 package com.zkxltech.service.impl;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.ejet.cache.RedisMapScore;
 import com.ejet.core.util.constant.Constant;
 import com.ejet.core.util.constant.Global;
@@ -10,11 +7,19 @@ import com.ejet.core.util.io.IOUtils;
 import com.zkxltech.device.DeviceComm;
 import com.zkxltech.domain.Result;
 import com.zkxltech.domain.Score;
+import com.zkxltech.domain.ScoreVO;
+import com.zkxltech.domain.Scores;
+import com.zkxltech.jdbc.DBHelper;
 import com.zkxltech.service.ScoreService;
 import com.zkxltech.thread.BaseThread;
 import com.zkxltech.thread.ScoreThread;
 import com.zkxltech.thread.ThreadManager;
 import com.zkxltech.ui.util.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ScoreServiceImpl implements ScoreService {
 	private static final Logger logger = LoggerFactory.getLogger(ScoreServiceImpl.class);
@@ -86,11 +91,29 @@ public class ScoreServiceImpl implements ScoreService {
 		Global.setModeMsg(Constant.BUSINESS_NORMAL);
 		/* 停止线程管理 */
 		ThreadManager.getInstance().stopAllThread();
-
 		r = EquipmentServiceImpl.getInstance().answer_stop();
 		if (r.getRet().equals(Constant.ERROR)) {
 			return r;
 		}
+		Score scores =  RedisMapScore.getScoreInfo();
+		List<ScoreVO> scoreVOList = RedisMapScore.getScoreVos();
+		List<Scores> scoresList = new ArrayList<>();
+		List<String> sqls = new ArrayList<String>();
+		for (ScoreVO scoreVO:scoreVOList) {
+			Scores scores1 = new Scores();
+			scores1.setTitle(scores.getTitle());
+			scores1.setDescribe(scores.getDescribe());
+			scores1.setProgram(scoreVO.getProgram());
+			scores1.setTotal(scoreVO.getTotal());
+			scores1.setPeopleSum(scoreVO.getPeopleSum());
+			scores1.setAverage(scoreVO.getAverage());
+			scoresList.add(scores1);
+		}
+		for (Scores scores1:scoresList) {
+			sqls.add("insert into people_score (title,describe,program,total,peopleSum,average) values('"+scores1.getTitle()+"','"+
+                    scores1.getDescribe()+"','"+scores1.getProgram()+"','"+scores1.getTotal()+"','"+scores1.getPeopleSum()+"','"+scores1.getAverage()+"')");
+		}
+        DBHelper.onUpdateByGroup(sqls);
 		r.setRet(Constant.SUCCESS);
 		r.setMessage("停止成功");
 		return r;
