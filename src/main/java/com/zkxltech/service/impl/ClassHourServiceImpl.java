@@ -174,7 +174,14 @@ public class ClassHourServiceImpl implements ClassHourService{
 					result.setRet(Constant.ERROR);
 					return result;
 				}
-				Global.setStudentInfos((List<StudentInfo>)result.getItem());
+				List<StudentInfo> studentInfos = (List<StudentInfo>)result.getItem();
+				for (int i=0;i<studentInfos.size();i++){
+					StudentInfo stu = studentInfos.get(i);
+					if ("************".equals(stu.getIclickerId())){
+						stu.setIclickerId("************");
+					}
+				}
+				Global.setStudentInfos(studentInfos);
 			}else {
 				result.setMessage("查询学生信息失败！");
 				result.setRet(Constant.ERROR);
