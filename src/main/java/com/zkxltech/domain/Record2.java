@@ -1,19 +1,61 @@
 package com.zkxltech.domain;
 
 public class Record2 {
+	/**
+	 * 主键
+	 */
 	private Integer id;
+	/**
+	 * 班级id。这个字段现在改为组
+	 */
 	private String classId;
+	/**
+	 * 科目。这个字段现在改为场景
+	 */
 	private String subject;
+	/**
+	 * 课时表对应的主键。这个字段现在改为备注
+	 */
 	private String classHourId;
+	/**
+	 * 试卷id。这个字段用于评分中的主题
+	 */
 	private String testId;
+	/**
+	 * 题目id
+	 */
 	private String questionId;
+	/**
+	 * 题目名称
+	 */
 	private String question;
+	/**
+	 * 题目类型
+	 */
 	private String questionType;
+	/**
+	 * 学生id
+	 */
 	private String studentId;
+	/**
+	 * 学生名称
+	 */
 	private String studentName;
+	/**
+	 * 做题答案
+	 */
 	private String answer;
+	/**
+	 * 开始上课时间
+	 */
 	private String answerStart;
+	/**
+	 * 答题器点击提交时间
+	 */
 	private String answerClick;
+	/**
+	 * 停止答题时间
+	 */
 	private String answerEnd;
 	
 	public Integer getId() {
