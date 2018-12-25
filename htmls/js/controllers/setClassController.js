@@ -241,7 +241,7 @@ app.controller('setClassCtrl', function($rootScope,$scope, toastr,$modal,$window
 //			toastr.success($scope.result.message);
 			$rootScope.studentAttendList=JSON.parse(execute_attendance("get_sign_in"));
 			$rootScope.signList=JSON.parse(execute_attendance("get_submit_num"));				
-			//console.log("人员列表"+JSON.stringify($rootScope.studentAttendList));
+			console.log("人员列表"+JSON.stringify($rootScope.studentAttendList));
 			/*$scope.param = "classId=" + $scope.setClass.classesobject.key + "&className=" + $scope.setClass.classesobject.value + "&classhourid=" + $scope.sujectNameobject.key+"&classhourname=" +$scope.sujectNameobject.value+ "&suject="+$scope.setClass.subject;			
 			$scope.objectUrl = '../../page/answermoudle/userAttend.html' + '?' + $scope.param;
 			$window.location.href =$scope.objectUrl;*/

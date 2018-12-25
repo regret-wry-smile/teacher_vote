@@ -358,7 +358,7 @@ var app=angular.module('app',['ui.bootstrap','toastr']);
 	//删除学生
 	$scope.deleteStudent=function(){
 		if($scope.checkedId.length>0){
-			var content="delete selected member";
+			var content="delete selected audience";
 			var modalInstance = $modal.open({
 				templateUrl: 'sureModal.html',
 				controller: 'sureModalCtrl',
@@ -389,14 +389,14 @@ var app=angular.module('app',['ui.bootstrap','toastr']);
 				//$log.info('Modal dismissed at: ' + new Date());
 			});
 		}else{
-			toastr.warning("Please select at least one member first");
+			toastr.warning("Please select at least one audience first");
 		}
 		
 	}
 	//解绑
 	$scope.unbindStu=function(){
 		if($scope.checkedId.length>0){
-			var content="UntyingMembers";
+			var content="unpair";
 			var modalInstance = $modal.open({
 				templateUrl: 'sureModal.html',
 				controller: 'sureModalCtrl',
@@ -423,12 +423,12 @@ var app=angular.module('app',['ui.bootstrap','toastr']);
 			}, function() {
 			});
 		}else{
-			toastr.warning("Please select at least one member first");
+			toastr.warning("Please select at least one audience first");
 		}
 	}
 	//清除白名单
 	$scope.clearStu=function(){
-		var content="clear the White List";
+		var content="clear all pairing";
 		var modalInstance = $modal.open({
 			templateUrl: 'sureModal.html',
 			controller: 'sureModalCtrl',
@@ -507,7 +507,7 @@ app.controller('uploadfileModalCtrl', function($scope,$modalInstance,toastr,info
 	var _showModal=function(){
 		$('#myModal').modal('show');
 	}
-	$scope.title="ImporMembers";
+	$scope.title="Import Namelist";
 	$scope.className="someGroup";
 	//console.log("吃哈哈哈"+JSON.stringify(infos));
 	if(infos){
@@ -518,7 +518,7 @@ app.controller('uploadfileModalCtrl', function($scope,$modalInstance,toastr,info
 			$scope.isfileType=false;		
 		}else{
 			$scope.isfileType=true;
-			$scope.title="【Servicer】Import Members";
+			$scope.title="【Servicer】Import Namelist";
 		}
 		
 	}else{
@@ -620,8 +620,8 @@ app.controller('findBindModalCtrl',function($scope,$modalInstance,toastr){
 })
 //添加学生控制器
 app.controller('addStudentModalCtrl',function($scope,$modalInstance,toastr,infos){
-	console.log(JSON.stringify(infos))
-	$scope.title="AddMember";
+	//console.log(JSON.stringify(infos))
+	$scope.title="Add Audience";
 	if(infos){
 		$scope.classId=infos.classId;
 		$scope.className=infos.className;
@@ -644,7 +644,7 @@ app.controller('addStudentModalCtrl',function($scope,$modalInstance,toastr,infos
 			$scope.result = JSON.parse(execute_student("select_student",JSON.stringify(param)));
 			if($scope.result.ret=='success'){
 				if($scope.result.item.length>0){
-					toastr.warning('This Number has existed,please input again');
+					toastr.warning('This Audience ID has existed,please input again');
 					$scope.myForm.studentId.$invalid=true;
 					$scope.myForm.$invalid=true;	
 				}
@@ -664,7 +664,7 @@ app.controller('addStudentModalCtrl',function($scope,$modalInstance,toastr,infos
 			$scope.result = JSON.parse(execute_student("select_student",JSON.stringify(param)));
 			if($scope.result.ret=='success'){
 				if($scope.result.item.length>0){
-				toastr.warning('This DeviceID has existed,please input again');
+				toastr.warning('This Device ID has existed,please input again');
 				   	$scope.myForm.iclickerId.$invalid=true;
 					$scope.myForm.$invalid=true;	
 				}
@@ -704,7 +704,7 @@ app.controller('addStudentModalCtrl',function($scope,$modalInstance,toastr,infos
 })
 	//编辑学生控制器
 app.controller('editStudentModalCtrl',function($scope,$modalInstance,toastr,infos){
-	$scope.title="EditMember";
+	$scope.title="Edit Audience";
 	if(infos){
 		$scope.student=angular.copy(infos);
 		//console.log(JSON.stringify(infos))
@@ -725,7 +725,7 @@ app.controller('editStudentModalCtrl',function($scope,$modalInstance,toastr,info
 						$scope.myForm.studentId.$error.required=true;
 						$scope.myForm.studentId.$invalid=true;
 						$scope.myForm.$invalid=true;
-						toastr.warning("This Number has existed,please input again",{preventOpenDuplicates:true});
+						toastr.warning("This Audience ID has existed,please input again",{preventOpenDuplicates:true});
 					}					
 				}
 			} else {
@@ -748,7 +748,7 @@ app.controller('editStudentModalCtrl',function($scope,$modalInstance,toastr,info
 						$scope.myForm.iclickerId.$error.required=true;
 						$scope.myForm.iclickerId.$invalid=true;
 						$scope.myForm.$invalid=true;
-						toastr.warning('This DeviceID has existed,please input again',{preventOpenDuplicates:true});
+						toastr.warning('This Device ID has existed,please input again',{preventOpenDuplicates:true});
 					}
 					
 				}

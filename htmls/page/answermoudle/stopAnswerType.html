@@ -105,10 +105,12 @@
 						<!--<span class="mr10">已作答{{studentNum}}/{{studentCount}} </span>
 						<span class="mr10">正确率{{answerRate|number:2}}%</span>
 						<span class="view" ng-click="viewDetail()">查看详情</span>-->
-						<span class="mr10">Paticipation Rate:
+						<span class="mr10">Participation Rate:
 						<span style="color: #31D884;">{{studentNum}}/{{studentCount}}</span></span>
 						<span class="mr10">Percentage:<span style="color: #31D884;">{{answerRate|number:1}}%</span></span>
-						<span class="view" ng-click="viewDetail()">Click for details</span>
+						<span class="view ml40" ng-click="viewDetail()" style="color: #3399cc;font-size: 20px;">
+							<a href="javascript:;" style="border-bottom: 1px solid #0088CC;">Click for details</a>
+						</span>
 					</div>
 					<div class="pull-right">
 						<a href="javascript:history.go(-1);" title="return">
@@ -125,7 +127,7 @@
 			<div class="header clearfix">
 				<div class="pull-left">
 					<img src="../../image/menu.png" class="ml25 pt20" />
-					<span class="mr10">Personnel list</span>
+					<span class="mr10">Attendance List</span>
 				</div>
 				<div class="pull-right">
 					<img src="../../image/return.png" ng-click="returnBar()" class="rebtn rebtn1" title="返回"/>

@@ -188,7 +188,7 @@ app.controller('quickMarkCountCtrl', function($rootScope,$scope,$modal,toastr) {
 		        {
 		            type : 'category',
 //		            data : ['总分', '人数', '平均分'],
-					data : ['peopleNum', 'average'],
+					data : ['Attendees', 'Average'],
 		            axisTick: {
 		                alignWithLabel: true
 		            },

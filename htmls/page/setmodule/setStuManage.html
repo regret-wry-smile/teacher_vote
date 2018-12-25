@@ -24,7 +24,7 @@
 		<script type="text/javascript" src="../../js/select/select.jquery.js"></script>
 		<script src="../../js/jquery.nicescroll.min.js"></script>
 		<!--<script src="../../js/common.js"></script>-->
-		<script src="../../js/vconsole.min.js"></script>
+		<!--<script src="../../js/vconsole.min.js"></script>-->
 		<script type="text/javascript" src="../../js/bootstrap.js"></script>
 		<script src="../../js/controllers/setStuManageController.js"></script>
 		<!--[if IE 8]>
@@ -116,7 +116,7 @@
 						</div>
 						<span ng-show="myForm.fileType.$invalid" class="warning">*</span>
 					</div>-->
-					<p ng-show="isfileType==true" class="pt10 pb20">&nbsp;&nbsp;Identify import members to【{{className}}】?</p>
+					<p ng-show="isfileType==true" class="pt10 pb20">&nbsp;&nbsp;Identify import audiences to【{{className}}】?</p>
 					<div class="form-group" ng-show="fileType=='0'">
 						<label for="firstname" class="col-sm-3 control-label">File</label>
 						<div class="col-sm-8">
@@ -157,20 +157,20 @@
 				</div>
 				<div class="modal-body" id="Modal">
 					<p class="clearfix">
-						<span class="tip pull-left">Matching in progress...</span>
+						<span class="tip pull-left">Pairing in progress...</span>
 						<span class="pull-right pr20 mb20"> ID Code:<span style="color: #04BE02;">{{bindInfo.code}}</span></span>
 					</p>
 					<div class="clearfix pt5">
 						<div class="pull-left">
 							<h4>{{bindInfo.studentName}}</h4>
-							<span>Answering Machine</span>
+							<span>Keypad</span>
 						</div>
 						<div class="pull-right">
 							<img src="../../image/datiqi.png" />
 						</div>
 					</div>
 					<h4 class="clearfix text-center">
-							<span><span style="color: #04BE02;">{{bindInfo.accomplish}}</span> place Finish pairing</span>/<span><span style="color: #04BE02;">{{bindInfo.notAccomplish}}</span> place Incomplete pairing</span>						
+							<span><span style="color: #04BE02;">{{bindInfo.accomplish}}</span> Paired</span>/<span><span style="color: #04BE02;">{{bindInfo.notAccomplish}}</span> Ready for pairing</span>						
 						</h4>
 					<div id="refreshBindCard" ng-click="refreshBindCard()" style="display:none;"></div>
 				</div>
@@ -185,7 +185,7 @@
 				</div>
 				<div class="modal-body">
 					<div class="form-group">
-						<label for="firstname" class="col-sm-3 control-label">Number</label>
+						<label for="firstname" class="col-sm-3 control-label">Audience ID</label>
 						<div class="col-sm-8">
 							<input type="text" autocomplete="off" name="studentId" id="" value="" class="form-control" ng-model="student.studentId" required ng-pattern="/^[0-9]\d*$/" maxlength="10" onkeyup="this.value=this.value.replace(/[^\w]/g,'');" placeholder="Please enter a number no longer than 10 digits in length" ng-change="blurStunum()" />
 						</div>
@@ -224,21 +224,21 @@
 		</div>
 		<div ng-cloak class="content content1 bgf5 clearfix">
 			<div class="opbtn clearfix mb20 bgf5">
-				<a href="javascript:;" ng-click="addClass()">AddGroup</a>
-				<a href="javascript:;" ng-click="quickBind()">MatchQiuckly</a>
-				<a href="javascript:;" ng-click="patchImport()">ImportMembers</a>
+				<a href="javascript:;" ng-click="addClass()">Add Group</a>
+				<a href="javascript:;" ng-click="quickBind()">Qiuck Paring</a>
+				<a href="javascript:;" ng-click="patchImport()">Import Namelist</a>
 				<!--	<a href="javascript:;" ng-click="serverImport()">服务获取学生</a>-->
-				<a href="javascript:;" ng-click="addStudent()">AddMember</a>
-				<a href="javascript:;" class="warning" ng-click="deleteStudent()">DeleteMembers</a>
-				<a href="javascript:;" class="warning" ng-click="unbindStu()">UntyingMembers</a>
-				<a href="javascript:;" class="warning" ng-click="clearStu()">ClearTheWhiteList</a>
+				<a href="javascript:;" ng-click="addStudent()">Add Audience</a>
+				<a href="javascript:;" class="warning" ng-click="deleteStudent()">Delete Audience</a>
+				<a href="javascript:;" class="warning" ng-click="unbindStu()">Unpair</a>
+				<a href="javascript:;" class="warning" ng-click="clearStu()">Clear All Pairing</a>
 			</div>
 			<div class="pannel clearfix" style="position: absolute; top:.6rem ; left: 0.20rem; right: 0; bottom: .25rem;overflow-x: hidden">						
 			<div class="col-sub pull-left"  style="overflow-x: hidden;position: absolute;top: 0; overflow-y: auto;  width:20%; height: 100%;">
 				<table class="table table-stripe classlist" >
 					<thead>
 						<tr>
-							<th>list of group</th>
+							<th>Group List</th>
 						</tr>
 					</thead>
 				</table>
@@ -266,12 +266,12 @@
 					<table class="table table-stripe userlist">
 						<thead>
 							<tr>
-								<th style="width: 5%;">ID</th>
-								<th style="width: 10%;">Number</th>
+								<th style="width: 5%;">No.</th>
+								<th style="width: 10%;">Audience ID</th>
 								<th style="width: 19%;">Name</th>
 								<th style="width: 10%;">Device ID</th>
 								<th style="width: 8%;">State</th>
-								<th style="width: 8%;">Operate</th>
+								<th style="width: 8%;">Edit</th>
 								<th style="width: 10%;" class="pr1">Select
 									<label style="margin-bottom: 0;"><input type="checkbox" class="allCheck" ng-model="selected" ng-change="selectAll()"></label></th>
 							</tr>
