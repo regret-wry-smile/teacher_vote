@@ -64,7 +64,8 @@ public class RedisMapBind {
                 ++accomplish;
                 Integer notAccomplish = (Integer)bindMap.get("notAccomplish");
                 --notAccomplish;
-                bindMap.put("studentName", studentInfo.getStudentName()); //
+                bindMap.put("studentName", studentInfo.getStudentName()); //学生名称
+                bindMap.put("studentId",studentInfo.getStudentId());//学生id
                 bindMap.put("accomplish", accomplish);
                 bindMap.put("notAccomplish",notAccomplish);
                 SIS.updateStudentById(studentInfo);

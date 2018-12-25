@@ -1,15 +1,5 @@
 package com.zkxltech.service.impl;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.ejet.cache.BrowserManager;
 import com.ejet.cache.RedisMapAttendance;
 import com.ejet.cache.RedisMapQuick;
@@ -29,9 +19,17 @@ import com.zkxltech.thread.AttendanceThread;
 import com.zkxltech.thread.BaseThread;
 import com.zkxltech.thread.QuickThread;
 import com.zkxltech.thread.ThreadManager;
-
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class StudentInfoServiceImpl implements StudentInfoService{
 	private static final Logger log = LoggerFactory.getLogger(StudentInfoServiceImpl.class);
@@ -365,6 +363,7 @@ public class StudentInfoServiceImpl implements StudentInfoService{
 	        for (StudentInfo studentInfo : studentInfos) {
 	            Map<String, String> studentInfoMap = new HashMap<>();
 	            studentInfoMap.put("studentName", studentInfo.getStudentName());
+	            studentInfoMap.put("studentId",studentInfo.getStudentId());//学生id
 	            studentInfoMap.put("status", Constant.ATTENDANCE_NO);
 	            RedisMapAttendance.getAttendanceMap().put(studentInfo.getIclickerId(), studentInfoMap);
 	        }
