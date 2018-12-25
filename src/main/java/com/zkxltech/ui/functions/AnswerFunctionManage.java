@@ -49,6 +49,9 @@ public class AnswerFunctionManage extends BrowserFunction{
 			case "get_single_answer_studentName":
                 //获取每个答案对应的学生名称
                 return RedisMapSingleAnswer.getSingleAnswerStudentName(params[1]);
+			case "get_single_range":
+				//获取多选范围
+               return RedisMapSingleAnswer.getRange();
 			case "start_multiple_answer": //开始多选答题
                 result = answerInfoService.startMultipleAnswer(params[1]);
                 break;
@@ -96,11 +99,11 @@ public class AnswerFunctionManage extends BrowserFunction{
 			    break;
 			default:
 				result.setRet(Constant.ERROR);
-				result.setMessage("【"+method+"】未找到该指令！");
+				result.setMessage("【"+method+"】The instruction was not found");//未找到该指令！
 			}
 		}else {
 			result.setRet(Constant.ERROR);
-			result.setMessage("参数不能为空！");
+			result.setMessage("The parameter cannot be empty");//参数不能为空！
 		}
 		return JSONObject.fromObject(result).toString();
 	}

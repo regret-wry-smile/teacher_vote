@@ -1,7 +1,9 @@
 package com.ejet.cache;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -11,10 +13,18 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.alibaba.fastjson.JSON;
+import com.ejet.core.util.RedisMapUtil;
 import com.ejet.core.util.StringUtils;
 import com.ejet.core.util.comm.ListUtils;
 import com.ejet.core.util.constant.Constant;
+import com.ejet.core.util.constant.Global;
+import com.ejet.core.util.io.IOUtils;
 import com.zkxltech.domain.Answer;
+import com.zkxltech.domain.ClassTestVo;
+import com.zkxltech.domain.QuestionInfo;
+import com.zkxltech.domain.Record;
+import com.zkxltech.domain.Record2;
 import com.zkxltech.domain.StudentInfo;
 
 import net.sf.json.JSONArray;
@@ -26,6 +36,15 @@ import net.sf.json.JSONObject;
  *
  */
 public class RedisMapSingleAnswer {
+	/**
+	 * 每条作答记录缓存
+	 * -答题器编号
+	 * 			-题号
+	 */
+	private static char[] range;
+	private static Map<String, Object> studentAnswer = Collections.synchronizedMap(new HashMap<String, Object>());
+	private static String[] keyEveryAnswerMap = {"iclickerId","questionId"};
+	
 	private static final Logger logger = LoggerFactory.getLogger(RedisMapSingleAnswer.class);
 	/**字母对应的人数*/
     private static Map<String,Integer> singleAnswerNumMap = Collections.synchronizedMap(new HashMap<>());
@@ -38,12 +57,13 @@ public class RedisMapSingleAnswer {
     private static Map<String,String> iclickerAnswerMap = new HashMap<>();
     
     private static Answer answer;
-    public static final String  CHAR_A = "A",CHAR_B = "B",CHAR_C = "C",CHAR_D = "D",
+    public static final String  CHAR_A = "A",CHAR_B = "B",CHAR_C = "C",CHAR_D = "D",CHAR_E = "E",CHAR_F= "F",
                                 NUMBER_1 = "1", NUMBER_2 = "2",NUMBER_3 = "3",NUMBER_4 = "4",NUMBER_5 = "5",
                                 NUMBER_6 = "6",NUMBER_7 = "7",NUMBER_8 = "8",NUMBER_9 = "9",
                                 JUDGE_TRUE = "true",JUDGE_FALSE = "false";
     
     public static void addAnswer(String jsonData){
+    	Record2 record2 = new Record2();
     	logger.info("【单选接收到的数据】"+jsonData);
         JSONArray jsonArray= JSONArray.fromObject(jsonData);
         for (Object object : jsonArray) {
@@ -51,13 +71,26 @@ public class RedisMapSingleAnswer {
             if (!jsonObject.containsKey("result")) {
             	  String card_id = jsonObject.getString("card_id");
                   StudentInfo studentInfo = studentInfoMap.get(card_id);
+                  
+                  record2.setStudentId(studentInfo.getStudentId());
+                  record2.setStudentName(studentInfo.getStudentName());
+                  record2.setClassId(studentInfo.getClassId());
+                  
                   if (studentInfo == null) { //如果根据卡号未找到学生,表示不是本班的
                       continue;
                   }
+                  String sb = jsonObject.getString("update_time");
+                  String str = sb.substring(0,19);
+                  record2.setAnswerStart(str);
+                  
                   JSONArray answers =  JSONArray.fromObject(jsonObject.get("answers"));
                   for (Object answerOb : answers) {
                       JSONObject answerJO = JSONObject.fromObject(answerOb);
                       String result = answerJO.getString("answer");
+                      
+                      record2.setAnswer(result);
+                      record2.setQuestionType(answerJO.getString("type"));//s位字母，d位数字，j位判断
+                      
                       if (StringUtils.isEmpty(result)) {
                           continue;
                       }
@@ -87,11 +120,35 @@ public class RedisMapSingleAnswer {
                      }
                      list.add(studentInfo.getStudentName());
                   }
+                  keyEveryAnswerMap[0]=card_id;
             }
+            
         }
+        keyEveryAnswerMap[1]="1";
+        RedisMapUtil.setRedisMap(studentAnswer, keyEveryAnswerMap, 0, record2);
         BrowserManager.refresAnswerNum();
     }
-    
+    public static List<Record2> getSingleRecordList(){
+    	try {
+			List<Record2> records = new ArrayList<Record2>();
+			List<ClassTestVo> classTestVos = new ArrayList<ClassTestVo>();
+			for (String id : iclickerAnswerMap.keySet()) { //遍历学生
+				StudentInfo studentInfo= studentInfoMap.get(id);
+				keyEveryAnswerMap[0] = studentInfo.getIclickerId();
+					Record2 record2 = (Record2) RedisMapUtil.getRedisMap(studentAnswer, keyEveryAnswerMap, 0);
+					SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//结束时间
+					record2.setAnswerEnd(df.format(new Date()));
+					System.out.println("====="+JSONObject.fromObject(record2));
+					records.add(record2);
+			}
+			logger.info("要保存的单选题作答记录："+JSONArray.fromObject(records));
+			return records;
+		} catch (Exception e) {
+			logger.error(IOUtils.getError(e));
+			BrowserManager.showMessage(false, "获取作答据失败！");
+			return null;
+		}
+    }
     private static void setJudgeCount(String result) {
         switch (result) {
             case JUDGE_TRUE:
@@ -133,6 +190,11 @@ public class RedisMapSingleAnswer {
                 break;
         }
     }
+    
+    public static String getRange(){
+		return JSONArray.fromObject(range).toString();
+	}
+    
     private static void setCharCount(String result) {
         switch (result) {
             case CHAR_A:
@@ -147,6 +209,12 @@ public class RedisMapSingleAnswer {
             case CHAR_D:
                 singleAnswerNumMap.put(CHAR_D, singleAnswerNumMap.get(CHAR_D)+1);
                 break;
+            case CHAR_E:
+            	singleAnswerNumMap.put(CHAR_E, singleAnswerNumMap.get(CHAR_E)+1);
+            	break;
+            case CHAR_F:
+            	singleAnswerNumMap.put(CHAR_F, singleAnswerNumMap.get(CHAR_F)+1);
+            	break;
         }
     }
     //获取每个答案对应的人数

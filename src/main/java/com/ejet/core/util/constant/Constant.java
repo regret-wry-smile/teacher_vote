@@ -56,7 +56,7 @@ public class Constant {
     /* 随堂检测主观题*/
     public static final String ANSWER_CLASS_TEST_SUBJECTIVE = "class_test_subjective";
     /*字符题型*/
-    public static final String SINGLE_ANSWER_CHAR = "[{'type':'s','id':'1','range':'A-D'}]";
+    public static final String SINGLE_ANSWER_CHAR = "[{'type':'s','id':'1','range':'A-F'}]";
     /* 数字题型*/
     public static final String SINGLE_ANSWER_NUMBER = "[{'type':'d','id':'1','range':'0-9'}]";
     /* 判断题*/
