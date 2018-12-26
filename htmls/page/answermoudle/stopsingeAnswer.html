@@ -151,8 +151,8 @@
 			</div>
 			<div class="content content1 clearfix" style="margin: 0;padding: 0;overflow: auto; "  id="userAnswerlist">
 				<div class="modboxs modboxs1 clearfix " style="margin: 0; padding: 0;">
-					<div class="box green" ng-repeat="useritem in answerResult track by $index" title="{{useritem}}">
-						{{useritem}}
+					<div class="box green" ng-repeat="useritem in answerResult track by $index" title="{{useritem.studentId}}">
+						{{useritem.studentId}}
 					</div>
 				</div>
 

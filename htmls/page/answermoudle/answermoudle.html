@@ -22,7 +22,7 @@
 		<link rel="stylesheet" href="../../js/select/style.css" />
 		<link href="../../js/select/font-awesome.min.css" />
 		<script type="text/javascript" src="../../js/select/select.jquery.js" ></script>
-		<script src="../../js/common.js"></script>
+		<!--<script src="../../js/common.js"></script>-->
 		<!--<script src="../../js/vconsole.min.js"></script>-->
 		<script src="../../js/jquery.nicescroll.min.js"></script>
 		<script type="text/javascript" src="../../js/bootstrap.js" ></script>
@@ -66,12 +66,12 @@
 
 		}
 	</style>
-	<body class="clearfix" ng-controller="mainAnswerCtrl" >	
-		<div id="bg" ng-cloak>
+	<body class="bg clearfix" ng-controller="mainAnswerCtrl" >	
+		<!--<div id="bg" ng-cloak>
 	  <canvas width="1920" height="150"></canvas>
 	  <canvas width="1920" height="150"></canvas>
 	  <canvas width="1920" height="150"></canvas>
-	</div>
+	</div>-->
 		<div id="myModal" class="modal fade" data-keyboard="false" data-backdrop="static" data-role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 			<div id="loading" class="loading">loading</div>
 		</div>
@@ -218,6 +218,7 @@
 			$(this).addClass('active');
 		})
 		var nice = $("html").niceScroll();  // The document page (body)
+		$('body').niceScroll({cursorborder:"",cursorcolor:"#d9d9d9",boxzoom:true});
 	 	$("#testlist").niceScroll({cursorborder:"",cursorcolor:"#d9d9d9",boxzoom:true}); // First scrollable 	
 	})
 
