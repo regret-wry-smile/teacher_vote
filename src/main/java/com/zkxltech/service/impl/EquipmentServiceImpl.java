@@ -255,10 +255,10 @@ public class EquipmentServiceImpl implements EquipmentService {
 
 
 	@Override
-	public Result set_channel(int tx_ch, int rx_ch) {
+	public Result set_channel(int rf_ch) {
 		Result r = new Result();
 		try {
-			int ret = DeviceComm.setRfCh(tx_ch,rx_ch);
+			int ret = DeviceComm.setRfCh(rf_ch);
 			if (ret != 0) {
 				r.setRet(Constant.ERROR);
 				r.setMessage("指令发送失败");

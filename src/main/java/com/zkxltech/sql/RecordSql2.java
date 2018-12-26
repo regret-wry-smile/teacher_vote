@@ -69,7 +69,25 @@ public class RecordSql2 {
 		}
 		return dbHelper.onQuery(sqlBuilder.toString(), record);
 	}
-	
+	public Result selectSingleRecord(Record2 record) throws IllegalArgumentException, IllegalAccessException{
+		StringBuilder sqlBuilder = new StringBuilder();
+		sqlBuilder.append("select * from record2");
+		/*Field[] files = dbHelper.getFields(record);
+		int index = 0;
+		for (int i = 0; i < files.length; i++) {
+			Object obj = dbHelper.getFiledValues(files[i], record);
+			if (!StringUtils.isEmpty(obj)) {
+				if (index == 0) {
+					sqlBuilder.append(" where ");
+				}else {
+					sqlBuilder.append(" and ");
+				}
+				sqlBuilder.append(dbHelper.HumpToUnderline(files[i].getName())+" = ?");
+				index++;
+			}
+		}*/
+		return dbHelper.onQuery(sqlBuilder.toString(), record);
+	}
 	
 	public Result deleteRecord(Record2 record) throws IllegalArgumentException, IllegalAccessException{
 	     StringBuilder sqlBuilder = new StringBuilder();

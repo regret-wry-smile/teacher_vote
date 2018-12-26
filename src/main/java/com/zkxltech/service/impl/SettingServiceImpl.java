@@ -106,7 +106,7 @@ public class SettingServiceImpl implements SettingService{
                 result.setMessage("缺少参数, 发送功率为空");
                 return result;
             }
-			//发送信道
+			/*//发送信道
 			Integer tx_ch = SettingEnum.getTxchByName(name);
 			//接收信道
 			Integer rx_ch = SettingEnum.getRxchByName(name);
@@ -114,9 +114,9 @@ public class SettingServiceImpl implements SettingService{
 			if (tx_ch == null || rx_ch == null) {
                 result.setMessage("根据信道名称 :"+name+" ,未查询到对应的发送和接收信道值");
                 return result;
-            }
-			
-			result = EquipmentServiceImpl.getInstance().set_channel(tx_ch, rx_ch);
+            }*/
+			Integer rf_ch = Integer.parseInt(name);
+			result = EquipmentServiceImpl.getInstance().set_channel(rf_ch);
 			if (result.getRet() == Constant.ERROR) {
 			    result.setMessage("设置信道失败");
                 return result;
@@ -158,7 +158,7 @@ public class SettingServiceImpl implements SettingService{
 			    result.setMessage("读取配置文件\"答题器发送功率\"默认设置失败");
                 return result;
             }
-			result=EquipmentServiceImpl.getInstance().set_channel(tx_ch, rx_ch);
+			result=EquipmentServiceImpl.getInstance().set_channel(6);
 			if (Constant.ERROR == result.getRet()) {
                 result.setMessage("系统信道设置失败,请重试或重启设备");
                 return result;

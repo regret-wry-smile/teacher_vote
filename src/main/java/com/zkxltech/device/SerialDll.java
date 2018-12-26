@@ -59,7 +59,7 @@ public interface SerialDll extends Library  {
 	 * @param rx_ch 接收信道
 	 * @return
 	 */
-	int set_rf_ch(int tx_ch,int rx_ch);
+	int set_rf_ch(int rf_ch);
 	/**
 	 * 设置发送功率
 	 * @param tx_power

@@ -75,6 +75,7 @@ public class RedisMapSingleAnswer {
                   record2.setStudentId(studentInfo.getStudentId());
                   record2.setStudentName(studentInfo.getStudentName());
                   record2.setClassId(studentInfo.getClassId());
+                  record2.setIclickerId(studentInfo.getIclickerId());
                   
                   if (studentInfo == null) { //如果根据卡号未找到学生,表示不是本班的
                       continue;

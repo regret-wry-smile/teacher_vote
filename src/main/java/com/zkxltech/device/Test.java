@@ -79,7 +79,7 @@ public class Test {
 	 */
 	@org.junit.Test
 	public void set_rf_ch() {
-		System.out.println(SerialDll.INSTANTCE.set_rf_ch(90,110));
+	//	System.out.println(SerialDll.INSTANTCE.set_rf_ch(90,110));
 		System.out.println(SerialDll.INSTANTCE.get_device_info());
 	}
 	/**

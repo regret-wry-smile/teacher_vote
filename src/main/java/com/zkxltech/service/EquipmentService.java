@@ -20,7 +20,7 @@ public Result get_device_info();
      * @param rx_ch
      * @return
      */
-    Result set_channel(int tx_ch , int rx_ch) ;
+    Result set_channel( int rf_ch) ;
     /**
      * 设置发送功率
      * @param tx_power

@@ -110,8 +110,8 @@ public class DeviceComm {
 	 * @param rf_ch
 	 * @return
 	 */
-	public static int setRfCh(int tx_ch,int rx_ch){
-		int str = SerialDll.INSTANTCE.set_rf_ch(tx_ch,rx_ch);
+	public static int setRfCh(int rf_ch){
+		int str = SerialDll.INSTANTCE.set_rf_ch(rf_ch);
 		log.info("【调用dll- 设置信道】"+str);
 		return str;
 	}
