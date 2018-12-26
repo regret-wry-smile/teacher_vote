@@ -39,7 +39,7 @@ public class SettingServiceImpl implements SettingService{
 				return result;
 			}
 			result.setRet(Constant.ERROR);
-			result.setMessage("账号密码错误！");
+			result.setMessage("Account password error！");
 			return result;
 		} catch (Exception e) {
 			result.setRet(Constant.ERROR);
