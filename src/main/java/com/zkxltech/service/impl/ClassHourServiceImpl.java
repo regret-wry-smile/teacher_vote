@@ -122,6 +122,7 @@ public class ClassHourServiceImpl implements ClassHourService{
 			
 			Global.setClassHour(classHour);
 			
+			
 			result = refreshGload();
 			
 			if (Constant.ERROR.equals(result.getRet())) {

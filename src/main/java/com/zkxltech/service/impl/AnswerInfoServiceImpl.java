@@ -25,6 +25,7 @@ import com.zkxltech.domain.Result;
 import com.zkxltech.domain.StudentInfo;
 import com.zkxltech.service.AnswerInfoService;
 import com.zkxltech.sql.RecordSql;
+import com.zkxltech.sql.RecordSql2;
 import com.zkxltech.thread.BaseThread;
 import com.zkxltech.thread.EquipmentStatusThread;
 import com.zkxltech.thread.SingleAnswerThread;
@@ -36,6 +37,7 @@ public class AnswerInfoServiceImpl implements AnswerInfoService{
     private static final Logger log = LoggerFactory.getLogger(AnswerInfoServiceImpl.class);
 	private Result result;
 	private RecordSql recordSql = new RecordSql();
+	private RecordSql2 recordSql2 = new RecordSql2();
 	private static BaseThread equipmentStatusThread;
     
 	@Override
@@ -321,7 +323,7 @@ public class AnswerInfoServiceImpl implements AnswerInfoService{
         	List<Record2> records = RedisMapSingleAnswer.getSingleRecordList();//如何从缓存中取数据。
         	
 			
-			result =recordSql.insertRecords2(records); //将缓存中数据保存到数据库
+			result =recordSql2.insertRecords(records); //将缓存中数据保存到数据库
         }catch (Exception e) {
         	 log.error(IOUtils.getError(e));
             r.setMessage("System Exceptions");

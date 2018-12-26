@@ -21,6 +21,7 @@ import com.ejet.core.util.constant.Constant;
 import com.ejet.core.util.constant.Global;
 import com.ejet.core.util.io.IOUtils;
 import com.zkxltech.domain.Answer;
+import com.zkxltech.domain.ClassHour;
 import com.zkxltech.domain.ClassTestVo;
 import com.zkxltech.domain.QuestionInfo;
 import com.zkxltech.domain.Record;
@@ -41,7 +42,6 @@ public class RedisMapSingleAnswer {
 	 * -答题器编号
 	 * 			-题号
 	 */
-	private static char[] range;
 	private static Map<String, Object> studentAnswer = Collections.synchronizedMap(new HashMap<String, Object>());
 	private static String[] keyEveryAnswerMap = {"iclickerId","questionId"};
 	
@@ -83,6 +83,9 @@ public class RedisMapSingleAnswer {
                   String str = sb.substring(0,19);
                   record2.setAnswerStart(str);
                   
+                  SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//结束时间
+                  record2.setAnswerClick(df.format(new Date()));
+                  
                   JSONArray answers =  JSONArray.fromObject(jsonObject.get("answers"));
                   for (Object answerOb : answers) {
                       JSONObject answerJO = JSONObject.fromObject(answerOb);
@@ -90,6 +93,17 @@ public class RedisMapSingleAnswer {
                       
                       record2.setAnswer(result);
                       record2.setQuestionType(answerJO.getString("type"));//s位字母，d位数字，j位判断
+                      switch(record2.getQuestionType()){
+                      	case "s":
+                      		record2.setQuestion("Letter");
+                      		break;
+                      	case "d":
+                      		record2.setQuestion("Digit");
+                      		break;
+                      	case "j":
+                      		record2.setQuestion("Y/N");
+                      		break;
+                      }
                       
                       if (StringUtils.isEmpty(result)) {
                           continue;
@@ -139,6 +153,9 @@ public class RedisMapSingleAnswer {
 					SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//结束时间
 					record2.setAnswerEnd(df.format(new Date()));
 					System.out.println("====="+JSONObject.fromObject(record2));
+					ClassHour str = Global.getClassHour();
+					record2.setSubject(str.getSubjectName());
+					record2.setClassHourId(str.getClassHourName());
 					records.add(record2);
 			}
 			logger.info("要保存的单选题作答记录："+JSONArray.fromObject(records));
@@ -191,9 +208,6 @@ public class RedisMapSingleAnswer {
         }
     }
     
-    public static String getRange(){
-		return JSONArray.fromObject(range).toString();
-	}
     
     private static void setCharCount(String result) {
         switch (result) {

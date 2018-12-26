@@ -1,5 +1,7 @@
 package com.zkxltech.domain;
 
+import java.util.List;
+
 public class Record2 {
 	/**
 	 * 主键
@@ -18,7 +20,7 @@ public class Record2 {
 	 */
 	private String classHourId;
 	/**
-	 * 试卷id。这个字段用于评分中的主题
+	 * 试卷id。这个字段用于评分中的主题。又改为存class_hour主键。class_hour_name为存备注
 	 */
 	private String testId;
 	/**
@@ -33,6 +35,10 @@ public class Record2 {
 	 * 题目类型
 	 */
 	private String questionType;
+	/**
+	 * 答题器编号
+	 */
+	private String iclickerId;
 	/**
 	 * 学生id
 	 */
@@ -58,6 +64,7 @@ public class Record2 {
 	 */
 	private String answerEnd;
 	
+	private List<String> studentIds;
 	public Integer getId() {
 		return id;
 	}
@@ -141,6 +148,18 @@ public class Record2 {
 	}
 	public void setAnswerClick(String answerClick) {
 		this.answerClick = answerClick;
+	}
+	public List<String> getStudentIds() {
+		return studentIds;
+	}
+	public void setStudentIds(List<String> studentIds) {
+		this.studentIds = studentIds;
+	}
+	public String getIclickerId() {
+		return iclickerId;
+	}
+	public void setIclickerId(String iclickerId) {
+		this.iclickerId = iclickerId;
 	}
 	
 }
