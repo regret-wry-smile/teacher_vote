@@ -375,20 +375,36 @@ app.controller('stopSingeAnswerCtrl', function($scope,$rootScope, $location, toa
 				if($scope.result.ret == 'success') {
 					$rootScope.isStopAswer = true;
 					$scope.resultmap = JSON.parse(execute_answer("get_single_answer"));
+					 var keys1 = [];
+				      for (var i in $scope.resultmap) {
+				         if ($scope.resultmap.hasOwnProperty(i)){
+				         	 if(i=='true'){
+				         	 	i='Yes';			         	 	
+				         	 }else if(i=='false'){
+				         	 	i='No';
+				         	 }
+				         	 keys1.push(i);
+				         }
+				         
+				             
+				     }
 					console.log("data" + JSON.stringify($scope.resultmap));
 					if($scope.answerType == 'char') {
-						rangeList = ["A", "B", "C", "D"];
+						//rangeList = ["A", "B", "C", "D"];
+						rangeList=keys1;
 					} else if($scope.answerType == 'number') {
-						rangeList = ["1", "2", "3", "4", "5", "6", "7", "8", "9"];
+						rangeList=keys1;
+						//rangeList = ["1", "2", "3", "4", "5", "6", "7", "8", "9"];
 					} else if($scope.answerType == 'judge') {
-						rangeList = ["Yes", "No"];
+						rangeList=keys1;
+						//rangeList = ["Yes", "No"];
 						$scope.resultmap = {
 							"Yes": $scope.resultmap["true"],
 							"No": $scope.resultmap["false"]
 						}
 					}
 					//$scope.rangeList=["A","B","C","D","E"];
-					console.log("答题范围" + JSON.stringify(rangeList))
+					//console.log("答题范围" + JSON.stringify(rangeList))
 					//$scope.resultmap={"A":10,"B":3};				
 					$scope.data = [];
 					if(rangeList.length > 0) {

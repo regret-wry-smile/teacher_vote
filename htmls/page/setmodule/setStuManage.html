@@ -262,31 +262,31 @@
 				</table>
 				</div>
 			</div>
-			<div class="col-main pull-left" style=" overflow-x: hidden;overflow-y: auto;height: 100%; width:80%; position: absolute; left: 20%; top: 0; bottom: 0; right: 0; ">
-					<table class="table table-stripe userlist">
+			<div class="col-main pull-left" style=" overflow-x: hidden;overflow-y: auto;height: 100%; width:79%; position: absolute; left: 20%; top: 0; bottom: 0; right: 0; ">
+					<table class="table table-stripe userlist" >
 						<thead>
 							<tr>
 								<th style="width: 5%;">No.</th>
 								<th style="width: 10%;">Audience ID</th>
-								<th style="width: 19%;">Name</th>
+								<th style="width: 20%;">Name</th>
 								<th style="width: 10%;">Device ID</th>
 								<th style="width: 8%;">State</th>
-								<th style="width: 8%;">Edit</th>
+								<th style="width: 6%;">Edit</th>
 								<th style="width: 10%;" class="pr1">Select
-									<label style="margin-bottom: 0;"><input type="checkbox" class="allCheck" ng-model="selected" ng-change="selectAll()"></label></th>
+									<label style="margin-bottom: 0;cursor: pointer;"><input type="checkbox" class="allCheck" ng-model="selected" ng-change="selectAll()"></label></th>
 							</tr>
 						</thead>
 					</table>
-					<div style="position: absolute; top: 0.37rem; left: 0; right: 0; bottom: 0; overflow-y: auto;overflow-x: hidden !important;"  id="userlist">
+					<div style="position: absolute; top: 0.37rem; left: 0; right:0; bottom: 0; overflow-y: auto;overflow-x: hidden !important;"  id="userlist">
 						<table class="table table-stripe userlistchild " style="text-align: left !important;">
 							<tbody>
 								<tr ng-repeat="item in studentList track by $index" ng-click="$event.stopPropagation();" >
 									<td style="width: 5%;">{{$index+1}}</td>
 									<td style="width: 10%;">{{item.studentId}}</td>
-									<td style="width: 19%;" title="{{item.studentName}}">{{item.studentName}}</td>
+									<td style="width: 20%;" title="{{item.studentName}}">{{item.studentName}}</td>
 									<td style="width: 10%;">{{item.iclickerId}}</td>
 									<td style="width: 8%;">{{item.status=='1'?'Bind':'UnBind'}}</td>
-									<td style="width: 8%;">
+									<td style="width: 6%;">
 										<a href="javascript:;" class="edit" ng-click="updateStdent(item)">edit</a>
 									</td>
 									<td style="width: 10%;" class="ml5 "><input type="checkbox" style="margin-left: 0.45rem;"  ng-model="item.checked" class="ml32" name="check" ng-change="selectOne()" ng-click="$event.stopPropagation();"></td>

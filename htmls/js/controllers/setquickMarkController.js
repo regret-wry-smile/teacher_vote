@@ -53,7 +53,7 @@ app.controller('quickMarkCtrl', function($rootScope,$scope,$modal,toastr) {
 			if(i != j){
 				if (nary[i].txt==nary[j].txt){	
 					flag = true;
-					toastr.warning(JSON.stringify(nary[j].txt)+"对象重复了")
+					toastr.warning(JSON.stringify(nary[j].txt)+"Object duplication")
 					break;
 				}
 			}
