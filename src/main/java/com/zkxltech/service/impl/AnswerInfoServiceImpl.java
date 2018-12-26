@@ -47,6 +47,7 @@ public class AnswerInfoServiceImpl implements AnswerInfoService{
 			List<RequestVo> list = new ArrayList<RequestVo>();
 			list.add(requestVo);
 			RedisMapMultipleAnswer.startAnswer(requestVo.getRange());
+			
 			result = EquipmentServiceImpl.getInstance().answerStart2(Constant.ANSWER_MULTIPLE_TYPE,list);
 			if (Constant.ERROR.equals(result.getRet())) {
 				result.setRet(Constant.ERROR);
@@ -230,6 +231,11 @@ public class AnswerInfoServiceImpl implements AnswerInfoService{
         RedisMapSingleAnswer.clearSingleAnswerStudentNameMap();
         RedisMapSingleAnswer.clearIclickerAnswerMap();
         try{
+        	RequestVo requestVo = StringUtils.parseJSON(param, RequestVo.class);
+			List<RequestVo> list = new ArrayList<RequestVo>();
+			list.add(requestVo);
+			String str = requestVo.getRange();//接范围
+			
             Answer answer = com.zkxltech.ui.util.StringUtils.parseJSON(param, Answer.class);
             if (answer == null || StringUtils.isEmpty(answer.getType())) {
                 r.setMessage(" Missing Parameters ! The topic type cannot be empty");//缺少参数,题目类型不能为空

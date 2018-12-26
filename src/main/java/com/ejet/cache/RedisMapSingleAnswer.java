@@ -49,7 +49,7 @@ public class RedisMapSingleAnswer {
 	/**字母对应的人数*/
     private static Map<String,Integer> singleAnswerNumMap = Collections.synchronizedMap(new HashMap<>());
     /**字母对应的学生名称*/
-    private static Map<String,List<String>> singleAnswerStudentNameMap = Collections.synchronizedMap(new HashMap<>());
+    private static Map<String,List<StudentInfo>> singleAnswerStudentNameMap = Collections.synchronizedMap(new HashMap<>());
     /**本班卡号对应学生信息*/
     private static Map<String,StudentInfo> studentInfoMap = new HashMap<>();
     /**记录提交的卡id*/
@@ -98,7 +98,7 @@ public class RedisMapSingleAnswer {
                           String lastAnswer = iclickerAnswerMap.get(card_id);
                           Integer countNum = singleAnswerNumMap.get(lastAnswer);
                           singleAnswerNumMap.put(lastAnswer, --countNum);
-                          List<String> list = singleAnswerStudentNameMap.get(lastAnswer);
+                          List<StudentInfo> list = singleAnswerStudentNameMap.get(lastAnswer);
                           list.remove(studentInfo.getStudentName());
                       }
                       iclickerAnswerMap.put(card_id, result);
@@ -113,12 +113,12 @@ public class RedisMapSingleAnswer {
                               setJudgeCount(result);
                               break;
                       }
-                     List<String> list = singleAnswerStudentNameMap.get(result);
+                     List<StudentInfo> list = singleAnswerStudentNameMap.get(result);
                      if (list == null) {
                          list = new ArrayList<>();
                          singleAnswerStudentNameMap.put(result, list);
                      }
-                     list.add(studentInfo.getStudentName());
+                     list.add(studentInfo);
                   }
                   keyEveryAnswerMap[0]=card_id;
             }
@@ -235,7 +235,8 @@ public class RedisMapSingleAnswer {
             logger.error("缺少参数答案 :\"answer\"");
             return JSONArray.fromObject(new ArrayList<>()).toString();   
         }
-        List<String> list = singleAnswerStudentNameMap.get(jo.getString("answer"));
+        List<StudentInfo> list = singleAnswerStudentNameMap.get(jo.getString("answer"));
+    
         if (ListUtils.isEmpty(list)) {
             return JSONArray.fromObject(new ArrayList<>()).toString();
         }
