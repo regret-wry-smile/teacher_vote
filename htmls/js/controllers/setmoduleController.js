@@ -31,7 +31,7 @@ app.controller('setmoduleCtrl', function($scope, toastr) {
 		$scope.sendpower = '1';
 		$scope.sendpower1 = angular.copy($scope.sendpower);
 		//$scope.chain = $scope.infoAllNameList[0];
-		$scope.chain="第一组";
+		$scope.chain="1";
 		$scope.chain1 = angular.copy($scope.chain);
 		//同步数据库    该功能移动学生管理页面去了 setStuManageController.js
 		//	var _equipmentsynchron=function(){
