@@ -32,6 +32,10 @@ public class Record2 {
 	 */
 	private String question;
 	/**
+	 * 对象名称
+	 */
+	private String questionName;
+	/**
 	 * 题目类型
 	 */
 	private String questionType;
@@ -160,6 +164,12 @@ public class Record2 {
 	}
 	public void setIclickerId(String iclickerId) {
 		this.iclickerId = iclickerId;
+	}
+	public String getQuestionName() {
+		return questionName;
+	}
+	public void setQuestionName(String questionName) {
+		this.questionName = questionName;
 	}
 	
 }
