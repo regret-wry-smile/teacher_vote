@@ -86,7 +86,7 @@ public class RecordFunctionManage extends BrowserFunction{
 			    /*查询客观题答题记录*/
 			    result = recordService.selectObjectiveRecord(params[1]);
 			    break;
-			case "select_record":
+			case "select_record2":
 			    /*查询每个学生的试卷答题记录情况所占比*/
 			    result = recordService.selectRecord(params[1]);
 			    break;
@@ -102,7 +102,7 @@ public class RecordFunctionManage extends BrowserFunction{
 			    /*导出作答记录*/
 			    result = recordService.testExport(params[1]);
 			    break ;
-			case "select_record2":
+			case "select_record":
 				/*查询单项单选结果*/
 				result = recordService.selectRecord2(params[1]);
 				break;

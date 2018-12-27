@@ -36,6 +36,10 @@ public class Record2 {
 	 */
 	private String questionName;
 	/**
+	 * 1-6对应的英文名
+	 */
+	private String questionShow;
+	/**
 	 * 题目类型  1-答题字母  2-答题数字 3-答题判断  4-答题多选  5-投票  6-评分
 	 */
 	private String questionType;
@@ -171,13 +175,21 @@ public class Record2 {
 	public void setQuestionName(String questionName) {
 		this.questionName = questionName;
 	}
+	public String getQuestionShow() {
+		return questionShow;
+	}
+	public void setQuestionShow(String questionShow) {
+		this.questionShow = questionShow;
+	}
 	@Override
 	public String toString() {
 		return "Record2 [id=" + id + ", classId=" + classId + ", subject=" + subject + ", classHourId=" + classHourId
 				+ ", testId=" + testId + ", questionId=" + questionId + ", question=" + question + ", questionName="
-				+ questionName + ", questionType=" + questionType + ", iclickerId=" + iclickerId + ", studentId="
-				+ studentId + ", studentName=" + studentName + ", answer=" + answer + ", answerStart=" + answerStart
-				+ ", answerClick=" + answerClick + ", answerEnd=" + answerEnd + ", studentIds=" + studentIds + "]";
+				+ questionName + ", questionShow=" + questionShow + ", questionType=" + questionType + ", iclickerId="
+				+ iclickerId + ", studentId=" + studentId + ", studentName=" + studentName + ", answer=" + answer
+				+ ", answerStart=" + answerStart + ", answerClick=" + answerClick + ", answerEnd=" + answerEnd
+				+ ", studentIds=" + studentIds + "]";
 	}
+	
 	
 }

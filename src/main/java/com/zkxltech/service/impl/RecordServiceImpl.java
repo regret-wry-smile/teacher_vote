@@ -533,8 +533,8 @@ public class RecordServiceImpl implements RecordService{
 	        try {
 	        	Record2 recordQuest = new Record2();
 	            Record2 record = com.zkxltech.ui.util.StringUtils.parseJSON(object, Record2.class);
-	           /* record.setClassHourId(null);
-	            record.setTestId(null);*/
+	            record.setClassHourId(null);
+	            record.setTestId(null);
 	            recordQuest.setQuestionType(record.getQuestionType());
 	            record.setAnswerStart(null);
 	            record.setAnswerEnd(null);
@@ -547,26 +547,28 @@ public class RecordServiceImpl implements RecordService{
 	            List<Record2> records = (List<Record2>) result.getItem();
 	            List<Record2> list = new ArrayList<>();
 	            for (Record2 record2 : records) {
-				switch(recordQuest.getQuestionType()){
-				case "1":
-					list.add(record2);
-					break;
-	            case "2":
-	            	list.add(record2);
-	            	break;
-		        case "3":
-		        	list.add(record2);
-		        	break;
-		        case "4":
-		        	list.add(record2);
-		        	break;
-		        case "5":
-		        	list.add(record2);
-		        	break;
-		        case "6":
-		        	list.add(record2);
-		        	break;
-	        }
+					switch(recordQuest.getQuestionType()){
+						case "1":
+							list.add(record2);
+							break;
+			            case "2":
+			            	list.add(record2);
+			            	break;
+				        case "3":
+				        	list.add(record2);
+				        	break;
+				        case "4":
+				        	list.add(record2);
+				        	break;
+				        case "5":
+				        	list.add(record2);
+				        	break;
+				        case "6":
+				        	list.add(record2);
+				        	break;
+				        default:
+				        	list.add(record2);
+			        }
 				}
 	            result.setItem(list);
 	            result.setMessage("查询记录成功!");

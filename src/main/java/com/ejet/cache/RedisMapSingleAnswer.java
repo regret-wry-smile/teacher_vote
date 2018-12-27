@@ -95,14 +95,17 @@ public class RedisMapSingleAnswer {
                       record2.setAnswer(result);
                       record2.setQuestionType(answerJO.getString("type"));//s位字母，d位数字，j位判断
                       switch(record2.getQuestionType()){
-                      	case "1":
-                      		record2.setQuestion("Letter");
+                      	case "s":
+                      		record2.setQuestionType("1");
+                      		record2.setQuestionShow("Questionnaire-Letter");
                       		break;
-                      	case "2":
-                      		record2.setQuestion("Digit");
+                      	case "d":
+                      		record2.setQuestionType("2");
+                      		record2.setQuestionShow("Questionnaire-Digit");
                       		break;
-                      	case "3":
-                      		record2.setQuestion("Y/N");
+                      	case "j":
+                      		record2.setQuestionType("3");
+                      		record2.setQuestionShow("Questionnaire-Y/N");
                       		break;
                       }
                       
