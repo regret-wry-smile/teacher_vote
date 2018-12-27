@@ -551,38 +551,36 @@ public class RecordServiceImpl implements RecordService{
 	            }
 	            List<Record2> records = (List<Record2>) result.getItem();
 	            List<Record2> list = new ArrayList<>();		//分类
-	            List<Record2> list2 = new ArrayList<>();	//时间
+	          
 	            
-	            for (Record2 record2 : records) {
-					switch(recordQuest.getQuestionType()){
-						case "1":
-							list.add(record2);
-							break;
-			            case "2":
-			            	list.add(record2);
-			            	break;
-				        case "3":
-				        	list.add(record2);
-				        	break;
-				        case "4":
-				        	list.add(record2);
-				        	break;
-				        case "5":
-				        	list.add(record2);
-				        	break;
-				        case "6":
-				        	list.add(record2);
-				        	break;
-				        default:
-				        	list.add(record2);
-			        }
-				}
-	            for (Record2 record3 : list) {
-					if((recordQuest.getAnswerStart().compareTo(record3.getAnswerClick())<0)&&(record3.getAnswerClick().compareTo(recordQuest.getAnswerEnd())<0)){
-						list2.add(record3);
+	            for (Record2 record2 : records) {	//筛选出作答类型
+	            	if((recordQuest.getAnswerStart().compareTo(record2.getAnswerClick())<0)&&(record2.getAnswerClick().compareTo(recordQuest.getAnswerEnd())<0)){
+						switch(recordQuest.getQuestionType()){
+							case "1":
+								list.add(record2);
+								break;
+				            case "2":
+				            	list.add(record2);
+				            	break;
+					        case "3":
+					        	list.add(record2);
+					        	break;
+					        case "4":
+					        	list.add(record2);
+					        	break;
+					        case "5":
+					        	list.add(record2);
+					        	break;
+					        case "6":
+					        	list.add(record2);
+					        	break;
+					        default:
+					        	list.add(record2);
+			           }
 					}
 				}
-	            result.setItem(list2);
+	          
+	            result.setItem(list);
 	            result.setMessage("查询记录成功!");
 	            return result;
 	        } catch (Exception e) {
