@@ -52,4 +52,10 @@ public interface RecordService {
      * @return
      */
     Result selectStudentRecordDetail(Object object);
+    /**
+     * 查询单项单选答题结果
+     * @param object
+     * @return
+     */
+    Result selectRecord2(Object object);
 }

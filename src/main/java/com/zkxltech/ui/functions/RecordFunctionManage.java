@@ -102,6 +102,10 @@ public class RecordFunctionManage extends BrowserFunction{
 			    /*导出作答记录*/
 			    result = recordService.testExport(params[1]);
 			    break ;
+			case "select_record2":
+				/*查询单项单选结果*/
+				result = recordService.selectRecord2(params[1]);
+				break;
 			default:
 				result.setRet(Constant.ERROR);
 				result.setMessage("【"+method+"】未找到该指令！");

@@ -28,6 +28,7 @@ import com.zkxltech.domain.ClassHour;
 import com.zkxltech.domain.ClassInfo;
 import com.zkxltech.domain.QuestionInfo;
 import com.zkxltech.domain.Record;
+import com.zkxltech.domain.Record2;
 import com.zkxltech.domain.Result;
 import com.zkxltech.domain.StudentInfo;
 import com.zkxltech.domain.TestPaper;
@@ -36,6 +37,7 @@ import com.zkxltech.sql.ClassHourSql;
 import com.zkxltech.sql.ClassInfoSql;
 import com.zkxltech.sql.QuestionInfoSql;
 import com.zkxltech.sql.RecordSql;
+import com.zkxltech.sql.RecordSql2;
 import com.zkxltech.sql.StudentInfoSql;
 import com.zkxltech.sql.TestPaperSql;
 import com.zkxltech.ui.util.ExportExcel;
@@ -48,6 +50,7 @@ public class RecordServiceImpl implements RecordService{
     private Result result ;
     
     private RecordSql recordSql = new RecordSql();
+    private RecordSql2 recordSql2 = new RecordSql2();
     @Override
     public Result exportRecord(Object object) {
         result = new Result();
@@ -524,4 +527,56 @@ public class RecordServiceImpl implements RecordService{
         }
         return r;
     }
+	@Override
+	public Result selectRecord2(Object object) {
+		  result = new Result();
+	        try {
+	        	Record2 recordQuest = new Record2();
+	            Record2 record = com.zkxltech.ui.util.StringUtils.parseJSON(object, Record2.class);
+	           /* record.setClassHourId(null);
+	            record.setTestId(null);*/
+	            recordQuest.setQuestionType(record.getQuestionType());
+	            record.setAnswerStart(null);
+	            record.setAnswerEnd(null);
+	            record.setQuestionType(null);
+	            result = recordSql2.selectRecord(record);
+	            if (Constant.ERROR.equals(result.getRet())) {
+	                result.setMessage("查询记录失败!");
+	                return result;
+	            }
+	            List<Record2> records = (List<Record2>) result.getItem();
+	            List<Record2> list = new ArrayList<>();
+	            for (Record2 record2 : records) {
+				switch(recordQuest.getQuestionType()){
+				case "1":
+					list.add(record2);
+					break;
+	            case "2":
+	            	list.add(record2);
+	            	break;
+		        case "3":
+		        	list.add(record2);
+		        	break;
+		        case "4":
+		        	list.add(record2);
+		        	break;
+		        case "5":
+		        	list.add(record2);
+		        	break;
+		        case "6":
+		        	list.add(record2);
+		        	break;
+	        }
+				}
+	            result.setItem(list);
+	            result.setMessage("查询记录成功!");
+	            return result;
+	        } catch (Exception e) {
+	            result.setRet(Constant.ERROR);
+	            result.setMessage("查询记录失败！");
+	            result.setDetail(IOUtils.getError(e));
+	            log.error(IOUtils.getError(e));
+	            return result;
+	        }
+	}
 }
