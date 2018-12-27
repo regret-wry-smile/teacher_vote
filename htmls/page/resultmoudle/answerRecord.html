@@ -20,12 +20,19 @@
 		<script src="../../js/angular-toastr/angular-toastr.tpls.min.js"></script>
 		<script src="../../js/jquery-1.11.1.min.js"></script>
 		<link rel="stylesheet" href="../../js/select/style.css" />
+		<!--<script type="text/javascript" src="../../js/datetimepicker/daterangepicker.js"></script>-->
+		<script type="text/javascript" src="../../js/datetimepicker/datetimepicker.min.js"></script>
+		<script type="text/javascript" src="../../js/datetimepicker/moment.js"></script>
+		<script type="text/javascript" src="../../js/datetimepicker/datetimedefine.js"></script>
+		<link rel="stylesheet" href="../../js/datetimepicker/daterangepicker.css" />
+		<link rel="stylesheet" href="../../js/datetimepicker/datetimepicker.min.css" />
+
 		<link href="../../js/select/font-awesome.min.css" />
 		<script type="text/javascript" src="../../js/select/select.jquery.js" ></script>
-		<script src="../../js/common.js"></script><br />
+		<!--<script src="../../js/common.js"></script>-->
 		<script src="../../js/jquery.nicescroll.min.js"></script>
 		<!--<script src="../../js/ui-validate.js"></script>-->
-		<!--<script src="../../js/vconsole.min.js"></script>-->
+		<script src="../../js/vconsole.min.js"></script>
 		<script type="text/javascript" src="../../js/bootstrap.js" ></script>
 		<script type="text/javascript" src="../../js/app.js" ></script>
 		<script src="../../js/controllers/answerRecordController.js"></script>
@@ -47,68 +54,41 @@
 			width: 1.5rem !important;
 			max-height: 200px !important;
 		}
+		input[type='text']{
+			line-height: 36px;
+			border: none;
+			background: #fff;
+			display: block;
+			border-radius: 5px;
+			text-indent: 15px;
+			height: 36px;
+			color: #333;
+			vertical-align: middle;
+			border: 1px solid #e0e0e0;
+		}
+		.search-item{
+			float: left;
+		}
+		.search-item label{
+			height: 36px;
+			line-height: 36px;
+			padding: 0 5px;
+			float: left;
+		}
+		 a.opbtn {
 
+			width: 60px;
+			background: #04BE02;
+			padding: 5px;
+			color: #fff;
+			text-align: center;
+			border-radius: 4px;
+		}
 	</style>
 	<body class="bg" ng-controller="answerRecordCtrl">
 		<div id="myModal" class="modal fade" data-keyboard="false" data-backdrop="static" data-role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 			<div id="loading" class="loading">loading</div>
 		</div>
-		<!--个人作答记录-->
-		<script type="text/ng-template" id="oneAnswerDetailModal.html">
-					<div class="modal-header">
-						<button type="button" class="close" ng-click="cancel()"><span aria-hidden="true">×</span><span class="sr-only">关闭</span></button>
-						<h4 class="modal-title">{{}}作答详情</h4>
-					</div>
-					<div class="modal-body" id="oneanswer" style="max-height: 3.0rem;overflow: auto;" >
-						<table class="table">
-							<thead>
-								<tr>
-									<th>序号</th>
-									<th>题号</th>
-									<th>题目</th>
-									<th>题目类型</th>
-									<th>正确答案|最高分</th>
-									<th>作答答案|得分</th>									
-									<th>作答结果</th>								
-								</tr>
-							</thead>
-							<tbody>
-								<tr ng-repeat="item in oneRecordList track by $index">
-									<td>{{$index+1}}</td>
-									<td>{{item.questionId}}</td>
-									<td>{{item.question}}</td>
-									<td>{{item.questionType|questionType}}</td>
-									<td ng-show="answerType=='4'">{{item.trueAnswer|AnswerType}}</td>
-									<td ng-show="answerType!='4'">{{item.score}}</td>										
-									<td>{{item.answer}}</td>	
-									<td >{{item.result}}</td>
-								</tr>
-							</tbody>
-							
-						</table>
-						
-					</div>
-					<div class="modal-footer text-center">
-						<button type="button" class="btn btn-default" ng-click="cancel()">取消</button>			
-					</div>
-			</script>
-		<!--确认弹框-->
-			<script type="text/ng-template" id="sureModal.html">
-				<form name="myForm" novalidate="novalidate">
-					<div class="modal-header">
-						<button type="button" class="close" ng-click="cancel()"><span aria-hidden="true">×</span><span class="sr-only">关闭</span></button>
-						<h4 class="modal-title">确认</h4>
-					</div>
-					<div class="modal-body">
-						{{content}}
-					</div>
-					<div class="modal-footer text-center">
-						<button type="button" class="btn btn-primary" ng-click="ok()" ng-disabled="!myForm.$valid">确定</button>
-						<button type="button" class="btn btn-default" ng-click="cancel()">取消</button>
-			
-					</div>
-			</form>
-			</script>
 			<div class="header clearfix">
 				<div class="pull-left">
 					<img src="../../image/set.png" class="ml25" />
@@ -122,62 +102,53 @@
 			</div>
 			<div ng-cloak class="content content1 bgf5 clearfix" style="top: 1.2rem;">		
 				<div class="searchbar clearfix">
-				    <label >班级</label>			    	
+				    <label >Group</label>			    	
 			    	<select class="single" select2 ng-model="setClass.classes" defalutvalue='setClass.classes1' ng-change="changeClass(setClass.classes)" list='classList'>
-						<!--<option ng-repeat="item in classList track by $index" value="{{item}}">{{item.value}}</option>-->
 					</select>
-					<label >科目</label>
+					<label >Scenario</label>
 					<select class="single" select1 ng-model="setClass.subject" defalutvalue='setClass.subject1' list="subjectlists" ng-change="changeSubject(setClass.subject)">
-				   			<option ng-repeat="subjectitem in subjectlists track by $index" value="{{subjectitem}}">{{subjectitem}}</option>
-					</select>
-					<label>课程</label>
-				   <select class="single" select2 ng-model="setClass.sujectHour" defalutvalue='setClass.sujectHour1'  ng-change="changeClassHour(setClass.sujectHour)" list="classhourList" >
-			   			<!--<option ng-repeat="houritem in classhourList track by $index" value="{{houritem}}">{{houritem.value}}</option>-->
-					</select>		
-					<!--<select class="single" select2 ng-model="setClass.sujectHour" defalutvalue='setClass.sujectHour1' list='classhourList' ng-change="changeClassHour(setClass.sujectHour)" >
-						</select>-->
-					<label >试卷</label>
-			    	<select class="single" select2 ng-model="setClass.paper" defalutvalue='setClass.paper1'  ng-change="changePaper(setClass.paper)" list='paperList'>
-						<!--<option ng-repeat="paperitem in paperList track by $index" value="{{paperitem}}">{{paperitem.value}}</option>-->
-					</select>
-					<a href="javascript:;" class="del ml20 mr10" ng-click="deleteRcord()">删除</a>
-					<a href="javascript:;" class="edit" ng-click="exportRecord()">导出</a>
+				   			<!--<option ng-repeat="subjectitem in subjectlists track by $index" value="{{subjectitem}}">{{subjectitem}}</option>-->
+					</select>					
+					<label>Answer Type</label>
+				   <select class="single" select2 ng-model="setClass.sujectHour" defalutvalue='setClass.sujectHour1'  ng-change="changeClassHour(setClass.sujectHour)" list="answerTypeList" >			   							   		
+					</select>							
+					<a href="javascript:;" class="del ml20 mr10 opbtn" ng-click="deleteRcord()">Delete</a>
+					<a href="javascript:;" class="edit opbtn" ng-click="exportRecord()">Export</a>
 				</div>
-				<div class="col-main" style="position: absolute;top: 0.6rem;left: 0;right: 0;bottom: .25rem;overflow-x: hidden;overflow-y: auto; width:100%;padding:0 0.25rem;">	
+				<div class="searchbar clearfix mt5">
+					<div class="search-item">
+						<label>Start Date</label>
+						<input  type="text" value="" datetimepicker  id="datetimepicker" ng-model="setClass.answerStart" ng-change="changeTime()" >
+					</div>
+					<div class="search-item">
+					<label>End Date</label>
+					<input  type="text" value="" datetimepicker  id="datetimepicker" ng-model="setClass.answerEnd" ng-change="changeTime()" >
+					</div>
+				</div>
+				<div class="col-main" style="position: absolute;top: 1.0rem;left: 0;right: 0;bottom: .25rem;overflow-x: hidden;overflow-y: auto; width:100%;padding:0 0.25rem;">	
 					<table class="table table-stripe subject">
 						<thead>
 							<tr >
-								<th style="width: 5%;">序号</th>
-								<th style="width: 10%;">姓名</th>
-								<th style="width: 15%;">试卷名称</th>
-								<th style="width: 10%;">正确率</th>
-								<th style="width: 12%;">时间</th>
-								<th style="width: 10%;" class="pr1">全选
+								<th style="width: 5%;">No.</th>
+								<th style="width: 8%;">Audience ID</th>
+								<th style="width: 10%;">Answer Type</th>
+								<th style="width: 10%;">Result</th>
+								<th style="width: 22%;">Time</th>
+								<th style="width: 8%;" class="pr1">Select
 								<label style="margin-bottom: 0;"><input type="checkbox" class="allCheck" ng-model="selected" ng-change="selectAll()"></label></th>
 							</tr>
 						</thead>					
 					</table>
 					<div style="overflow-x: hidden;position: absolute; top: 0.36rem; left: 0.25rem; right: 0.25rem; bottom: 0; overflow-y: auto;" id="testlist">
 					<table class="table table-stripe subject">
-						<!--<thead>
-							<tr >
-								<th class="wd20">序号</th>
-								<th class="wd20">姓名</th>
-								<th class="wd130">试卷名称</th>
-								<th class="wd60">正确率</th>
-								<th class="wd80">时间</th>
-								<th class="wd80" class="pr1">全选
-								<label style="margin-bottom: 0;"><input type="checkbox" class="allCheck" ng-model="selected" ng-change="selectAll()"></label></th>
-							</tr>
-						</thead>-->
 						<tbody>
 							<tr ng-repeat="item in recordList track by $index" ng-click="$event.stopPropagation();">
 								<td style="width: 5%;">{{$index+1}}</td>
-								<td style="width: 10%;">{{item.studentName}}</td>
-								<td style="width: 15%;">{{item.testName}}</td>
-								<td style="width: 10%;">{{item.result}}</td>
-								<td style="width: 12%;">{{item.time}}</td>	
-								<td style="width: 10%;" class="ml5"><input type="checkbox" style="margin-left: 0.32rem;" ng-model="item.checked" class="ml32" name="check" ng-change="selectOne()" ng-click="$event.stopPropagation();"></td>
+								<td style="width: 8%;">{{item.studentId}}</td>
+								<td style="width: 10%;">{{item.testName}}</td>
+								<td style="width: 10%;">{{item.answer}}</td>
+								<td style="width: 22%;">{{item.answerStart}}~{{item.answerEnd}}</td>	
+								<td style="width: 8%;" class="ml5"><input type="checkbox" style="margin-left: 0.45rem;" ng-model="item.checked" class="ml32" name="check" ng-change="selectOne()" ng-click="$event.stopPropagation();"></td>
 							</tr>
 							</tbody>
 					</table>
@@ -191,7 +162,7 @@
 	</body>
 </html>
 
-<script>
+<script type="text/javascript">
 	 $(document).ready(function() { 
 	var nice = $("html").niceScroll();  // The document page (body)
 	 $("#testlist").niceScroll({cursorborder:"",cursorcolor:"#d9d9d9",boxzoom:true}); // First scrollable 	
