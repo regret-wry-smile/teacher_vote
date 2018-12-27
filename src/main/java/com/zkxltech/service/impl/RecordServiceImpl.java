@@ -533,19 +533,26 @@ public class RecordServiceImpl implements RecordService{
 	        try {
 	        	Record2 recordQuest = new Record2();
 	            Record2 record = com.zkxltech.ui.util.StringUtils.parseJSON(object, Record2.class);
-	            record.setClassHourId(null);
-	            record.setTestId(null);
+	          /*  record.setClassHourId(null);
+	            record.setTestId(null);*/
 	            recordQuest.setQuestionType(record.getQuestionType());
+	            recordQuest.setAnswerStart(record.getAnswerStart());
+	            recordQuest.setAnswerEnd(record.getAnswerEnd());
+	            
 	            record.setAnswerStart(null);
 	            record.setAnswerEnd(null);
 	            record.setQuestionType(null);
+	            record.setAnswerStart(null);
+	            record.setAnswerEnd(null);
 	            result = recordSql2.selectRecord(record);
 	            if (Constant.ERROR.equals(result.getRet())) {
 	                result.setMessage("查询记录失败!");
 	                return result;
 	            }
 	            List<Record2> records = (List<Record2>) result.getItem();
-	            List<Record2> list = new ArrayList<>();
+	            List<Record2> list = new ArrayList<>();		//分类
+	            List<Record2> list2 = new ArrayList<>();	//时间
+	            
 	            for (Record2 record2 : records) {
 					switch(recordQuest.getQuestionType()){
 						case "1":
@@ -570,7 +577,12 @@ public class RecordServiceImpl implements RecordService{
 				        	list.add(record2);
 			        }
 				}
-	            result.setItem(list);
+	            for (Record2 record3 : list) {
+					if((recordQuest.getAnswerStart().compareTo(record3.getAnswerClick())<0)&&(record3.getAnswerClick().compareTo(recordQuest.getAnswerEnd())<0)){
+						list2.add(record3);
+					}
+				}
+	            result.setItem(list2);
 	            result.setMessage("查询记录成功!");
 	            return result;
 	        } catch (Exception e) {
