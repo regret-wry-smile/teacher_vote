@@ -224,6 +224,7 @@ public class AnswerInfoServiceImpl implements AnswerInfoService{
 	
 	@Override
     public Result singleAnswer(Object param) {
+		
         Result r = new Result();
         r.setRet(Constant.ERROR);
         /*停止所有线程*/

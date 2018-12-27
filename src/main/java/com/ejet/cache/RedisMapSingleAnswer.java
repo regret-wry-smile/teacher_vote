@@ -63,6 +63,7 @@ public class RedisMapSingleAnswer {
                                 JUDGE_TRUE = "true",JUDGE_FALSE = "false";
     
     public static void addAnswer(String jsonData){
+    	Constant.QUESTION_ID++;
     	Record2 record2 = new Record2();
     	logger.info("【单选接收到的数据】"+jsonData);
         JSONArray jsonArray= JSONArray.fromObject(jsonData);
@@ -76,6 +77,7 @@ public class RedisMapSingleAnswer {
                   record2.setStudentName(studentInfo.getStudentName());
                   record2.setClassId(studentInfo.getClassId());
                   record2.setIclickerId(studentInfo.getIclickerId());
+                  record2.setQuestionId("第"+Constant.QUESTION_ID+"题");
                   
                   if (studentInfo == null) { //如果根据卡号未找到学生,表示不是本班的
                       continue;

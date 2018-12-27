@@ -35,6 +35,8 @@ public class Constant {
 	public static String CLASS_LOCAL = "0";
 	/*服务器班级*/
 	public static String CLASS_SERVER = "1";
+	/*答题计数累加*/
+	public static int QUESTION_ID = 0;
 	/*已考勤*/
 	public static final String ATTENDANCE_YES = "YES";
 	/*未考勤*/
