@@ -1,16 +1,17 @@
 package com.zkxltech.service.impl;
 
+import com.ejet.cache.BrowserManager;
 import com.ejet.cache.RedisMapScore;
 import com.ejet.core.util.constant.Constant;
 import com.ejet.core.util.constant.Global;
 import com.ejet.core.util.io.IOUtils;
 import com.zkxltech.device.DeviceComm;
+import com.zkxltech.domain.Record2;
 import com.zkxltech.domain.Result;
 import com.zkxltech.domain.Score;
-import com.zkxltech.domain.ScoreVO;
-import com.zkxltech.domain.Scores;
 import com.zkxltech.jdbc.DBHelper;
 import com.zkxltech.service.ScoreService;
+import com.zkxltech.sql.RecordSql2;
 import com.zkxltech.thread.BaseThread;
 import com.zkxltech.thread.ScoreThread;
 import com.zkxltech.thread.ThreadManager;
@@ -18,12 +19,15 @@ import com.zkxltech.ui.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class ScoreServiceImpl implements ScoreService {
 	private static final Logger logger = LoggerFactory.getLogger(ScoreServiceImpl.class);
 	private Result result = new Result();
+	private Record2 record2 = new Record2();
+	private RecordSql2 recordSql2 = new RecordSql2();
 
 	@Override
 	public Result startScore(Object object) {
@@ -37,8 +41,11 @@ public class ScoreServiceImpl implements ScoreService {
 				result.setMessage(reStart.getMessage());
 				return result;
 			}
-			Global.setModeMsg(Constant.BUSINESS_SCORE);
 			// 将评分主题相关信息保存到缓存
+			Global.setModeMsg(Constant.BUSINESS_SCORE);
+			//获取评选开始时间
+			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//开始时间
+			record2.setAnswerStart(df.format(new Date()));
 			result.setMessage("开始评分！");
 			result.setRet(Constant.SUCCESS);
 			return result;
@@ -87,36 +94,19 @@ public class ScoreServiceImpl implements ScoreService {
 
 	@Override
 	public Result stopScore() {
-		Result r = new Result();
+		result = new Result();
 		Global.setModeMsg(Constant.BUSINESS_NORMAL);
 		/* 停止线程管理 */
 		ThreadManager.getInstance().stopAllThread();
-		r = EquipmentServiceImpl.getInstance().answer_stop();
-		if (r.getRet().equals(Constant.ERROR)) {
-			return r;
+		result = EquipmentServiceImpl.getInstance().answer_stop();
+		if (result.getRet().equals(Constant.ERROR)) {
+			return result;
 		}
-		Score scores =  RedisMapScore.getScoreInfo();
-		List<ScoreVO> scoreVOList = RedisMapScore.getScoreVos();
-		List<Scores> scoresList = new ArrayList<>();
-		List<String> sqls = new ArrayList<String>();
-		for (ScoreVO scoreVO:scoreVOList) {
-			Scores scores1 = new Scores();
-			scores1.setTitle(scores.getTitle());
-			scores1.setDescribe(scores.getDescribe());
-			scores1.setProgram(scoreVO.getProgram());
-			scores1.setTotal(scoreVO.getTotal());
-			scores1.setPeopleSum(scoreVO.getPeopleSum());
-			scores1.setAverage(scoreVO.getAverage());
-			scoresList.add(scores1);
-		}
-		for (Scores scores1:scoresList) {
-			sqls.add("insert into people_score (title,describe,program,total,peopleSum,average) values('"+scores1.getTitle()+"','"+
-                    scores1.getDescribe()+"','"+scores1.getProgram()+"','"+scores1.getTotal()+"','"+scores1.getPeopleSum()+"','"+scores1.getAverage()+"')");
-		}
-        DBHelper.onUpdateByGroup(sqls);
-		r.setRet(Constant.SUCCESS);
-		r.setMessage("停止成功");
-		return r;
+		insertScore();
+		insertRecord2();
+		result.setRet(Constant.SUCCESS);
+		result.setMessage("停止成功");
+		return result;
 	}
 
 	@Override
@@ -170,4 +160,52 @@ public class ScoreServiceImpl implements ScoreService {
 			return r;
 		}
 	}
+
+	//将民意投票主题导入people_score表中
+	public void insertScore(){
+		result = new Result();
+		Score scores =  RedisMapScore.getScoreInfo();
+		StringBuffer sql = new StringBuffer();
+		StringBuffer programs = new StringBuffer();
+		int j=1;
+		programs.append(scores.getPrograms().get(0));
+		for (int i=1;i<scores.getPrograms().size();i++){
+			programs.append("-"+scores.getPrograms().get(i));
+			j++;
+		}
+		sql.append("insert into people_score (id,title,describe,program,program_num) values('"+scores.getId()+"','"+scores.getTitle()+"','"+scores.getDescribe()+"','"+
+				programs+"','"+j+"')");
+		result = DBHelper.onUpdate(sql.toString());
+		if (Constant.ERROR.equals(result.getRet())) {
+			BrowserManager.showMessage(false, "Failed to save the selected topic information!");
+			return ;
+		}else {
+			BrowserManager.showMessage(true, "Save the selected topic information successfully！");
+			return ;
+		}
+	}
+	public void insertRecord2(){
+		try {
+			result = new Result();
+			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//结束时间
+			record2.setAnswerEnd(df.format(new Date()));
+			List<Record2> records = RedisMapScore.getScoreRecordList();
+			for (int i = 0; i < records.size(); i++) {
+				records.get(i).setAnswerStart(record2.getAnswerStart());
+				records.get(i).setAnswerEnd(record2.getAnswerEnd());
+			}
+			result = recordSql2.insertRecords(records);
+			if (Constant.ERROR.equals(result.getRet())) {
+				BrowserManager.showMessage(false, "Failed to save the selection data!");
+				return ;
+			}else {
+				BrowserManager.showMessage(true, "Save the selection data information successfully!");
+				return ;
+			}
+		}catch (Exception e){
+			result.setRet(Constant.ERROR);
+			result.setMessage("指令发送失败");
+		}
+	}
+
 }

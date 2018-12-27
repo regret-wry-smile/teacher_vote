@@ -1,4 +1,5 @@
 package com.zkxltech.domain;
+
 /**
  * @author: ZhouWei
  * @date:2018年6月22日 上午11:40:21
@@ -12,7 +13,17 @@ public class Answer {
     private String range;
     /**答题后返回的答案*/
     private String answer;
-    
+    /**答题后返回的答案的时间*/
+    private String answerClick;
+
+    public String getAnswerClick() {
+        return answerClick;
+    }
+
+    public void setAnswerClick(String answerClick) {
+        this.answerClick = answerClick;
+    }
+
     public String getId() {
         return id;
     }
