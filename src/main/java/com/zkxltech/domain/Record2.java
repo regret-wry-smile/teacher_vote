@@ -71,7 +71,10 @@ public class Record2 {
 	 * 停止答题时间
 	 */
 	private String answerEnd;
-	
+	/**
+	 * 多选范围
+	 */
+	private String range;
 	private List<String> studentIds;
 	public Integer getId() {
 		return id;
@@ -181,6 +184,12 @@ public class Record2 {
 	public void setQuestionShow(String questionShow) {
 		this.questionShow = questionShow;
 	}
+	public String getRange() {
+		return range;
+	}
+	public void setRange(String range) {
+		this.range = range;
+	}
 	@Override
 	public String toString() {
 		return "Record2 [id=" + id + ", classId=" + classId + ", subject=" + subject + ", classHourId=" + classHourId
@@ -188,8 +197,9 @@ public class Record2 {
 				+ questionName + ", questionShow=" + questionShow + ", questionType=" + questionType + ", iclickerId="
 				+ iclickerId + ", studentId=" + studentId + ", studentName=" + studentName + ", answer=" + answer
 				+ ", answerStart=" + answerStart + ", answerClick=" + answerClick + ", answerEnd=" + answerEnd
-				+ ", studentIds=" + studentIds + "]";
+				+ ", range=" + range + ", studentIds=" + studentIds + "]";
 	}
+	
 	
 	
 }
