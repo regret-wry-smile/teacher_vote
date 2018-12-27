@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html ng-app="app">
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>		
+		<meta name="format-detection" content="telephone=no" />
+		<meta name="viewport" content="user-scalable=no,width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0" />
+		<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+		<link rel="stylesheet" href="../../css/bootstrap.css" />
+		<link rel="stylesheet" href="../../css/common.css" />
+		<link rel="stylesheet" href="../../css/page.css" />
+		<script src="../../js/angular.js" type="text/javascript" charset="utf-8"></script>			
+		<script src="../../js/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+		<link rel="stylesheet" href="../../js/angular-toastr/angular-toastr.min.css" />
+		<script src="../../js/angular-toastr/angular-toastr.min.js"></script>
+		<script src="../../js/angular-toastr/angular-toastr.tpls.min.js"></script>		
+		<script src="../../js/jquery-1.11.1.min.js"></script>
+		<link rel="stylesheet" href="../../js/select/style.css" />
+		<link href="../../js/select/font-awesome.min.css" />
+		<script type="text/javascript" src="../../js/select/select.jquery.js" ></script>
+		<script src="../../js/common.js"></script>
+		<!--<script src="../../js/vconsole.min.js"></script>-->
+		<script src="../../js/jquery.nicescroll.min.js"></script>
+		<script type="text/javascript" src="../../js/bootstrap.js" ></script>
+		<script src="../../js/controllers/answerController.js"></script>
+	
+		
+	</head>
+	<style type="text/css">
+		body{
+			position: relative;
+		}
+		.operatebtn{
+			position: absolute;
+			bottom: 0.50rem;
+			left: 0;
+			right: 0;
+		}
+		.tab-content .tab-pane{
+			/*display:none;
+			visibility: visible; */
+			display: block;
+			visibility: visible;
+		}
+		ul.col2 li{
+			width: 50%;
+		}
+		ul.modbox li a img{
+			display: inline-block;
+			width: 1.5rem;
+		}
+		@media screen and (min-width: 921px) {
+			ul.modbox li a img{
+				display: inline-block;
+				width: 1.8rem;
+			}
+			ul.modbox li a{				
+				height: 2.2rem;
+				line-height: 2.2rem;
+				vertical-align: middle;
+			}
+		}
+	</style>
+	<body class="clearfix" ng-controller="mainAnswerCtrl" >	
+		<div id="bg" ng-cloak>
+	  <canvas width="1920" height="150"></canvas>
+	  <canvas width="1920" height="150"></canvas>
+	  <canvas width="1920" height="150"></canvas>
+	</div>
+		<div id="myModal" class="modal fade" data-keyboard="false" data-backdrop="static" data-role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div id="loading" class="loading">loading</div>
+		</div>
+			<div class="tab-content" ng-cloak>
+				<div class="tab-pane" ng-show="tabpane=='s'" ng-controller="answerCtrl">
+				<div class="content clearfix">
+				<ul class="modbox" style="margin-top: 10%; margin-bottom: 8%;">
+					<li class="active">
+						<a href="javascript:;" ng-click="selAnswerType('char')">
+							<img src="../../image/letter.png"/>
+							<!--<span class="title">字母</span>-->
+						</a>
+						</label>
+					</li>
+					<li>
+						<a href="javascript:;" ng-click="selAnswerType('number')">
+							<img src="../../image/number.png"/>
+							<!--<span class="title">数字</span>-->
+						</a>
+					</li>
+					<li>
+						<a href="javascript:;" ng-click="selAnswerType('judge')">
+							<img src="../../image/gou.png"/>
+						<!--	<span class="title">判断</span>-->
+						</a>
+					</li>
+				</ul>	  
+				</div>
+				<div class="operatebtn mt20 clearfix text-center">
+			  		<button class="btn savebtn" ng-click="startAnswer()">Start</button>
+			  		<a href="javascript:history.go(-1);" style="position: absolute;right: 30px;">
+						<img src="../../image/return01.png"  class="rebtn"/>
+					</a>
+			 	</div>
+			</div>			
+			<div class="tab-pane clearfix" ng-show="tabpane=='m'" ng-controller="answerMutilCtrl" class="maindiv">
+				<div class="content clearfix letter text-center v-center40">
+					<div class="modbox" >
+					<label class="lettercon">
+						<img src="../../image/letter.png"/>
+						<!--<span class="title">字母</span>-->
+					</label>
+					<a href="javascript:;" class="letters">A</a>
+					<select class="single" select1 ng-model="range" defalutvalue='range1' ng-change="changeRange(range)" list='rangeList'>
+					<!--<option ng-repeat="item in infoAllNameList track by $index" value="{{item}}">{{item}}</option>-->
+					</select> 
+					</div>
+				</div>
+				<div class="operatebtn mt20 clearfix text-center">
+					<!-- <a href="../../page/answermoudle/stopAnswerType.html"> -->
+			  		<button class="btn savebtn" ng-click="startAnswer()">Start</button>
+			  		<!-- </a> -->		
+			  		<a href="javascript:history.go(-1);" title="return" style="position: absolute;right: 30px;">
+						<img src="../../image/return01.png"  class="rebtn"/>
+					</a>
+			  </div>	
+			</div>
+			<div class="tab-pane" ng-show="tabpane=='c'" ng-controller="classCheckCtrl">
+				<div class="header clearfix">
+					<div class="pull-left">
+						<img src="../../image/check.png" class="ml25 pt20" />
+						<span>请选择试卷</span>
+					</div>
+					<!--<div class="pull-right">
+						<a href="javascript:history.go(-1);">
+						<img src="../../image/return.png" />
+						</a>
+					</div>-->
+				</div>
+				<div class="content content1 clearfix text-center">
+				<div class="col-main testcheck"  style="position: absolute;top: 0.70rem;left: 0;right: 0;bottom: 1.1rem;overflow-x: hidden;overflow-y: auto; width:100%;padding:0 0.25rem;" >
+					<!--style="overflow-x: auto; overflow-y: auto; height:2.10rem; width:100%;padding-right:0.02rem;"-->
+					<table class="table table-stripe papertable text-left">
+					<thead>
+						<tr>
+							<th style="width:10% ;">序号</th>
+							<th style="width:10% ;">试卷名称</th>
+							<th style="width:15% ;">试卷描述</th>
+							<th style="width:10% ;" class="ml5">操作</th>
+						</tr>							
+					</thead>
+					</table>
+					<div style="overflow-x: hidden;position: absolute; top: 0.36rem; left: 0.25rem; right: 0.25rem; bottom: 0rem; overflow-y: auto;" id="testlist" >
+					<table class="table table-stripe papertable text-left">
+					<tbody>
+						<tr ng-repeat="paperInfo in paperInfoList track by $index">
+							<td style="width:10% ;">{{$index+1}}</td>
+							<td style="width:10% ;">{{paperInfo.testName}}</td>
+							<td style="width:15% ;">{{paperInfo.describe}}</td>
+							<td style="width:10% ;" class="ml5"><input type="checkbox"  name="checkbox" ng-model="paperInfo.checked" class="ml32" ng-change="selectOne(paperInfo)" ng-click="$event.stopPropagation();userCheck(this)"></td>
+						</tr>							
+						</tbody>
+					</table>
+					</div>
+				</div>
+
+				</div>
+				<div class="operatebtn mt20 clearfix text-center">
+					<!--<a href="../../page/answermoudle/classCheck.html">-->
+			  		<button class="btn savebtn" ng-click="startObjective()">开始答题</button>
+			  		<!--</a>-->
+			  		<!--<a href="../../page/answermoudle/classCheck.html">-->
+			  		<button class="btn savebtn" ng-click="AnswerSrcoe()">主观题记分</button>
+			  		<!--</a>	-->		  		
+			  		<button class="btn savebtn" ng-click="uploadServer()">上传服务</button>
+			  		<a href="javascript:history.go(-1);" style="position: absolute;right: 30px;">
+						<img src="../../image/return01.png"  class="rebtn"/>
+					</a>
+			  </div>
+			  <div id="removeLoading" ng-click="removeLoading()" style="display:none;"></div>
+				<div id="showLoading" ng-click="showLoading()" style="display:none;"></div>
+				<div id="getTip" ng-click="getTip()" style="display:none;"></div>
+			</div>			
+		</div>	
+		</body>
+
+</html>
+<script type="text/javascript">
+	$(function(){
+		$('.head ul li a').click(function(){
+			//var index = $(".head ul li a").index($(this));
+			//console.log(JSON.stringify(index))
+			$('.head ul li a.active').removeClass('active'); 
+			$(this).addClass('active');
+			//$(".tab-content .tab-pane").eq(index).show().siblings().hide();
+			
+		})
+		$('ul.modbox li').click(function(){
+			$('ul.modbox li.active').removeClass('active'); 
+			$(this).addClass('active');
+		})
+		var nice = $("html").niceScroll();  // The document page (body)
+	 	$("#testlist").niceScroll({cursorborder:"",cursorcolor:"#d9d9d9",boxzoom:true}); // First scrollable 	
+	})
+
+</script>
