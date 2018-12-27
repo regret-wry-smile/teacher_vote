@@ -1,7 +1,6 @@
 package com.zkxltech.service;
 
 import com.zkxltech.domain.Result;
-import com.zkxltech.domain.StudentInfo;
 
 public interface ClassHourService {
 	/**
@@ -46,4 +45,6 @@ public interface ClassHourService {
 	 * @return
 	 */
 	Result getClassInfo();
+
+	Result getSubject(Object classHourObj);
 }

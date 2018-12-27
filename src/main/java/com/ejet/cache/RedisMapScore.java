@@ -3,16 +3,16 @@ package com.ejet.cache;
 import com.ejet.core.util.RedisMapUtil;
 import com.ejet.core.util.StringUtils;
 import com.ejet.core.util.constant.Global;
-import com.zkxltech.domain.Answer;
-import com.zkxltech.domain.Score;
-import com.zkxltech.domain.ScoreVO;
-import com.zkxltech.domain.StudentInfo;
+import com.ejet.core.util.io.IOUtils;
+import com.zkxltech.domain.*;
+import com.zkxltech.sql.ClassHourSql;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.*;
 /**
  *评分相关缓存
@@ -37,10 +37,6 @@ public class RedisMapScore {
 	 * 评分详情信息缓存
 	 */
 	public static Map<String, Object> barMap = Collections.synchronizedMap(new HashMap<String, Object>());
-
-	public static List<ScoreVO> getScoreVos() {
-		return scoreVos;
-	}
 
 	public static List<ScoreVO> scoreVos =new ArrayList<ScoreVO>();
 	
@@ -75,7 +71,55 @@ public class RedisMapScore {
 	public static Score getScoreInfo(){
 		keyScoreInfoMap[0] = scoreInfoId;
 		Score score =  (Score) RedisMapUtil.getRedisMap(scoreInfoMap, keyScoreInfoMap, 0);
+		score.setId(scoreInfoId);
 		return score;
+	}
+	/**
+	 * 获取答题信息缓存信息
+	 */
+	public static List<Record2> getScoreRecordList(){
+		try {
+			List<Record2> records = new ArrayList<Record2>();
+			Score score = getScoreInfo();
+			List<String> programs = score.getPrograms();//主题对象
+			for (String uuid : scoreDetailInfoMap.keySet()) {
+				Map<String, Object> map1 = (Map<String, Object>) scoreDetailInfoMap.get(uuid);
+				for (int i = 0; i < programs.size(); i++) {
+					String questionId = String.valueOf(i + 1);
+					if (map1.containsKey(questionId)) {
+						Map<String, Object> map2 = (Map<String, Object>) map1.get(questionId);
+						keyBarMap[0] = questionId; //题号
+						for (String iclickerId : map2.keySet()) {
+							Answer answer = (Answer) JSONObject.toBean((JSONObject) map2.get(iclickerId), Answer.class);
+							Record2 record2 = new Record2();
+							for (int k = 0; k < Global.getStudentInfos().size(); k++) {
+								if (Global.getStudentInfos().get(k).getIclickerId().equals(iclickerId)) {
+									record2.setStudentId(Global.getStudentInfos().get(k).getStudentId());
+									record2.setStudentName(Global.getStudentInfos().get(k).getStudentName());
+								}
+							}
+							record2.setClassId(Global.getClassId());
+							record2.setSubject(Global.getClassHour().getSubjectName());
+							record2.setClassHourId(Global.getClassHour().getClassHourId());
+							record2.setTestId(scoreInfoId);
+							record2.setQuestion(score.getTitle());
+							record2.setQuestionName(programs.get(i));
+							record2.setQuestionType(answer.getType());
+							record2.setIclickerId(iclickerId);
+							record2.setAnswer(answer.getAnswer());
+							record2.setAnswerClick(answer.getAnswerClick());
+							records.add(record2);
+						}
+					}
+				}
+			}
+			logger.info("要保存投票数据记录："+JSONArray.fromObject(records));
+			return records;
+		}catch (Exception e) {
+			logger.error(IOUtils.getError(e));
+			BrowserManager.showMessage(false, "获取民意投票数据失败！");
+			return null;
+		}
 	}
 	
 	/**
@@ -118,7 +162,7 @@ public class RedisMapScore {
 	public static void addscoreDetailInfo(String jsonData){
 		logger.info("【评分接收到的数据】"+jsonData);
 		keyScoreDetailInfoMap[0] = scoreInfoId; //主题编号
-		JSONArray jsonArray = JSONArray.fromObject(jsonData); 
+		JSONArray jsonArray = JSONArray.fromObject(jsonData);
         for (int  i= 0; i < jsonArray.size(); i++) {
         	JSONObject jsonObject = jsonArray.getJSONObject(i); //，每个学生的作答信息
         	if (!jsonObject.containsKey("result")) {
@@ -127,6 +171,8 @@ public class RedisMapScore {
             		JSONArray answers =  JSONArray.fromObject(jsonObject.get("answers"));
             		for (int j = 0; j < answers.size(); j++) {
             			JSONObject answeJSONObject = answers.getJSONObject(j);
+						SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//结束时间
+						answeJSONObject.put("answerClick",df.format(new Date()));
             			String num = answeJSONObject.getString("id");//节目编号(题目编号)
 //            			String answer = answeJSONObject.getString("answer");//答案
             			keyScoreDetailInfoMap[1] = num;
@@ -320,4 +366,5 @@ public class RedisMapScore {
 		return false;
 		
 	}
+
 }

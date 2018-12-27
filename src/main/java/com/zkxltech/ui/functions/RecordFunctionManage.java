@@ -1,18 +1,14 @@
 package com.zkxltech.ui.functions;
 
-import org.eclipse.swt.browser.Browser;
-import org.eclipse.swt.browser.BrowserFunction;
-
 import com.ejet.core.util.constant.Constant;
 import com.zkxltech.domain.Result;
 import com.zkxltech.service.ClassHourService;
 import com.zkxltech.service.RecordService;
-import com.zkxltech.service.StudentInfoService;
 import com.zkxltech.service.impl.ClassHourServiceImpl;
 import com.zkxltech.service.impl.RecordServiceImpl;
-import com.zkxltech.service.impl.StudentInfoServiceImpl;
-
 import net.sf.json.JSONObject;
+import org.eclipse.swt.browser.Browser;
+import org.eclipse.swt.browser.BrowserFunction;
 
 /**
  * 【答题记录模块页面调用方法】
@@ -50,6 +46,15 @@ public class RecordFunctionManage extends BrowserFunction{
 			case "get_classInfo":
 				/*获取当前班级信息*/
 				result = classHourService.getClassInfo();
+				break;
+			case "get_subject":
+				/*获取当前班级对应的科目场景信息*/
+				if (params.length != 2){
+					result.setRet(Constant.ERROR);
+					result.setMessage("参数个数有误！");
+					break;
+				}
+				result = classHourService.getSubject(params[1]);
 				break;
 			case "select_class_hour":
 				/*查询课程列表列表*/
