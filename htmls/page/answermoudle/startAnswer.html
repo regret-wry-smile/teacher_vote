@@ -21,7 +21,7 @@
 		<link rel="stylesheet" href="../../js/select/style.css" />
 		<link href="../../js/select/font-awesome.min.css" />
 		<script type="text/javascript" src="../../js/select/select.jquery.js" ></script>
-		<script src="../../js/common.js"></script>
+		<!--<script src="../../js/common.js"></script>-->
 		<!--<script src="../../js/vconsole.min.js"></script>-->
 		<script src="../../js/jquery.nicescroll.min.js"></script>
 		<script type="text/javascript" src="../../js/bootstrap.js" ></script>
@@ -48,7 +48,7 @@
 
 		}
 		.newOptions{
-			height: 150px;
+			max-height: 150px !important;
 		}
 		textarea.text{
 			height: 40px !important;
@@ -89,12 +89,12 @@
 			font-weight: bold;
 		}
 	</style>
-	<body ng-cloak class="clearfix" ng-controller="setClassCtrl" >
-		<div id="bg" ng-cloak>
+	<body ng-cloak class="bg clearfix" ng-controller="setClassCtrl" >
+		<!--<div id="bg" ng-cloak>
 		  <canvas width="1920" height="150"></canvas>
 		  <canvas width="1920" height="150"></canvas>
 		  <canvas width="1920" height="150"></canvas>
-		</div>
+		</div>-->
 		<!--添加课程start-->
 			<script type="text/ng-template" id="addClassHourModal.html">
 				<form class="form-horizontal clearfix" role="form" name="myForm" novalidate="novalidate">
@@ -104,16 +104,17 @@
 					</div>
 					<div class="modal-body">						
 						<div class="form-group">
-					  	<label for="firstname" class="col-sm-3 control-label">课程</label>
+					  	<label for="firstname" class="col-sm-3 control-label">Scenario</label>
 					    <div class="col-sm-8">
-				    	<input type="text" autocomplete="off" name="classhour" id="" value=""  class="form-control" ng-model="classInfo.classHourName" required  maxlength="10" placeholder="请输入长度不能超过10位的字符" ng-blur="blurClassHour()"/>					
+					    	<textarea autocomplete="off" name="classhour" class="form-control" ng-model="classInfo.subjectName" required ng-blur="blurClassHour()" placeholder="Please enter the scenario" rows="4"></textarea>
+				    	<!--<input type="text" autocomplete="off" name="classhour" id="" value=""  class="form-control" ng-model="classInfo.classHourName" required  maxlength="10" placeholder="请输入长度不能超过10位的字符" ng-blur="blurClassHour()"/>-->					
 						</div>
 						<span ng-show="myForm.classhour.$invalid" class="warning">*</span>
 						</div>
 					</div>
 					<div class="modal-footer text-center">
-						<button type="button" class="btn btn-primary" ng-click="ok()" ng-disabled="!myForm.$valid">确定</button>
-						<button type="button" class="btn btn-default" ng-click="cancel()">取消</button>		
+						<button type="button" class="btn btn-primary" ng-click="ok()" ng-disabled="!myForm.$valid">Submit</button>
+						<button type="button" class="btn btn-default" ng-click="cancel()">Cancel</button>		
 					</div>
 				</form>
 			</script>
@@ -122,14 +123,14 @@
 				<form name="myForm" novalidate="novalidate">
 					<div class="modal-header">
 						<button type="button" class="close" ng-click="cancel()"><span aria-hidden="true">×</span><span class="sr-only">关闭</span></button>
-						<h4 class="modal-title">确认</h4>
+						<h4 class="modal-title">Sure</h4>
 					</div>
 					<div class="modal-body">
 						{{content}}
 					</div>
 					<div class="modal-footer text-center">
-						<button type="button" class="btn btn-primary" ng-click="ok()" ng-disabled="!myForm.$valid">确定</button>
-						<button type="button" class="btn btn-default" ng-click="cancel()">取消</button>
+						<button type="button" class="btn btn-primary" ng-click="ok()" ng-disabled="!myForm.$valid">Submit</button>
+						<button type="button" class="btn btn-default" ng-click="cancel()">Cancel</button>
 			
 					</div>
 			</form>
@@ -155,11 +156,17 @@
 					</p>
 					<p class="text clearfix">
 						<label class="labelwd pull-left">Scenario</label>
-						<input type="text" ng-model="setClass.subject" class="text" name="subject" required/>
-						<!--<select class="single" select1 ng-model="setClass.subject" name="subject" defalutvalue='setClass.subject1' list="subjectlists" ng-change="changeSubject(setClass.subject)" required>
+						<!--<input type="text" ng-model="setClass.subject" class="text" name="subject" required/>-->
+						<select class="single" select1 ng-model="setClass.subject" name="subject" defalutvalue='setClass.subject1' list="subjectlists" ng-change="changeSubject(setClass.subject)" required>
 				   			<option ng-repeat="subjectitem in subjectlists track by $index" value="{{subjectitem}}">{{subjectitem}}</option>
-						</select>-->
+						</select>
 						<span ng-show="myForm.subject.$invalid" class="check warning">*</span>
+						<a href="javascript:;" ng-click="delClassHour()">
+						<img src="../../image/delbtn.png" class="delbtn" title="delete"/>
+						</a>
+						<a href="javascript:;" ng-click="addClassHour()">
+						<img src="../../image/answer.png" class="editbtn" title="add"/>
+						</a>
 					</p>
 					<!--<p class="text clearfix">
 						<label class="labelwd pull-left">Audience amount</label>
@@ -172,12 +179,7 @@
 						<label class="labelwd pull-left">Remark</label>
 						<textarea ng-model="setClass.sujectName" class="text"></textarea>
 					</p>
-					<!--<a href="javascript:;" ng-click="delClassHour()">
-					<img src="../../image/delbtn.png" class="delbtn" title="delete"/>
-					</a>
-					<a href="javascript:;" ng-click="addClassHour()">
-					<img src="../../image/answer.png" class="editbtn" title="add"/>
-					</a>-->
+					
 				</div>			  	
 			   </form> 
 			</div>

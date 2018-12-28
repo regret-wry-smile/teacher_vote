@@ -281,7 +281,7 @@ var app=angular.module('app',['ui.bootstrap','toastr']);
 				classId: $scope.classobject.classId
 			}
 			$scope.result = JSON.parse(execute_student("bind_start", JSON.stringify(param)));
-			//		console.log(JSON.stringify(result));
+				//console.log(JSON.stringify($scope.result));
 			if($scope.result.ret == "success") {
 				var content = "match qiuckly";
 				var modalInstance = $modal.open({
@@ -600,7 +600,7 @@ app.controller('findBindModalCtrl',function($scope,$modalInstance,toastr){
 	var _getBindInfo = function(){
 		var result = JSON.parse(execute_student("get_bind_info"));
 		$scope.bindInfo = result;
-		//console.log(JSON.stringify(result))
+		console.log(JSON.stringify(result))
 	}
 	
 	$scope.refreshBindCard = function(){

@@ -45,21 +45,29 @@ public class ClassHourServiceImpl implements ClassHourService{
 	@Override
 	public Result insertClassInfo(Object object) {
 		result = new Result();
+		Result r = new Result();
 		try {
 			ClassHour classHour =  (ClassHour) StringUtils.parseJSON(object, ClassHour.class);
-			classHour.setClassHourId(com.ejet.core.util.StringUtils.getUUID());
-			classHour.setStartTime(com.ejet.core.util.StringUtils.formatDateTime(new Date()));
-			Global.setClassHour(classHour);
-			result = classHourSql.insertClassHour(classHour);
-			if (Constant.SUCCESS.equals(result.getRet())) {
-				result.setMessage("新增课程成功!");
+			r = classHourSql.selectClassHour(classHour);
+			List<ClassHour> classHours = (List<ClassHour>) r.getItem();
+			if (classHours.size() != 0){
+				result.setMessage("This scene already exists, please fill in again！");//此场景已有，请重新填写!
+
 			}else {
-				result.setMessage("新增课程失败！");
+				classHour.setClassHourId(com.ejet.core.util.StringUtils.getUUID());
+				classHour.setStartTime(com.ejet.core.util.StringUtils.formatDateTime(new Date()));
+				Global.setClassHour(classHour);
+				result = classHourSql.insertClassHour(classHour);
+				if (Constant.SUCCESS.equals(result.getRet())) {
+					result.setMessage("New courses successfully added!");//新增课程成功
+				} else {
+					result.setMessage("New course failed！");//新增课程失败
+				}
 			}
 			return result;
 		} catch (Exception e) {
 			result.setRet(Constant.ERROR);
-			result.setMessage("新增课程失败！");
+			result.setMessage("New course failed！");//新增课程失败
 			result.setDetail(IOUtils.getError(e));
 			logger.error(IOUtils.getError(e));
 			return result;
@@ -73,14 +81,14 @@ public class ClassHourServiceImpl implements ClassHourService{
 			ClassHour classHour =  (ClassHour) StringUtils.parseJSON(object, ClassHour.class);
 			result = classHourSql.deleteAnswerInfo(classHour);
 			if (Constant.SUCCESS.equals(result.getRet())) {
-				result.setMessage("删除课程成功!");
+				result.setMessage("Course deleted successfully!");//删除课程成功
 			}else {
-				result.setMessage("删除课程失败！");
+				result.setMessage("Failed to delete course！");//删除课程失败
 			}
 			return result;
 		} catch (Exception e) {
 			result.setRet(Constant.ERROR);
-			result.setMessage("删除课程失败！");
+			result.setMessage("Failed to delete course！");//删除课程失败
 			result.setDetail(IOUtils.getError(e));
 			logger.error(IOUtils.getError(e));
 			return result;
@@ -124,7 +132,6 @@ public class ClassHourServiceImpl implements ClassHourService{
 			if (Constant.ERROR.equals(result.getRet())) {
 				return result;
 			}
-
 			result.setRet(Constant.SUCCESS);
 			result.setMessage("开始上课！");
 		} catch (Exception e) {
