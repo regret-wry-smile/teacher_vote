@@ -1,6 +1,5 @@
 package com.zkxltech.service.impl;
 
-import com.ejet.cache.BrowserManager;
 import com.ejet.core.util.constant.Constant;
 import com.ejet.core.util.constant.Global;
 import com.ejet.core.util.io.IOUtils;
@@ -12,7 +11,6 @@ import com.zkxltech.service.ClassHourService;
 import com.zkxltech.sql.ClassHourSql;
 import com.zkxltech.ui.util.StringUtils;
 import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -127,9 +125,6 @@ public class ClassHourServiceImpl implements ClassHourService{
 				return result;
 			}
 
-			ClassHourServiceImpl classHourService = new ClassHourServiceImpl();
-			classHourService.insertClassInfo(classHourObj);
-
 			result.setRet(Constant.SUCCESS);
 			result.setMessage("开始上课！");
 		} catch (Exception e) {
@@ -239,14 +234,13 @@ public class ClassHourServiceImpl implements ClassHourService{
 		result = new Result();
 		ClassHour classHour = (ClassHour) StringUtils.parseJSON(classHourObj, ClassHour.class);
 		ClassHourSql classHourSql = new ClassHourSql();
-		Result r = new Result();
 		try {
 			result = classHourSql.selectClassHour(classHour);
 			if (Constant.SUCCESS.equals(result.getRet())) {
 				result.setMessage("获取当前班级对应的科目场景信息成功!");
 			}else {
 				result.setMessage("获取当前班级对应的科目场景信息失败！");
-			}
+        }
 			return result;
 		} catch (Exception e) {
 			result.setRet(Constant.ERROR);
