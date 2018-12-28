@@ -145,7 +145,12 @@
 							<tr ng-repeat="item in recordList track by $index" ng-click="$event.stopPropagation();">
 								<td style="width: 5%;">{{$index+1}}</td>
 								<td style="width: 8%;">{{item.studentId}}</td>
-								<td style="width: 10%;">{{item.testName}}</td>
+								<td style="width: 10%;">
+									<span ng-if="item.questionType=='1'">letter</span>
+									<span ng-if="item.questionType=='2'">digit</span>
+									<span ng-if="item.questionType=='3'">judge</span>
+									<span ng-if="item.questionType=='4'">multiple choice</span>
+								</td>
 								<td style="width: 10%;">{{item.answer}}</td>
 								<td style="width: 22%;">{{item.answerStart}}~{{item.answerEnd}}</td>	
 								<td style="width: 8%;" class="ml5"><input type="checkbox" style="margin-left: 0.45rem;" ng-model="item.checked" class="ml32" name="check" ng-change="selectOne()" ng-click="$event.stopPropagation();"></td>
