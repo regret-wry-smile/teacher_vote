@@ -45,16 +45,24 @@ public class ClassHourServiceImpl implements ClassHourService{
 	@Override
 	public Result insertClassInfo(Object object) {
 		result = new Result();
+		Result r = new Result();
 		try {
 			ClassHour classHour =  (ClassHour) StringUtils.parseJSON(object, ClassHour.class);
-			classHour.setClassHourId(com.ejet.core.util.StringUtils.getUUID());
-			classHour.setStartTime(com.ejet.core.util.StringUtils.formatDateTime(new Date()));
-			Global.setClassHour(classHour);
-			result = classHourSql.insertClassHour(classHour);
-			if (Constant.SUCCESS.equals(result.getRet())) {
-				result.setMessage("新增课程成功!");
+			r = classHourSql.selectClassHour(classHour);
+			List<ClassHour> classHours = (List<ClassHour>) r.getItem();
+			if (classHours.size() != 0){
+				result.setMessage("此场景已有，请重新填写！");
+
 			}else {
-				result.setMessage("新增课程失败！");
+				classHour.setClassHourId(com.ejet.core.util.StringUtils.getUUID());
+				classHour.setStartTime(com.ejet.core.util.StringUtils.formatDateTime(new Date()));
+				Global.setClassHour(classHour);
+				result = classHourSql.insertClassHour(classHour);
+				if (Constant.SUCCESS.equals(result.getRet())) {
+					result.setMessage("!");
+				} else {
+					result.setMessage("新增课程失败！");
+				}
 			}
 			return result;
 		} catch (Exception e) {
