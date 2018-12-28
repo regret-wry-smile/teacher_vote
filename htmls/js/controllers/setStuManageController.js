@@ -218,7 +218,7 @@ var app=angular.module('app',['ui.bootstrap','toastr']);
 				id:item.id,
 				classId:item.classId
 			}
-			console.log(JSON.stringify(param))	
+			//console.log(JSON.stringify(param))	
 			$scope.result=JSON.parse(execute_student("delete_class",JSON.stringify(param)));
 			if($scope.result.ret=='success'){
 				toastr.success($scope.result.message);

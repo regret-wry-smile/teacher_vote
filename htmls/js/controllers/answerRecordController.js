@@ -149,6 +149,12 @@ app.controller('answerRecordCtrl', function($scope, toastr, $modal) {
 
 		};
 		$scope.changeTime = function() {
+			if($scope.setClass.answerStart&&$scope.setClass.answerEnd){
+					if($scope.setClass.answerEnd<$scope.setClass.answerStart){
+						toastr.warning("End date should not be less than start date.");
+						$scope.setClass.answerEnd='';
+					}
+				}
 			_selectRecord();
 		}
 		var _init = function() {
@@ -204,7 +210,7 @@ app.controller('answerRecordCtrl', function($scope, toastr, $modal) {
 		//删除记录
 		$scope.deleteRcord = function() {
 			if($scope.onechecked.length > 0) {
-				var content = "删除选中记录";
+				var content = "delete selected records";
 				var modalInstance = $modal.open({
 					templateUrl: 'sureModal.html',
 					controller: 'sureModalCtrl',
@@ -224,7 +230,7 @@ app.controller('answerRecordCtrl', function($scope, toastr, $modal) {
 						testId: $scope.setClass.paper,
 						studentIds: $scope.checkedstudentIds
 					}
-					console.log(JSON.stringify(param))
+					//console.log(JSON.stringify(param))
 					$scope.result = JSON.parse(execute_record("delete_record", JSON.stringify(param)));
 					if($scope.result.ret == 'success') {
 						toastr.success($scope.result.message);
@@ -241,7 +247,7 @@ app.controller('answerRecordCtrl', function($scope, toastr, $modal) {
 					//$log.info('Modal dismissed at: ' + new Date());
 				});
 			} else {
-				toastr.warning("请选择记录");
+				toastr.warning("Please select at least one record first");
 			}
 
 		}
@@ -276,7 +282,7 @@ app.controller('answerRecordCtrl', function($scope, toastr, $modal) {
 						classHourId: $scope.setClass.sujectHour,
 						testId: $scope.setClass.paper
 					}
-					console.log("导出参数" + JSON.stringify(param))
+					//console.log("导出参数" + JSON.stringify(param))
 					$scope.result = JSON.parse(execute_record('test_export', JSON.stringify(param)));
 					if($scope.result.ret == 'success') {
 						//toastr.success($scope.result.message);
@@ -285,7 +291,7 @@ app.controller('answerRecordCtrl', function($scope, toastr, $modal) {
 						console.log(JSON.stringify($scope.result.message))*/
 					}
 				} else {
-					toastr.warning("缺少必要条件，不能导出");
+					toastr.warning("Necessary conditions are lacking and cannot be derived.");
 				}
 
 			}
