@@ -41,6 +41,7 @@ import com.zkxltech.sql.RecordSql2;
 import com.zkxltech.sql.StudentInfoSql;
 import com.zkxltech.sql.TestPaperSql;
 import com.zkxltech.ui.util.ExportExcel;
+import com.zkxltech.ui.util.ExportExcel2;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -295,6 +296,152 @@ public class RecordServiceImpl implements RecordService{
         }).start();
         return r;
     }
+    
+    //新的导出
+    @Override
+    public Result testExport2(Object object) {
+        Result r = new Result();
+        /*r.setMessage("正在导出,请稍后......");
+        r.setRet(Constant.SUCCESS);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                //查询
+                String fileName = "";
+                String className = "班级名称:"; 
+                String studentSum = "学生人数:";
+                String dates = "";
+                Result r = new Result();
+                r.setRet(Constant.ERROR);
+                FileOutputStream out = null ;
+                try{
+                	  Record record = com.zkxltech.ui.util.StringUtils.parseJSON(object, Record.class);
+                    if (StringUtils.isBlank(record.getClassId())||StringUtils.isBlank(record.getSubject())
+                            ||StringUtils.isBlank(record.getClassHourId())||StringUtils.isBlank(record.getTestId())) {
+                        BrowserManager.showMessage(false,"缺少参数,请检查班次id,科目,课程id,试卷id四个参数");
+                        return;
+                    }
+                    Record2 recordQuest = new Record2();
+    	           // Record2 record2 = com.zkxltech.ui.util.StringUtils.parseJSON(object, Record2.class);
+                    Record2 record2 = new Record2();
+    	            record.setClassHourId(null);
+    	            record.setTestId(null);
+    	            record2.setClassId("999");
+    	            record2.setSubject("Science");
+    	            record2.setQuestionType("1");
+    	            record2.setAnswerStart("2018-12-27");
+    	            record2.setAnswerEnd("2018-12-28");
+    	            
+    	            
+    	            recordQuest.setQuestionType(record2.getQuestionType());		//获取
+    	            recordQuest.setAnswerStart(record2.getAnswerStart());
+    	            recordQuest.setAnswerEnd(record2.getAnswerEnd());
+    	            
+    	            record2.setAnswerStart(null);		//清空
+    	            record2.setAnswerEnd(null);
+    	            record2.setQuestionType(null);
+    	            record2.setAnswerStart(null);
+    	            record2.setAnswerEnd(null);
+    	            result = recordSql2.selectRecord(record2);
+    	           
+    	            List<Record2> records = (List<Record2>) result.getItem();
+    	            List<Record2> list = new ArrayList<>();		//用于分类
+    	          
+    	            
+    	            for (Record2 record3 : records) {	
+    	            	if((recordQuest.getAnswerStart().compareTo(record3.getAnswerClick())<0)&&(record3.getAnswerClick().compareTo(recordQuest.getAnswerEnd())<0)){//筛选时间
+    						switch(recordQuest.getQuestionType()){	//筛选出作答类型
+    							case "1":
+    								list.add(record3);
+    								break;
+    				            case "2":
+    				            	list.add(record3);
+    				            	break;
+    					        case "3":
+    					        	list.add(record3);
+    					        	break;
+    					        case "4":
+    					        	list.add(record3);
+    					        	break;
+    					        case "5":
+    					        	list.add(record3);
+    					        	break;
+    					        case "6":
+    					        	list.add(record3);
+    					        	break;
+    					        default:
+    					        	list.add(record3);
+    			           }
+    					}
+    				}
+                    
+                     SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
+                     String date = format.format(new Date());
+                    // fileName += classInfo.getClassName()+classHour.getSubjectName()+classHour.getClassHourName()+date+".xls";
+                      fileName += "daochu"+".xls";
+                     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                     dates = "创建时间:"+date+"  作答时间:"+"2018-11-11";
+                  
+                    int columnNumber = 6 + 5;
+                    int[] columnWidth = new int[columnNumber];// 行宽
+                    for (int i = 0; i < columnWidth.length; i++) {
+                        if (i==0) {
+                            columnWidth[i] = 12;    
+                        }else {
+                            columnWidth[i] = 10;    
+                        }
+                    }
+                    String[] columnName = new String[columnNumber];// 标题
+                    columnName[0] = "id";columnName[1] = "学生id";columnName[2] = "学生姓名";
+                    columnName[3] = "答题类型";columnName[4] = "作答结果";columnName[5] = "作答时间";
+                    for (int i = 6; i < columnName.length; i++) {
+                        columnName[i] = "题目"+(i-5);
+                    }
+                    List<List<Object>> lists = new ArrayList<List<Object>>();
+                    
+                    for (Record2 record4 : list) {
+                    	 List<Object> listMaps = new ArrayList<Object>();
+                         while (columnNumber > listMaps.size()) {
+                             listMaps.add(null);
+                         }
+                         listMaps.set(0,"1"); //答题器编号
+                         listMaps.set(1,  record4.getStudentId()); 
+                         listMaps.set(2,record4.getStudentName());//姓名
+                         listMaps.set(3,record4.getQuestionShow());//姓名
+                         listMaps.set(4,record4.getAnswer());//姓名
+                         listMaps.set(5,record4.getAnswerClick());//姓名
+                         lists.add(listMaps);
+					}
+                    String flieUrl = System.getProperty("user.dir").replaceAll("\\\\", "/") + "/"+"excels/";
+                    SXSSFWorkbook wb = ExportExcel2.ExportWithResponse("成绩明细表",dates,className, studentSum, columnNumber, columnWidth, columnName , lists);   
+                    File file = new File(flieUrl);
+                    if (!file.exists()) {
+                        file.mkdirs();
+                    }
+                    out = new FileOutputStream(new File(flieUrl,fileName));
+                    wb.write(out);// 将数据写出去  
+                    out.flush();// 将数据写出去
+                    BrowserManager.showMessage(true,"导出成功");
+                    openFile();
+                }catch (Exception e) {
+                    log.error("", e);
+                    r.setMessage("导出失败");
+                    r.setDetail(IOUtils.getError(e));
+                    BrowserManager.showMessage(false,"导出失败");
+                }finally {
+                    BrowserManager.removeLoading();
+                    if (out != null) {
+                        try {
+                            out.close();
+                        } catch (IOException e) {
+                            log.error("输出流关闭失败", e);
+                        } 
+                    }
+                }
+            }
+        }).start();*/
+        return r;
+    }
     /**
      * 查询答题记录
      * @param object
@@ -535,27 +682,28 @@ public class RecordServiceImpl implements RecordService{
 	            Record2 record = com.zkxltech.ui.util.StringUtils.parseJSON(object, Record2.class);
 	          /*  record.setClassHourId(null);
 	            record.setTestId(null);*/
-	            recordQuest.setQuestionType(record.getQuestionType());
+	            recordQuest.setQuestionType(record.getQuestionType());		//获取前端页面传来的，保存一次
 	            recordQuest.setAnswerStart(record.getAnswerStart());
 	            recordQuest.setAnswerEnd(record.getAnswerEnd());
 	            
-	            record.setAnswerStart(null);
+	            record.setAnswerStart(null);		//清空传来的的数据
 	            record.setAnswerEnd(null);
 	            record.setQuestionType(null);
 	            record.setAnswerStart(null);
 	            record.setAnswerEnd(null);
+	            
 	            result = recordSql2.selectRecord(record);
 	            if (Constant.ERROR.equals(result.getRet())) {
 	                result.setMessage("查询记录失败!");
 	                return result;
 	            }
 	            List<Record2> records = (List<Record2>) result.getItem();
-	            List<Record2> list = new ArrayList<>();		//分类
+	            List<Record2> list = new ArrayList<>();		//用于分类
 	          
 	            
-	            for (Record2 record2 : records) {	//筛选出作答类型
-	            	if((recordQuest.getAnswerStart().compareTo(record2.getAnswerClick())<0)&&(record2.getAnswerClick().compareTo(recordQuest.getAnswerEnd())<0)){
-						switch(recordQuest.getQuestionType()){
+	            for (Record2 record2 : records) {	
+	            	if((recordQuest.getAnswerStart().compareTo(record2.getAnswerClick())<0)&&(record2.getAnswerClick().compareTo(recordQuest.getAnswerEnd())<0)){//筛选时间
+						switch(recordQuest.getQuestionType()){	//筛选出作答类型
 							case "1":
 								list.add(record2);
 								break;
@@ -576,7 +724,76 @@ public class RecordServiceImpl implements RecordService{
 					        	break;
 					        default:
 					        	list.add(record2);
-			           }
+			            }
+					}else if((recordQuest.getAnswerStart().equals(null))&&(record2.getAnswerClick().compareTo(recordQuest.getAnswerEnd())<0)){
+						switch(recordQuest.getQuestionType()){	//筛选出作答类型
+						case "1":
+							list.add(record2);
+							break;
+			            case "2":
+			            	list.add(record2);
+			            	break;
+				        case "3":
+				        	list.add(record2);
+				        	break;
+				        case "4":
+				        	list.add(record2);
+				        	break;
+				        case "5":
+				        	list.add(record2);
+				        	break;
+				        case "6":
+				        	list.add(record2);
+				        	break;
+				        default:
+				        	list.add(record2);
+		            }
+					}else if((recordQuest.getAnswerStart().compareTo(record2.getAnswerClick())<0)&&(recordQuest.getAnswerEnd().equals(null))){
+						switch(recordQuest.getQuestionType()){	//筛选出作答类型
+						case "1":
+							list.add(record2);
+							break;
+			            case "2":
+			            	list.add(record2);
+			            	break;
+				        case "3":
+				        	list.add(record2);
+				        	break;
+				        case "4":
+				        	list.add(record2);
+				        	break;
+				        case "5":
+				        	list.add(record2);
+				        	break;
+				        case "6":
+				        	list.add(record2);
+				        	break;
+				        default:
+				        	list.add(record2);
+		            }
+					}else{
+							switch(recordQuest.getQuestionType()){	//筛选出作答类型
+							case "1":
+								list.add(record2);
+								break;
+				            case "2":
+				            	list.add(record2);
+				            	break;
+					        case "3":
+					        	list.add(record2);
+					        	break;
+					        case "4":
+					        	list.add(record2);
+					        	break;
+					        case "5":
+					        	list.add(record2);
+					        	break;
+					        case "6":
+					        	list.add(record2);
+					        	break;
+					        default:
+					        	list.add(record2);
+			            }
 					}
 				}
 	          

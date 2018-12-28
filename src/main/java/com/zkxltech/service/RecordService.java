@@ -58,4 +58,10 @@ public interface RecordService {
      * @return
      */
     Result selectRecord2(Object object);
+    /**
+     * 导出试卷
+     * @param object
+     * @return
+     */
+	Result testExport2(Object object);
 }
