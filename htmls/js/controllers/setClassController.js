@@ -36,13 +36,32 @@ app.controller('setClassCtrl', function($rootScope,$scope, toastr,$modal,$window
 		}
 	};
 	//查询科目
-	/*var _getsubject=function(){
-		$scope.subjectlists= JSON.parse(execute_testPaper("get_subject"));
-		if($scope.subjectlists.length>0){
+	var _getsubject=function(){
+		var params={
+			classId:$scope.setClass.classes
+		}
+		console.log(JSON.stringify(params))
+		var result= JSON.parse(execute_record("get_subject",JSON.stringify(params)));
+		console.log(JSON.stringify(result))
+		/*if($scope.subjectlists.length>0){
 			$scope.setClass.subject=$scope.subjectlists[0];
 			$scope.setClass.subject1=angular.copy($scope.setClass.subject);
-		}
-	}*/
+		}*/
+		if(result.ret=='success'){
+				if(result.item&&result.item.length>0){
+					$scope.subjectlists = [];
+				for(var i=0;i<result.item.length;i++){				
+					$scope.subjectlists.push(result.item[i].subjectName);
+					$scope.setClass.subject = $scope.subjectlists[0];
+					$scope.setClass.subject1 = angular.copy($scope.setClass.subject);
+				}
+			}	else{
+				$scope.subjectlists=[];
+				$scope.setClass.subject='';
+				$scope.setClass.subject1='';
+			}
+	}
+	}
 	//查询课程
 	/*var _selectClassHour=function(){
 		$scope.result=JSON.parse(execute_record("select_class_hour",$scope.setClass.classes,$scope.setClass.subject));
@@ -69,6 +88,7 @@ app.controller('setClassCtrl', function($rootScope,$scope, toastr,$modal,$window
 	$scope.changeClass=function(classes){
 		$scope.setClass.classes=classes;
 		$scope.setClass.classes1=classes;
+		_getsubject();
 		angular.forEach($scope.classList,function(i){
 			if($scope.setClass.classes==i.key){
 				$scope.classesobject=i;
@@ -86,7 +106,7 @@ app.controller('setClassCtrl', function($rootScope,$scope, toastr,$modal,$window
 		$scope.classhourList=[];
 		$scope.setClass.sujectName="";
 		$scope.sujectNameobject="";
-		_selectClassHour();
+		//_selectClassHour();
 	}
 	
 	//查询当前上课班级
@@ -155,7 +175,7 @@ app.controller('setClassCtrl', function($rootScope,$scope, toastr,$modal,$window
 		var item={
 			classId:$scope.setClass.classes,
 			className:$scope.classesobject.value,
-			subjectName:$scope.setClass.subject
+			/*subjectName:$scope.setClass.subject*/
 		}
 		var modalInstance = $modal.open({
 			templateUrl: 'addClassHourModal.html',
@@ -169,14 +189,20 @@ app.controller('setClassCtrl', function($rootScope,$scope, toastr,$modal,$window
 			}
 		});
 		modalInstance.result.then(function(info) {
-			$scope.classhourList=[];
+			/*$scope.classhourList=[];
 			$scope.setClass.sujectName="";
-			$scope.sujectNameobject="";
-			_selectClassHour();
+			$scope.sujectNameobject="";*/
+			$scope.subjectlists=[];
+			$scope.setClass.subject='';
+			$scope.setClass.subject1='';
+			//_selectClassHour();
+			_getsubject();
+			/*$scope.setClass.subject = $scope.subjectlists[0];
+			$scope.setClass.subject1 = angular.copy($scope.setClass.subject);
 			$scope.setClass.sujectName=$scope.classhourList[$scope.classhourList.length-1].key;
 			$scope.sujectNameobject=$scope.classhourList[$scope.classhourList.length-1];
-			$scope.setClass.sujectName1=angular.copy($scope.setClass.sujectName);
-			$scope.startClass();
+			$scope.setClass.sujectName1=angular.copy($scope.setClass.sujectName);*/
+			//$scope.startClass();
 		}, function() {
 			//$log.info('Modal dismissed at: ' + new Date());
 		});
@@ -184,9 +210,8 @@ app.controller('setClassCtrl', function($rootScope,$scope, toastr,$modal,$window
 	}
 	//删除课时
 	$scope.delClassHour=function(){
-		console.log(JSON.stringify($scope.sujectNameobject))
-		if($scope.setClass.sujectName){
-			var content="删除课程";
+		if($scope.setClass.subject){
+			var content="delete scenario";
 			var modalInstance = $modal.open({
 				templateUrl: 'sureModal.html',
 				controller: 'sureModalCtrl',
@@ -199,33 +224,37 @@ app.controller('setClassCtrl', function($rootScope,$scope, toastr,$modal,$window
 				}
 			});
 			modalInstance.result.then(function(info) {
-				var param={
-					classHourId:$scope.setClass.sujectName,
+//				var param={
+//					classHourId:$scope.setClass.subject,
+//				}	
+				var params={
+					classId:$scope.setClass.classes,
+					className:$scope.classesobject.value,
+					subjectName:$scope.setClass.subject
+					
 				}
-				
-				param=JSON.stringify(param)			
-				$scope.result=JSON.parse(execute_record("delete_class_hour",param));
-				if($scope.result.ret=='success'){
-					toastr.success($scope.result.message);
-					$scope.classhourList=[];
-					$scope.setClass.sujectName="";
-					$scope.sujectNameobject="";
-					_selectClassHour();
+				console.log("删除场景参数"+JSON.stringify(params))
+				var result=JSON.parse(execute_record("delete_class_hour",JSON.stringify(params)));
+				if(result.ret=='success'){
+					toastr.success(result.message);
+					$scope.subjectlists=[];
+					$scope.setClass.subject='';
+					$scope.setClass.subject1='';
+					_getsubject();
 				}else{
-					toastr.error($scope.result.message);
-					console.log($scope.result.detail);
+					toastr.error(result.message);
 				}
 			}, function() {
 				//$log.info('Modal dismissed at: ' + new Date());
 			});
 		}else{
-			toastr.success("当前没有可删除的课程")
+			toastr.success("There are currently no deletable scenarios")
 		}
 	}
 	var _init=function(){
 		_selectClass();
-		/*_getsubject();
-		_selectClassHour();*/
+		_getsubject();
+		/*_selectClassHour();*/
 		_isStartClass();
 	}();
 	
@@ -294,9 +323,9 @@ app.controller('setClassCtrl', function($rootScope,$scope, toastr,$modal,$window
 	}
 })
 app.controller('addClassHourCtrl', function($rootScope,$scope,$modal,$modalInstance,toastr,infos) {	
-	$scope.title="添加课程";
+	$scope.title="AddScenario";
 	$scope.classInfo={
-		classHourName:''
+		subjectName:''
 	}
 	if(infos){
 		$scope.classInfo=angular.copy(infos);
@@ -304,7 +333,9 @@ app.controller('addClassHourCtrl', function($rootScope,$scope,$modal,$modalInsta
 	}
 	$scope.ok = function() {
 		var param=$scope.classInfo;
+		console.log("参数"+JSON.stringify(param))
 		$scope.result=JSON.parse(execute_record("insert_class_hour",JSON.stringify(param)));
+		console.log("返回结果"+JSON.stringify($scope.result))
 		if($scope.result.ret=='success'){
 			toastr.success($scope.result.message);
 			$modalInstance.close(param);
@@ -411,7 +442,7 @@ app.controller('stopAnswerCtrl', function($rootScope,$scope,$modal,toastr,$inter
 })
 //确认弹出框
 app.controller('sureModalCtrl',function($scope,$modalInstance,toastr,content){
-	$scope.content='是否进行'+angular.copy(content)+'操作？';
+	$scope.content='Whether to ' +angular.copy(content)+ ' operations?';
 	$scope.ok = function() {
 		$modalInstance.close('success');
 	}
@@ -453,7 +484,7 @@ app.directive('select', function() {
 		}
 	}
 })
-app.directive('select1', function() {
+/*app.directive('select1', function() {
 	return {
 		restrict: 'A',
 		require: 'ngModel',
@@ -488,6 +519,45 @@ app.directive('select1', function() {
 				}
 			});
 		})	
+		}
+	}
+})*/
+app.directive('select1', function() {
+	return {
+		restrict: 'A',
+		require: 'ngModel',
+		scope: {
+			defalutvalue: '=?',
+			list: '=?'
+		},
+		link: function(scope, element, attrs, ngModelCtr) {
+			scope.$watch('defalutvalue+list', function() {
+                var str = '';
+                //var str ='<option value="">please selected</option>'
+		         if(scope.defalutvalue) { 
+		         	if(scope.list) {
+						for(var i = 0; i < scope.list.length; i++) {
+							str += '<option value="' + scope.list[i] + '">' + scope.list[i] + '</option>';
+						} 
+					}
+                  }
+				$(element).html(str);
+				$(element).multiselect({
+						multiple: false,
+						selectedHtmlValue: 'please selected',
+						defalutvalue: scope.defalutvalue,
+						change: function() {
+							$(element).val($(this).val());
+							scope.$apply();
+							if(ngModelCtr) {
+								ngModelCtr.$setViewValue($(element).val());
+								if(!scope.$root.$$phase) {
+									scope.$apply();
+								}
+							}
+						}
+					});
+			})
 		}
 	}
 })

@@ -115,9 +115,9 @@ app.controller('answerRecordCtrl', function($scope, toastr, $modal) {
 					answerEnd: $scope.setClass.answerEnd,
 					questionType: $scope.setClass.sujectHour
 				}
-				//console.log("参数" + JSON.stringify(params))
+				console.log("参数" + JSON.stringify(params))
 				var result = JSON.parse(execute_record("select_record2", JSON.stringify(params)));
-				//console.log("记录" + JSON.stringify(result))
+				console.log("记录" + JSON.stringify(result))
 				if(result.ret == 'success') {
 					$scope.recordList = result.item;
 				} 
