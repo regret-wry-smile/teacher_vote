@@ -132,8 +132,6 @@ public class ClassHourServiceImpl implements ClassHourService{
 			if (Constant.ERROR.equals(result.getRet())) {
 				return result;
 			}
-            classHourSql.deleteAnswerInfo(classHour);
-
 			result.setRet(Constant.SUCCESS);
 			result.setMessage("开始上课！");
 		} catch (Exception e) {
