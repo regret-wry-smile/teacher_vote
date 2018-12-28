@@ -1,7 +1,11 @@
 package com.zkxltech.sql;
 
 import java.lang.reflect.Field;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 
@@ -63,7 +67,29 @@ public class RecordSql2 {
 				}else {
 					sqlBuilder.append(" and ");
 				}
-				sqlBuilder.append(dbHelper.HumpToUnderline(files[i].getName())+" = ?");
+				if("answer_start".equals(dbHelper.HumpToUnderline(files[i].getName()))){
+					sqlBuilder.append(dbHelper.HumpToUnderline(files[i].getName())+" >= ?");
+				}else if ("answer_end".equals(dbHelper.HumpToUnderline(files[i].getName()))){
+					
+					String d = record.getAnswerEnd();
+					DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+					//加一天
+					try {
+						Date dd = df.parse(d);
+						Calendar calendar = Calendar.getInstance();
+						calendar.setTime(dd);
+						calendar.add(Calendar.DAY_OF_MONTH, 1);//加一天
+						record.setAnswerEnd(df.format(calendar.getTime()).toString());
+						
+						} catch (Exception e) {
+						e.printStackTrace();
+					}
+					sqlBuilder.append(dbHelper.HumpToUnderline(files[i].getName())+" <= ?");
+					
+				}else{
+					sqlBuilder.append(dbHelper.HumpToUnderline(files[i].getName())+" = ?");
+				}
+				
 				index++;
 			}
 		}

@@ -105,7 +105,7 @@ public class RecordFunctionManage extends BrowserFunction{
 			    break;
 			case "test_export":
 			    /*导出作答记录*/
-			    result = recordService.testExport(params[1]);
+			    result = recordService.testExport2(params[1]);
 			    break ;
 			case "select_record2":
 				/*查询单项单选结果*/
