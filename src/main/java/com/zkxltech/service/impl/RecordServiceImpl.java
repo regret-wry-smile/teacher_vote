@@ -301,88 +301,39 @@ public class RecordServiceImpl implements RecordService{
     @Override
     public Result testExport2(Object object) {
         Result r = new Result();
-        r.setMessage("正在导出,请稍后......");
+        r.setMessage("Exporting...");
         r.setRet(Constant.SUCCESS);
         new Thread(new Runnable() {
             @Override
             public void run() {
-                //查询
                 String fileName = "";
-                String className = "班级名称:"; 
-                String studentSum = "学生人数:";
                 String dates = "";
                 Result r = new Result();
                 r.setRet(Constant.ERROR);
                 FileOutputStream out = null ;
                 try{
-                	/*  Record record = com.zkxltech.ui.util.StringUtils.parseJSON(object, Record.class);
-                    if (StringUtils.isBlank(record.getClassId())||StringUtils.isBlank(record.getSubject())
-                            ||StringUtils.isBlank(record.getClassHourId())||StringUtils.isBlank(record.getTestId())) {
-                        BrowserManager.showMessage(false,"缺少参数,请检查班次id,科目,课程id,试卷id四个参数");
+                	Record2 record = com.zkxltech.ui.util.StringUtils.parseJSON(object, Record2.class);
+                    if (StringUtils.isBlank(record.getClassId())||StringUtils.isBlank(record.getSubject())){
+                        BrowserManager.showMessage(false,"Missing Parameters:ClassId,Scenario");
                         return;
-                    }*/
-                    Record2 recordQuest = new Record2();
-    	           // Record2 record2 = com.zkxltech.ui.util.StringUtils.parseJSON(object, Record2.class);
-                    Record2 record2 = new Record2();
-    	          /*  record.setClassHourId(null);
-    	            record.setTestId(null);*/
-    	            record2.setClassId("999");
-    	            record2.setSubject("22");
-    	            record2.setQuestionType("1");
-    	            record2.setAnswerStart("2018-12-26");
-    	            record2.setAnswerEnd("2018-12-28");
-    	            
-    	            
-    	            recordQuest.setQuestionType(record2.getQuestionType());		//获取
-    	            recordQuest.setAnswerStart(record2.getAnswerStart());
-    	            recordQuest.setAnswerEnd(record2.getAnswerEnd());
-    	            
-    	            record2.setAnswerStart(null);		//清空
-    	            record2.setAnswerEnd(null);
-    	            record2.setQuestionType(null);
-    	            record2.setAnswerStart(null);
-    	            record2.setAnswerEnd(null);
-    	            result = recordSql2.selectRecord(record2);
-    	           
-    	            List<Record2> records = (List<Record2>) result.getItem();
-    	            List<Record2> list = new ArrayList<>();		//用于分类
-    	          
-    	            
-    	            for (Record2 record3 : records) {	
-    	            	if((recordQuest.getAnswerStart().compareTo(record3.getAnswerClick())<0)&&(record3.getAnswerClick().compareTo(recordQuest.getAnswerEnd())<0)){//筛选时间
-    						switch(recordQuest.getQuestionType()){	//筛选出作答类型
-    							case "1":
-    								list.add(record3);
-    								break;
-    				            case "2":
-    				            	list.add(record3);
-    				            	break;
-    					        case "3":
-    					        	list.add(record3);
-    					        	break;
-    					        case "4":
-    					        	list.add(record3);
-    					        	break;
-    					        case "5":
-    					        	list.add(record3);
-    					        	break;
-    					        case "6":
-    					        	list.add(record3);
-    					        	break;
-    					        default:
-    					        	list.add(record3);
-    			           }
-    					}
-    				}
+                    }
                     
-                     SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
-                     String date = format.format(new Date());
-                    // fileName += classInfo.getClassName()+classHour.getSubjectName()+classHour.getClassHourName()+date+".xls";
-                      fileName += "daochu"+".xls";
-                     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                     dates = "创建时间:"+date+"  作答时间:"+"2018-11-11";
+    	            
+    	            String className = "ClassName:"+record.getClassId(); 
+    	            
+    	            if("0".equals(record.getQuestionType())){
+    	            	record.setQuestionType(null);
+    	            }
+    	            result = recordSql2.selectRecord(record);
+    	            List<Record2> records = (List<Record2>) result.getItem();
+    	            result.setItem(records);       	    
+    	            System.out.println("come");
+                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    String date = format.format(new Date());
+                    fileName += record.getClassId()+"class"+record.getSubject()+date+".xls";
+                    dates = "Create Time:"+date;
                   
-                    int columnNumber = 6 + 11;
+                    int columnNumber = 6;
                     int[] columnWidth = new int[columnNumber];// 行宽
                     for (int i = 0; i < columnWidth.length; i++) {
                         if (i==0) {
@@ -392,28 +343,27 @@ public class RecordServiceImpl implements RecordService{
                         }
                     }
                     String[] columnName = new String[columnNumber];// 标题
-                    columnName[0] = "id";columnName[1] = "学生id";columnName[2] = "学生姓名";
-                    columnName[3] = "答题类型";columnName[4] = "作答结果";columnName[5] = "作答时间";
-                    for (int i = 6; i < columnName.length; i++) {
-                        columnName[i] = "题目"+(i-5);
-                    }
+                    columnName[0] = "id";columnName[1] = "StudentId";columnName[2] = "StudentName";
+                    columnName[3] = "QuestionType";columnName[4] = "Answer";columnName[5] = "AnswerTime";
+                 
                     List<List<Object>> lists = new ArrayList<List<Object>>();
-                    
-                    for (Record2 record4 : list) {
+                    int i =0;
+                    for (Record2 record2 : records) {
                     	 List<Object> listMaps = new ArrayList<Object>();
                          while (columnNumber > listMaps.size()) {
                              listMaps.add(null);
                          }
-                         listMaps.set(0,"1"); //答题器编号
-                         listMaps.set(1,  record4.getStudentId()); 
-                         listMaps.set(2,record4.getStudentName());//姓名
-                         listMaps.set(3,record4.getQuestionShow());//姓名
-                         listMaps.set(4,record4.getAnswer());//姓名
-                         listMaps.set(5,record4.getAnswerClick());//姓名
+                         i++;
+                         listMaps.set(0,""+i); //答题器编号
+                         listMaps.set(1,  record2.getStudentId()); 
+                         listMaps.set(2,record2.getStudentName());//姓名
+                         listMaps.set(3,record2.getQuestionShow());//姓名
+                         listMaps.set(4,record2.getAnswer());//姓名
+                         listMaps.set(5,record2.getAnswerClick());//姓名
                          lists.add(listMaps);
 					}
                     String flieUrl = System.getProperty("user.dir").replaceAll("\\\\", "/") + "/"+"excels/";
-                    SXSSFWorkbook wb = ExportExcel2.ExportWithResponse("成绩明细表",dates,className, studentSum, columnNumber, columnWidth, columnName , lists);   
+                    SXSSFWorkbook wb = ExportExcel2.ExportWithResponse("answer sheet",dates,className, columnNumber, columnWidth, columnName , lists);   
                     File file = new File(flieUrl);
                     if (!file.exists()) {
                         file.mkdirs();
@@ -421,13 +371,13 @@ public class RecordServiceImpl implements RecordService{
                     out = new FileOutputStream(new File(flieUrl,fileName));
                     wb.write(out);// 将数据写出去  
                     out.flush();// 将数据写出去
-                    BrowserManager.showMessage(true,"导出成功");
+                    BrowserManager.showMessage(true,"Export success");
                     openFile();
                 }catch (Exception e) {
                     log.error("", e);
-                    r.setMessage("导出失败");
+                    r.setMessage("Export fail");
                     r.setDetail(IOUtils.getError(e));
-                    BrowserManager.showMessage(false,"导出失败");
+                    BrowserManager.showMessage(false,"Export fail");
                 }finally {
                     BrowserManager.removeLoading();
                     if (out != null) {
