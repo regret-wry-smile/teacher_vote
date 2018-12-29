@@ -182,7 +182,7 @@ public class ClassHourServiceImpl implements ClassHourService{
 				for (int i=0;i<studentInfos.size();i++){
 					StudentInfo stu = studentInfos.get(i);
 					if ("************".equals(stu.getIclickerId())){
-						stu.setIclickerId("************");
+						stu.setIclickerId("*********"+i);
 					}
 				}
 				Global.setStudentInfos(studentInfos);
