@@ -5,7 +5,6 @@ import com.ejet.core.util.StringUtils;
 import com.ejet.core.util.constant.Global;
 import com.ejet.core.util.io.IOUtils;
 import com.zkxltech.domain.*;
-import com.zkxltech.sql.ClassHourSql;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.slf4j.Logger;
@@ -71,7 +70,7 @@ public class RedisMapScore {
 	public static Score getScoreInfo(){
 		keyScoreInfoMap[0] = scoreInfoId;
 		Score score =  (Score) RedisMapUtil.getRedisMap(scoreInfoMap, keyScoreInfoMap, 0);
-		score.setId(scoreInfoId);
+		score.setTestId(scoreInfoId);
 		return score;
 	}
 	/**
@@ -84,6 +83,9 @@ public class RedisMapScore {
 			List<String> programs = score.getPrograms();//主题对象
 			for (String uuid : scoreDetailInfoMap.keySet()) {
 				Map<String, Object> map1 = (Map<String, Object>) scoreDetailInfoMap.get(uuid);
+				if (map1 == null){
+					records = null;
+				}
 				for (int i = 0; i < programs.size(); i++) {
 					String questionId = String.valueOf(i + 1);
 					if (map1.containsKey(questionId)) {
@@ -92,20 +94,18 @@ public class RedisMapScore {
 						for (String iclickerId : map2.keySet()) {
 							Answer answer = (Answer) JSONObject.toBean((JSONObject) map2.get(iclickerId), Answer.class);
 							Record2 record2 = new Record2();
-							for (int k = 0; k < Global.getStudentInfos().size(); k++) {
-								if (Global.getStudentInfos().get(k).getIclickerId().equals(iclickerId)) {
-									record2.setStudentId(Global.getStudentInfos().get(k).getStudentId());
-									record2.setStudentName(Global.getStudentInfos().get(k).getStudentName());
-								}
-							}
+							StudentInfo studentInfo = verifyCardId(iclickerId);
 							record2.setClassId(Global.getClassId());
 							record2.setSubject(Global.getClassHour().getSubjectName());
 							record2.setClassHourId(Global.getClassHour().getClassHourId());
 							record2.setTestId(scoreInfoId);
 							record2.setQuestion(score.getTitle());
 							record2.setQuestionName(programs.get(i));
-							record2.setQuestionType(answer.getType());
+							record2.setQuestionShow("Survey");
+							record2.setQuestionType("6");
 							record2.setIclickerId(iclickerId);
+							record2.setStudentId(studentInfo.getStudentId());
+							record2.setStudentName(studentInfo.getStudentName());
 							record2.setAnswer(answer.getAnswer());
 							record2.setAnswerClick(answer.getAnswerClick());
 							records.add(record2);
@@ -113,11 +113,11 @@ public class RedisMapScore {
 					}
 				}
 			}
-			logger.info("要保存投票数据记录："+JSONArray.fromObject(records));
+			logger.info("要保存评选数据记录："+JSONArray.fromObject(records));
 			return records;
 		}catch (Exception e) {
 			logger.error(IOUtils.getError(e));
-			BrowserManager.showMessage(false, "获取民意投票数据失败！");
+			BrowserManager.showMessage(false, "获取民意评选数据失败！");
 			return null;
 		}
 	}
@@ -167,7 +167,7 @@ public class RedisMapScore {
         	JSONObject jsonObject = jsonArray.getJSONObject(i); //，每个学生的作答信息
         	if (!jsonObject.containsKey("result")) {
         		String carId = jsonObject.getString("card_id"); //答题器编号
-            	if (verifyCardId(carId)) {
+            	if (!StringUtils.isEmpty(verifyCardId(carId))) {
             		JSONArray answers =  JSONArray.fromObject(jsonObject.get("answers"));
             		for (int j = 0; j < answers.size(); j++) {
             			JSONObject answeJSONObject = answers.getJSONObject(j);
@@ -357,13 +357,13 @@ public class RedisMapScore {
 	/**
 	 * 判断该答题器编号是否属于当前班级
 	 */
-	public static boolean verifyCardId(String cardId){
+	public static StudentInfo verifyCardId(String cardId){
 		for (int i = 0; i < Global.studentInfos.size(); i++) {
     		if (cardId.equals(Global.studentInfos.get(i).getIclickerId())) { //是否属于当前班级
-				return true;
+				return Global.studentInfos.get(i);
 			}
 		}
-		return false;
+		return null;
 		
 	}
 

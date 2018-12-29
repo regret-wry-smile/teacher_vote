@@ -11,7 +11,11 @@ public class Score {
 	/**
 	 * 评分主题编号
 	 */
-	private String id;
+	private Integer id;
+	/**
+	 * 评分主题编号
+	 */
+	private String testId;
 	/**
 	 * 评分主题
 	 */
@@ -21,19 +25,29 @@ public class Score {
 	 */
 	private String  describe;
 	/**
-	 * 评分节目个数
+	 * 评分对象
 	 * @return
 	 */
 	private List<String> programs;
-	
-	public String getTitle() {
-		return title;
-	}
-	public String getId() {
+	/**
+	 * 评分对象
+	 * @return
+	 */
+	private StringBuffer program;
+	/**
+	 * 评分对象个数
+	 * @return
+	 */
+	private int programNum;
+
+	public Integer getId() {
 		return id;
 	}
-	public void setId(String id) {
+	public void setId(Integer id) {
 		this.id = id;
+	}
+	public String getTitle() {
+		return title;
 	}
 	public void setTitle(String title) {
 		this.title = title;
@@ -50,6 +64,22 @@ public class Score {
 	public void setPrograms(List<String> programs) {
 		this.programs = programs;
 	}
-
-	
+	public String getTestId() {
+		return testId;
+	}
+	public void setTestId(String testId) {
+		this.testId = testId;
+	}
+	public StringBuffer getProgram() {
+		return program;
+	}
+	public void setProgram(StringBuffer program) {
+		this.program = program;
+	}
+	public int getProgramNum() {
+		return programNum;
+	}
+	public void setProgramNum(int programNum) {
+		this.programNum = programNum;
+	}
 }

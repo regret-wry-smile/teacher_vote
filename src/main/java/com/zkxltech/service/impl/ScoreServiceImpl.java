@@ -9,8 +9,8 @@ import com.zkxltech.device.DeviceComm;
 import com.zkxltech.domain.Record2;
 import com.zkxltech.domain.Result;
 import com.zkxltech.domain.Score;
-import com.zkxltech.jdbc.DBHelper;
 import com.zkxltech.service.ScoreService;
+import com.zkxltech.sql.PeopleScoreSql;
 import com.zkxltech.sql.RecordSql2;
 import com.zkxltech.thread.BaseThread;
 import com.zkxltech.thread.ScoreThread;
@@ -26,12 +26,16 @@ import java.util.List;
 public class ScoreServiceImpl implements ScoreService {
 	private static final Logger logger = LoggerFactory.getLogger(ScoreServiceImpl.class);
 	private Result result = new Result();
+	private int i;
 	private Record2 record2 = new Record2();
 	private RecordSql2 recordSql2 = new RecordSql2();
+	private PeopleScoreSql peopleScoreSql = new PeopleScoreSql();
 
 	@Override
 	public Result startScore(Object object) {
+		Constant.QUESTION_ID++;
 		result = new Result();
+		record2 = new Record2();
 		RedisMapScore.clearMap();// 清除评分缓存
 		try {
 			Score score = (Score) StringUtils.parseJSON(object, Score.class);
@@ -46,6 +50,8 @@ public class ScoreServiceImpl implements ScoreService {
 			//获取评选开始时间
 			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//开始时间
 			record2.setAnswerStart(df.format(new Date()));
+			record2.setId(1);
+			record2.setQuestionId("第"+Constant.QUESTION_ID+"题");
 			result.setMessage("开始评分！");
 			result.setRet(Constant.SUCCESS);
 			return result;
@@ -102,8 +108,11 @@ public class ScoreServiceImpl implements ScoreService {
 		if (result.getRet().equals(Constant.ERROR)) {
 			return result;
 		}
-		insertScore();
-		insertRecord2();
+		if (record2.getId()==1){
+			insertRecord2();
+			insertScore();
+			record2.setId(2);
+		}
 		result.setRet(Constant.SUCCESS);
 		result.setMessage("停止成功");
 		return result;
@@ -165,7 +174,6 @@ public class ScoreServiceImpl implements ScoreService {
 	public void insertScore(){
 		result = new Result();
 		Score scores =  RedisMapScore.getScoreInfo();
-		StringBuffer sql = new StringBuffer();
 		StringBuffer programs = new StringBuffer();
 		int j=1;
 		programs.append(scores.getPrograms().get(0));
@@ -173,15 +181,21 @@ public class ScoreServiceImpl implements ScoreService {
 			programs.append("-"+scores.getPrograms().get(i));
 			j++;
 		}
-		sql.append("insert into people_score (id,title,describe,program,program_num) values('"+scores.getId()+"','"+scores.getTitle()+"','"+scores.getDescribe()+"','"+
-				programs+"','"+j+"')");
-		result = DBHelper.onUpdate(sql.toString());
-		if (Constant.ERROR.equals(result.getRet())) {
-			BrowserManager.showMessage(false, "Failed to save the selected topic information!");
-			return ;
-		}else {
-			BrowserManager.showMessage(true, "Save the selected topic information successfully！");
-			return ;
+		scores.setPrograms(null);
+		scores.setProgram(programs);
+		scores.setProgramNum(j);
+		try {
+			result = peopleScoreSql.insertScore(scores);
+			if (Constant.ERROR.equals(result.getRet())) {
+				BrowserManager.showMessage(false, "Failed to save the selection data!");
+				return ;
+			}else {
+				BrowserManager.showMessage(true, "Save the selection data information successfully!");
+				return ;
+			}
+		} catch (Exception e) {
+			result.setRet(Constant.ERROR);
+			result.setMessage("导入失败");
 		}
 	}
 	public void insertRecord2(){
@@ -193,6 +207,7 @@ public class ScoreServiceImpl implements ScoreService {
 			for (int i = 0; i < records.size(); i++) {
 				records.get(i).setAnswerStart(record2.getAnswerStart());
 				records.get(i).setAnswerEnd(record2.getAnswerEnd());
+				records.get(i).setQuestionId(record2.getQuestionId());
 			}
 			result = recordSql2.insertRecords(records);
 			if (Constant.ERROR.equals(result.getRet())) {
