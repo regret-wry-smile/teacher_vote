@@ -274,15 +274,16 @@ app.controller('answerRecordCtrl', function($scope, toastr, $modal) {
 			}
 			//导出
 		$scope.exportRecord = function() {
-				if($scope.setClass.classes && $scope.setClass.paper && $scope.setClass.sujectHour && $scope.setClass.classes) {
+				if($scope.setClass.classes && $scope.setClass.subject) {
 					_showModal();
 					var param = {
 						classId: $scope.setClass.classes,
 						subject: $scope.setClass.subject,
-						classHourId: $scope.setClass.sujectHour,
-						testId: $scope.setClass.paper
+						questionType: $scope.setClass.sujectHour,
+						answerStart: $scope.setClass.answerStart,
+						answerEnd: $scope.setClass.answerEnd
 					}
-					//console.log("导出参数" + JSON.stringify(param))
+					console.log("导出参数" + JSON.stringify(param))
 					$scope.result = JSON.parse(execute_record('test_export', JSON.stringify(param)));
 					if($scope.result.ret == 'success') {
 						//toastr.success($scope.result.message);
