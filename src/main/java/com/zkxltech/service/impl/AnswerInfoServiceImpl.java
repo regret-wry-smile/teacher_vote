@@ -1,13 +1,5 @@
 package com.zkxltech.service.impl;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.ejet.cache.BrowserManager;
 import com.ejet.cache.RedisMapClassTestAnswer;
 import com.ejet.cache.RedisMapMultipleAnswer;
@@ -16,13 +8,7 @@ import com.ejet.core.util.comm.ListUtils;
 import com.ejet.core.util.constant.Constant;
 import com.ejet.core.util.constant.Global;
 import com.ejet.core.util.io.IOUtils;
-import com.zkxltech.domain.Answer;
-import com.zkxltech.domain.QuestionInfo;
-import com.zkxltech.domain.Record;
-import com.zkxltech.domain.Record2;
-import com.zkxltech.domain.RequestVo;
-import com.zkxltech.domain.Result;
-import com.zkxltech.domain.StudentInfo;
+import com.zkxltech.domain.*;
 import com.zkxltech.service.AnswerInfoService;
 import com.zkxltech.sql.RecordSql;
 import com.zkxltech.sql.RecordSql2;
@@ -30,26 +16,35 @@ import com.zkxltech.thread.BaseThread;
 import com.zkxltech.thread.EquipmentStatusThread;
 import com.zkxltech.thread.SingleAnswerThread;
 import com.zkxltech.thread.ThreadManager;
-
 import com.zkxltech.ui.util.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class AnswerInfoServiceImpl implements AnswerInfoService{
     private static final Logger log = LoggerFactory.getLogger(AnswerInfoServiceImpl.class);
 	private Result result;
+	private Record2 record2 = new Record2();
 	private RecordSql recordSql = new RecordSql();
 	private RecordSql2 recordSql2 = new RecordSql2();
 	private static BaseThread equipmentStatusThread;
     
 	@Override
 	public Result startMultipleAnswer(Object object) {
+		Constant.QUESTION_ID++;
 		result = new Result();
+		record2 = new Record2();
 		RedisMapMultipleAnswer.clearMap();
 		try {
 			RequestVo requestVo = StringUtils.parseJSON(object, RequestVo.class);
 			List<RequestVo> list = new ArrayList<RequestVo>();
 			list.add(requestVo);
 			RedisMapMultipleAnswer.startAnswer(requestVo.getRange());
-			
+			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//结束时间
+			record2.setAnswerStart(df.format(new Date()));
+			record2.setQuestionId("第"+Constant.QUESTION_ID+"题");
 			result = EquipmentServiceImpl.getInstance().answerStart2(Constant.ANSWER_MULTIPLE_TYPE,list);
 			if (Constant.ERROR.equals(result.getRet())) {
 				result.setRet(Constant.ERROR);
@@ -337,7 +332,7 @@ public class AnswerInfoServiceImpl implements AnswerInfoService{
 	public Result getEverybodyAnswerInfo() {
 		result = new Result();
 		try {
-			result.setItem(RedisMapClassTestAnswer.getEverybodyAnswerInfo());;
+			result.setItem(RedisMapClassTestAnswer.getEverybodyAnswerInfo());
 			result.setRet(Constant.SUCCESS);
 			result.setMessage("The answer data was obtained successfully");//获取作答数据成功！
 			return result;
@@ -359,10 +354,22 @@ public class AnswerInfoServiceImpl implements AnswerInfoService{
         if (r.getRet().equals(Constant.ERROR)) {
             return r;
         }
-       
-        r.setRet(Constant.SUCCESS);
-        r.setMessage("Stop success");
-        return r;
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//结束时间
+		List<Record2> record2List =  RedisMapMultipleAnswer.getInsertRecord2();//获取缓存信息
+		for (int i=0 ;i<record2List.size();i++){
+			record2List.get(i).setAnswerEnd(df.format(new Date()));
+			record2List.get(i).setAnswerStart(record2.getAnswerStart());
+			record2List.get(i).setQuestionId(record2.getQuestionId());
+		}
+		try {
+			recordSql2.insertRecords(record2List);
+			r.setRet(Constant.SUCCESS);
+			r.setMessage("Stop success");
+		} catch (Exception e) {
+			r.setRet(Constant.ERROR);
+			r.setMessage("信息导入失败");
+		}
+		return r;
     }
 
 	@Override

@@ -1,23 +1,19 @@
 package com.ejet.cache;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.ejet.core.util.RedisMapUtil;
 import com.ejet.core.util.StringUtils;
 import com.ejet.core.util.constant.Global;
 import com.ejet.core.util.io.IOUtils;
 import com.zkxltech.domain.Answer;
+import com.zkxltech.domain.Record2;
 import com.zkxltech.domain.StudentInfo;
-
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * 多选
@@ -84,6 +80,49 @@ public class RedisMapMultipleAnswer {
 		return JSONArray.fromObject(range).toString();
 	}
 
+    /**
+     * 获取存入record2表需要的数据
+     * @param score
+     */
+    public static List<Record2> getInsertRecord2(){
+        try {
+			List<Record2> record2List = new ArrayList<>();
+            String[] keString = new String[2];
+            keString[0] = answerId;
+            keString[1] = "1";
+            //  作答编号: 题号 : 答题器编号		:作答信息
+            //{"dd27a16b6d2c4fbc8866bb9bbefb56a5":{"1":{"3429469477":{"type":"m","id":"1","answer":"AB","answerClick":"2018-1-1"}}}}
+            Map<String, Object> map = (Map<String, Object>) RedisMapUtil.getRedisMap(everyBodyMap, keString, 0);
+            if(map == null){
+                return null;
+            }
+            String range1 = range[0]+"-"+range[range.length-1];
+            for (String iclicker : map.keySet()) {
+				Record2 record2 = new Record2();
+				Answer answer = (Answer) map.get(iclicker);
+				StudentInfo studentInfo = verifyCardId(iclicker);
+				record2.setClassId(Global.getClassId());
+				record2.setSubject(Global.getClassHour().getSubjectName());
+				record2.setQuestionShow("MutipleChoice-letter");
+				record2.setQuestionType("4");
+				record2.setIclickerId(iclicker);
+				record2.setStudentId(studentInfo.getStudentId());
+				record2.setStudentName(studentInfo.getStudentName());
+				record2.setAnswer(answer.getAnswer());
+				record2.setRange(range1);
+				record2.setAnswerClick(answer.getAnswerClick());
+				record2List.add(record2);
+			}
+			logger.info("要保存多选休息记录："+JSONArray.fromObject(record2List));
+			return record2List;
+        } catch (Exception e) {
+            logger.error(IOUtils.getError(e));
+            BrowserManager.showMessage(false, "获取多选信息失败！");
+            return null;
+        }
+    }
+
+
 	
 	/**
 	 * 添加多选作答详情
@@ -100,11 +139,13 @@ public class RedisMapMultipleAnswer {
 	        	JSONObject jsonObject = jsonArray.getJSONObject(i); //，每个学生的作答信息
 	        	if (!jsonObject.containsKey("result")) {
 	        	   	String carId = jsonObject.getString("card_id"); //答题器编号
-		        	StudentInfo studentInfo = verifyCardId(carId);
+					StudentInfo studentInfo = verifyCardId(carId);
 		        	if (studentInfo != null) {
 		        		JSONArray answers =  JSONArray.fromObject(jsonObject.get("answers"));
 		        		for (int j = 0; j < answers.size(); j++) {
 		        			Answer answer = (Answer) JSONObject.toBean(answers.getJSONObject(j), Answer.class);
+							SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//结束时间
+							answer.setAnswerClick(df.format(new Date()));
 //		        			JSONObject answeJSONObject = answers.getJSONObject(j);
 		        			String num = answer.getId();//节目编号(题目编号)
 		        			if (StringUtils.isEmpty(answer.getAnswer())) {
