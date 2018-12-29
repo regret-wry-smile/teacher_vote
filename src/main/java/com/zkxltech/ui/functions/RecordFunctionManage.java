@@ -110,6 +110,7 @@ public class RecordFunctionManage extends BrowserFunction{
 			case "select_record2":
 				/*查询单项单选结果*/
 				result = recordService.selectRecord2(params[1]);
+				//  result = recordService.testExport2(params[1]);
 				break;
 			default:
 				result.setRet(Constant.ERROR);

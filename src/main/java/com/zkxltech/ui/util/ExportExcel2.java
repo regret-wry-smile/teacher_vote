@@ -23,7 +23,7 @@ import com.sun.org.apache.bcel.internal.generic.NEW;
 @SuppressWarnings("deprecation")
 public class ExportExcel2 {
 
-    public static SXSSFWorkbook ExportWithResponse(String sheetName,String dates,String className,String studentSum,
+    public static SXSSFWorkbook ExportWithResponse(String sheetName,String dates,String className,
     		int columnNumber, int[] columnWidth,String[] columnName, List<List<Object>> dataList) throws Exception { 
         
     	SXSSFWorkbook wb = new SXSSFWorkbook(); 
@@ -78,7 +78,7 @@ public class ExportExcel2 {
             sheet.addMergedRegion(new CellRangeAddress(3, 3, 0,3)); // 合并列
             sheet.addMergedRegion(new CellRangeAddress(3, 3, 4,7)); // 合并列  
             cell4.setCellValue(className); // 设置班级名称
-            cell5.setCellValue(studentSum);	//设置学生人数
+
             
             // 创建第1行 也就是表头  
             Row row = sheet.createRow((int) 4);  
