@@ -228,7 +228,7 @@ app.controller('answerRecordCtrl', function($scope,$modal,toastr) {
 						$scope.checkedstudentIds.push($scope.onechecked[i].studentId);
 					}*/
 					var param = {
-						id:$scope.checkedId
+						ids:$scope.checkedId
 						/*testId: $scope.setClass.paper,
 						studentIds: $scope.checkedstudentIds*/
 					}
