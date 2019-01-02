@@ -40,14 +40,14 @@ public class ClassInfoServiceImpl implements ClassInfoService{
 			}
 			result = classInfoSql.insertClassInfo(classInfo);
 			if (Constant.SUCCESS.equals(result.getRet())) {
-				result.setMessage("新增班级成功!");
+				result.setMessage("New class successfully added!");//新增班级成功
 			}else {
-				result.setMessage("新增班级失败！");
+				result.setMessage("Failed to add new classes！");//新增班级失败
 			}
 			return result;
 		} catch (Exception e) {
 			result.setRet(Constant.ERROR);
-			result.setMessage("新增班级失败！");
+			result.setMessage("Failed to add new classes！");//新增班级失败
 			result.setDetail(IOUtils.getError(e));
 			log.error(IOUtils.getError(e));
 			return result;
@@ -61,14 +61,14 @@ public class ClassInfoServiceImpl implements ClassInfoService{
 			ClassInfo classInfo =  (ClassInfo) StringUtils.parseJSON(object, ClassInfo.class);
 			result = classInfoSql.selectClassInfo(classInfo);
 			if (Constant.SUCCESS.equals(result.getRet())) {
-				result.setMessage("查询班级成功!");
+				result.setMessage("Query class success!");//查询班级成功
 			}else {
-				result.setMessage("查询班级失败！");
+				result.setMessage("Class query failed！");//查询班级失败
 			}
 			return result;
 		} catch (Exception e) {
 			result.setRet(Constant.ERROR);
-			result.setMessage("查询班级失败！");
+			result.setMessage("Class query failed！");//查询班级失败
 			result.setDetail(IOUtils.getError(e));
 			log.error(IOUtils.getError(e));
 			return result;
@@ -82,23 +82,23 @@ public class ClassInfoServiceImpl implements ClassInfoService{
 			ClassInfo classInfo =  (ClassInfo) StringUtils.parseJSON(object, ClassInfo.class);
 			result = classInfoSql.deleteClassInfo(classInfo); //删除班级
 			if (Constant.SUCCESS.equals(result.getRet())) {
-				result.setMessage("删除班级成功!");
+				result.setMessage("Class deleted successfully!");//删除班级成功
 			}else {
-				result.setMessage("删除班级失败！");
+				result.setMessage("Class deletion failed！");//删除班级失败
 				return result;
 			}
 			StudentInfo studentInfo = new StudentInfo();
 			studentInfo.setClassId(classInfo.getClassId());  //删除学生
 			studentInfoSql.deleteStudent(studentInfo);
 			if (Constant.SUCCESS.equals(result.getRet())) {
-				result.setMessage("删除班级成功!");
+				result.setMessage("Class deleted successfully!");//删除班级成功
 			}else {
-				result.setMessage("删除班级失败！");
+				result.setMessage("Class deletion failed！");//删除班级失败
 			}
 			return result;
 		} catch (Exception e) {
 			result.setRet(Constant.ERROR);
-			result.setMessage("删除班级失败！");
+			result.setMessage("Class deletion failed！");//删除班级失败
 			result.setDetail(IOUtils.getError(e));
 			log.error(IOUtils.getError(e));
 			return result;
@@ -135,7 +135,7 @@ public class ClassInfoServiceImpl implements ClassInfoService{
         try {
         	r = EquipmentServiceImpl.getInstance().clear_wl();
             if (Constant.ERROR.equals(r.getRet())) {
-                r.setMessage("清除失败");
+                r.setMessage("Removal of failure");//清除失败
                 return r;
             }
             StudentInfoSql studentInfoSql = new StudentInfoSql();
@@ -149,14 +149,14 @@ public class ClassInfoServiceImpl implements ClassInfoService{
 //                    BrowserManager.refreshStudent(jsono.getString("classId"));
 //                }
                 r.setRet(Constant.SUCCESS);
-                r.setMessage("清除成功");
+                r.setMessage("Clear success");//清除成功
                 return r;
             }
         } catch (Exception e) {
             r.setDetail(IOUtils.getError(e));
             log.error(IOUtils.getError(e));
         }
-        r.setMessage("清除失败");
+        r.setMessage("Removal of failure");//清除失败
         return r;
     }
 
@@ -175,7 +175,7 @@ public class ClassInfoServiceImpl implements ClassInfoService{
 			Result result = sis.selectStudentInfo(param);
 			List<StudentInfo> studentInfos = (List) result.getItem();//查询所有的学生信息
 			if (result == null || ListUtils.isEmpty(studentInfos)) {
-				r.setMessage("您还未上传学生信息");
+				r.setMessage("You have not uploaded the student information");//您还未上传学生信息
 				return r;
 			}
 			/** 将查出来的学生信息按学生编号进行分类,并存入静态map中 */
@@ -215,7 +215,7 @@ public class ClassInfoServiceImpl implements ClassInfoService{
 
 			Global.setModeMsg(Constant.BUSINESS_BIND);
 			r.setRet(Constant.SUCCESS);
-			r.setMessage("操作成功");
+			r.setMessage("operate successfully\n");//操作成功
 
 			/** 存入静态map */
 			RedisMapBind.getBindMap().put("studentName", null);
