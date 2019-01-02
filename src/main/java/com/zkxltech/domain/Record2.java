@@ -75,7 +75,15 @@ public class Record2 {
 	 * 多选范围
 	 */
 	private String range;
+	/**
+	 * 
+	 */
 	private List<String> studentIds;
+	/**
+	 * 主键集合
+	 */
+	private List<Integer> Ids;
+	
 	public Integer getId() {
 		return id;
 	}
@@ -190,14 +198,11 @@ public class Record2 {
 	public void setRange(String range) {
 		this.range = range;
 	}
-	@Override
-	public String toString() {
-		return "Record2 [id=" + id + ", classId=" + classId + ", subject=" + subject + ", classHourId=" + classHourId
-				+ ", testId=" + testId + ", questionId=" + questionId + ", question=" + question + ", questionName="
-				+ questionName + ", questionShow=" + questionShow + ", questionType=" + questionType + ", iclickerId="
-				+ iclickerId + ", studentId=" + studentId + ", studentName=" + studentName + ", answer=" + answer
-				+ ", answerStart=" + answerStart + ", answerClick=" + answerClick + ", answerEnd=" + answerEnd
-				+ ", range=" + range + ", studentIds=" + studentIds + "]";
+	public List<Integer> getIds() {
+		return Ids;
+	}
+	public void setIds(List<Integer> ids) {
+		Ids = ids;
 	}
 	
 	

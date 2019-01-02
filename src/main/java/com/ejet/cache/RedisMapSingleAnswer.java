@@ -41,19 +41,20 @@ public class RedisMapSingleAnswer {
 	 * 每条作答记录缓存
 	 * -答题器编号
 	 * 			-题号
-	 */
-	private static Map<String, Object> studentAnswer = Collections.synchronizedMap(new HashMap<String, Object>());
-	private static String[] keyEveryAnswerMap = {"iclickerId","questionId"};
+	 */		//{0691699866=Record2。。。0692333258=Record2 [id
+	private static Map<String, Object> everyAnswerMap = Collections.synchronizedMap(new HashMap<String, Object>());
+	//private static String[] keyEveryAnswerMap = {"iclickerId","questionId"};
+	private static String[] keyEveryAnswerMap = {"iclickerId"};	//[0691792618]
 	
 	private static final Logger logger = LoggerFactory.getLogger(RedisMapSingleAnswer.class);
-	/**字母对应的人数*/
+	/**字母对应的人数*/	//{A=1, B=1, C=1, D=1, E=0, F=0}
     private static Map<String,Integer> singleAnswerNumMap = Collections.synchronizedMap(new HashMap<>());
     /**字母对应的学生名称*/
     private static Map<String,List<StudentInfo>> singleAnswerStudentNameMap = Collections.synchronizedMap(new HashMap<>());
     /**本班卡号对应学生信息*/
     private static Map<String,StudentInfo> studentInfoMap = new HashMap<>();
     /**记录提交的卡id*/
-    //private static Set<String> iclickerIdsSet = new HashSet<>();
+    //private static Set<String> iclickerIdsSet = new HashSet<>();	//{A=1, B=1, C=1, D=1, E=0, F=0}
     private static Map<String,String> iclickerAnswerMap = new HashMap<>();
     
     private static Answer answer;
@@ -67,6 +68,7 @@ public class RedisMapSingleAnswer {
     	Record2 record2 = new Record2();
     	logger.info("【单选接收到的数据】"+jsonData);
         JSONArray jsonArray= JSONArray.fromObject(jsonData);
+        
         for (Object object : jsonArray) {
             JSONObject jsonObject = JSONObject.fromObject(object);
             if (!jsonObject.containsKey("result")) {
@@ -114,14 +116,16 @@ public class RedisMapSingleAnswer {
                       if (StringUtils.isEmpty(result)) {
                           continue;
                       }
+                      
+                      //记录提交的卡id
                       if (iclickerAnswerMap.containsKey(card_id)) { //已经提交过,将以前提交的答题总数减一,并将以前该答题对象的学生名称去掉,将新值重新添加
                           String lastAnswer = iclickerAnswerMap.get(card_id);
                           Integer countNum = singleAnswerNumMap.get(lastAnswer);
-                          singleAnswerNumMap.put(lastAnswer, --countNum);
+                          singleAnswerNumMap.put(lastAnswer, --countNum);//往singleAnswerNumMap存答案对应的个数
                           List<StudentInfo> list = singleAnswerStudentNameMap.get(lastAnswer);
                           list.remove(studentInfo.getStudentName());
                       }
-                      iclickerAnswerMap.put(card_id, result);
+                      iclickerAnswerMap.put(card_id, result);	//往iclickerAnswerMap集合中存
                       switch (answer.getType()) {
                           case Constant.ANSWER_CHAR_TYPE:
                               setCharCount(result);
@@ -133,6 +137,8 @@ public class RedisMapSingleAnswer {
                               setJudgeCount(result);
                               break;
                       }
+                      
+                     //往singleAnswerStudentNameMap集合中，字母对应的学生名称
                      List<StudentInfo> list = singleAnswerStudentNameMap.get(result);
                      if (list == null) {
                          list = new ArrayList<>();
@@ -142,27 +148,32 @@ public class RedisMapSingleAnswer {
                   }
                   keyEveryAnswerMap[0]=card_id;
             }
-            
+            RedisMapUtil.setRedisMap(everyAnswerMap, keyEveryAnswerMap, 0, record2);
         }
-        keyEveryAnswerMap[1]="1";
-        RedisMapUtil.setRedisMap(studentAnswer, keyEveryAnswerMap, 0, record2);
+      //  keyEveryAnswerMap[1]="1";
+      
         BrowserManager.refresAnswerNum();
     }
     public static List<Record2> getSingleRecordList(){
+    	
     	try {
 			List<Record2> records = new ArrayList<Record2>();
-			List<ClassTestVo> classTestVos = new ArrayList<ClassTestVo>();
+			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//结束时间
+			String date = df.format(new Date());
+			
+			//{0691792618=C, 0692264522=A, 0691699866=B, 0692333258=D}
 			for (String id : iclickerAnswerMap.keySet()) { //遍历学生
 				StudentInfo studentInfo= studentInfoMap.get(id);
 				keyEveryAnswerMap[0] = studentInfo.getIclickerId();
-					Record2 record2 = (Record2) RedisMapUtil.getRedisMap(studentAnswer, keyEveryAnswerMap, 0);
-					SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//结束时间
-					record2.setAnswerEnd(df.format(new Date()));
-					System.out.println("====="+JSONObject.fromObject(record2));
-					ClassHour str = Global.getClassHour();
-					record2.setSubject(str.getSubjectName());
-					record2.setClassHourId(str.getClassHourName());
-					records.add(record2);
+				Record2 record2 = (Record2) RedisMapUtil.getRedisMap(everyAnswerMap, keyEveryAnswerMap, 0);
+				
+				record2.setAnswerEnd(date);
+				System.out.println("====="+JSONObject.fromObject(record2));
+				ClassHour str = Global.getClassHour();
+				
+				record2.setSubject(str.getSubjectName());
+				record2.setClassHourId(str.getClassHourName());
+				records.add(record2);
 			}
 			logger.info("要保存的单选题作答记录："+JSONArray.fromObject(records));
 			return records;
@@ -215,7 +226,7 @@ public class RedisMapSingleAnswer {
     }
     
     
-    private static void setCharCount(String result) {
+    private static void setCharCount(String result) {//0692264522，0691792618，0692333258
         switch (result) {
             case CHAR_A:
                 singleAnswerNumMap.put(CHAR_A, singleAnswerNumMap.get(CHAR_A)+1);
