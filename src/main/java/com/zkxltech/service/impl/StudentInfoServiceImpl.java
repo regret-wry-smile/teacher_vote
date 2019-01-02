@@ -354,7 +354,7 @@ public class StudentInfoServiceImpl implements StudentInfoService{
 	        if (r.getRet().equals(Constant.ERROR)) {
 	            return r;
 	        }
-	        List<StudentInfo> studentInfos = Global.getStudentInfos();
+	        List<StudentInfo> studentInfos = Global.getAllStudentInfos();
 	        if (ListUtils.isEmpty(studentInfos)) {
 	            r.setMessage("No student information was obtained");
 	            return r;
