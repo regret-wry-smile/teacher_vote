@@ -202,7 +202,7 @@ public class ClassInfoServiceImpl implements ClassInfoService{
 			int str = DeviceComm.wirelessBindStart(1, "");
 			if (str < 0) {
 				r.setRet(Constant.ERROR);
-				r.setMessage("指令发送失败");
+				r.setMessage("Instruction sending failed");
 				return r;
 			}
 			RedisMapBind.setNoStudentInfos(noStudentInfos);
@@ -225,7 +225,7 @@ public class ClassInfoServiceImpl implements ClassInfoService{
 		} catch (Exception e) {
 			log.error(IOUtils.getError(e));
 			r.setRet(Constant.ERROR);
-			r.setMessage("指令发送失败");
+			r.setMessage("Send instruction failed");
 		}
 
 		return r;

@@ -62,7 +62,7 @@ public class SettingServiceImpl implements SettingService{
 			Object item = get_device_info.getItem();
 			if (StringUtils.isEmpty(item)) {
                 result.setRet(Constant.ERROR);
-                result.setMessage("设备故障,请重启");
+                result.setMessage("Equipment malfunction, Please restart");
                 log.error("获取设备信息指令发送失败");
                 return result;
             }
@@ -98,12 +98,12 @@ public class SettingServiceImpl implements SettingService{
 			Setting setting = StringUtils.parseJSON(object, Setting.class);
 			String name = setting.getName();
 			if (StringUtils.isEmpty(name)) {
-                result.setMessage("缺少参数,系统信道名称为空");
+                result.setMessage("Missing parameter, system channel name is empty");
                 return result;
             }
 			Integer tx_power = setting.getPower();
 			if (tx_power == null) {
-                result.setMessage("缺少参数, 发送功率为空");
+                result.setMessage("Missing parameters, sending power is empty");
                 return result;
             }
 			/*//发送信道
@@ -118,12 +118,12 @@ public class SettingServiceImpl implements SettingService{
 			Integer rf_ch = Integer.parseInt(name);
 			result = EquipmentServiceImpl.getInstance().set_channel(rf_ch);
 			if (result.getRet() == Constant.ERROR) {
-			    result.setMessage("设置信道失败");
+			    result.setMessage("Channel setting failed");
                 return result;
             }
 			result = EquipmentServiceImpl.getInstance().set_tx_power(tx_power);
 			if (result.getRet() == Constant.ERROR) {
-			    result.setMessage("设置功率失败");
+			    result.setMessage("Power setting failed");
 			    log.error("设置功率失败");
 			    return result;
             }
@@ -151,21 +151,21 @@ public class SettingServiceImpl implements SettingService{
 			Integer tx_power = Integer.parseInt(ConfigConstant.projectConf.getPower());
 			//TODO 创建线程向硬件发送请求
 			if (tx_ch == null || rx_ch == null) {
-                result.setMessage("读取配置文件\"系统信道\"默认设置失败");
+                result.setMessage("Read configuration file\"System channel\"Default Settings failed");
                 return result;
             }
 			if (tx_power == null) {
-			    result.setMessage("读取配置文件\"答题器发送功率\"默认设置失败");
+			    result.setMessage("Read configuration file\"The answering machine sends power\"Default Settings failed");
                 return result;
             }
 			result=EquipmentServiceImpl.getInstance().set_channel(6);
 			if (Constant.ERROR == result.getRet()) {
-                result.setMessage("系统信道设置失败,请重试或重启设备");
+                result.setMessage("system channel setup failed. Please retry or restart the device");
                 return result;
             }
 			result = EquipmentServiceImpl.getInstance().set_tx_power(tx_power);
 			if (Constant.ERROR == result.getRet()) {
-                result.setMessage("设置答题器发送功率失败,请重试或重启设备");
+                result.setMessage("Failed to set the power of the answering machine. Please retry or restart the device");
                 return result;
             }
 			result.setRet(Constant.SUCCESS);
