@@ -579,7 +579,7 @@ public class RecordServiceImpl implements RecordService{
         }
     }
 
-    @Override
+    /*@Override
     public Result deleteRecord(Object object) {
         Result r = new Result();
         r.setRet(Constant.ERROR);
@@ -590,6 +590,30 @@ public class RecordServiceImpl implements RecordService{
                 return r;
             }
             RecordSql sql = new RecordSql();
+            r = sql.deleteRecordByStudentId(record);
+            if (r.getRet().equals(Constant.ERROR)) {
+                return r;
+            }
+        } catch (Exception e) {
+            r.setMessage("删除失败");
+            r.setDetail(IOUtils.getError(e));
+            log.error(IOUtils.getError(e));
+        }
+        r.setRet(Constant.SUCCESS);
+        r.setMessage("删除成功");
+        return r;
+    }*/
+    @Override
+    public Result deleteRecord(Object object) {
+        Result r = new Result();
+        r.setRet(Constant.ERROR);
+        try {
+            Record2 record = com.zkxltech.ui.util.StringUtils.parseJSON(object, Record2.class);
+            /*if (StringUtils.isBlank(record.getTestId())||record.getStudentIds()== null || record.getStudentIds().size() < 1) {
+                r.setMessage("试卷id和学生id参数不能为空");
+                return r;
+            }*/
+            RecordSql2 sql = new RecordSql2();
             r = sql.deleteRecordByStudentId(record);
             if (r.getRet().equals(Constant.ERROR)) {
                 return r;

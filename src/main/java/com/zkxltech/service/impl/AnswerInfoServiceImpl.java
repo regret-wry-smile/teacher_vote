@@ -305,11 +305,10 @@ public class AnswerInfoServiceImpl implements AnswerInfoService{
     @Override
     public Result stopSingleAnswer() {
         Result r = new Result();
-        r.setRet(Constant.ERROR);
+        r.setRet(Constant.ERROR);      
         try{
-            ThreadManager.getInstance().stopAllThread();
+        	ThreadManager.getInstance().stopAllThread();
             Global.setModeMsg(Constant.BUSINESS_NORMAL);
-            ThreadManager.getInstance().stopAllThread();
             r = EquipmentServiceImpl.getInstance().answer_stop();
             if (r.getRet().equals(Constant.ERROR)) {
                 return r;
@@ -318,7 +317,6 @@ public class AnswerInfoServiceImpl implements AnswerInfoService{
             r.setMessage("Stop success");//停止成功
         	List<Record2> records = RedisMapSingleAnswer.getSingleRecordList();//如何从缓存中取数据。
         	
-			
 			result =recordSql2.insertRecords(records); //将缓存中数据保存到数据库
         }catch (Exception e) {
         	 log.error(IOUtils.getError(e));
@@ -326,6 +324,9 @@ public class AnswerInfoServiceImpl implements AnswerInfoService{
             r.setDetail(IOUtils.getError(e));
         }
         return r;
+        
+        
+    	
     }
     
     @Override

@@ -119,11 +119,11 @@ public class RecordSql2 {
 
     public Result deleteRecordByStudentId(Record2 record) throws IllegalArgumentException, IllegalAccessException {
         StringBuilder sqlBuilder = new StringBuilder();
-        List<String> studentIds = record.getStudentIds();
-        sqlBuilder.append("delete from record2 where test_id = \""+record.getTestId()+"\" and student_id in (");
-        for (int i = 0; i< studentIds.size();i++) {
-            sqlBuilder.append(studentIds.get(i));
-            if (i != studentIds.size()-1) {
+        List<Integer> Ids = record.getIds();
+        sqlBuilder.append("delete from record2 where id in (");
+        for (int i = 0; i< Ids.size();i++) {
+            sqlBuilder.append(Ids.get(i));
+            if (i != Ids.size()-1) {
                 sqlBuilder.append(",");
             }
         }
