@@ -327,11 +327,14 @@ public class RecordServiceImpl implements RecordService{
     	            result = recordSql2.selectRecord(record);
     	            List<Record2> records = (List<Record2>) result.getItem();
     	            result.setItem(records);       	    
-    	            System.out.println("come");
                     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                    String date = format.format(new Date());
+                    SimpleDateFormat format2 = new SimpleDateFormat("yyyyMMddHHmmss");
+                    
+                    String time = format.format(new Date());
+                    String date = format2.format(new Date());
+                    
                     fileName += record.getClassId()+"class"+record.getSubject()+date+".xls";
-                    dates = "Create Time:"+date;
+                    dates = "Create Time:"+time;
                   
                     int columnNumber = 6;
                     int[] columnWidth = new int[columnNumber];// 行宽
