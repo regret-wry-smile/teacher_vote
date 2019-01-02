@@ -349,6 +349,7 @@ public class AnswerInfoServiceImpl implements AnswerInfoService{
     public Result stopMultipleAnswer() {
         Result r = new Result();
         Global.setModeMsg(Constant.BUSINESS_NORMAL);
+		try {
         /*停止所有线程*/
 	    ThreadManager.getInstance().stopAllThread();
         r = EquipmentServiceImpl.getInstance().answer_stop();
@@ -357,18 +358,21 @@ public class AnswerInfoServiceImpl implements AnswerInfoService{
         }
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//结束时间
 		List<Record2> record2List =  RedisMapMultipleAnswer.getInsertRecord2();//获取缓存信息
+		if (StringUtils.isEmpty(record2List)){
+			return r;
+		}
 		for (int i=0 ;i<record2List.size();i++){
 			record2List.get(i).setAnswerEnd(df.format(new Date()));
 			record2List.get(i).setAnswerStart(record2.getAnswerStart());
 			record2List.get(i).setQuestionId(record2.getQuestionId());
 		}
-		try {
-			recordSql2.insertRecords(record2List);
-			r.setRet(Constant.SUCCESS);
-			r.setMessage("Stop success");
+		result =recordSql2.insertRecords(record2List);
+		r.setRet(Constant.SUCCESS);
+		r.setMessage("Stop success");//停止成功
 		} catch (Exception e) {
+			log.error(IOUtils.getError(e));
 			r.setRet(Constant.ERROR);
-			r.setMessage("信息导入失败");
+			r.setMessage("System Exceptions");
 		}
 		return r;
     }
