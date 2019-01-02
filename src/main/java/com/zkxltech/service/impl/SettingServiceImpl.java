@@ -79,12 +79,12 @@ public class SettingServiceImpl implements SettingService{
 //			setting.setPower(4);
 			result.setItem(setting);
 			result.setRet(Constant.SUCCESS);
-			result.setMessage("读取成功！");
-			log.info("读取成功");
+			result.setMessage("Load Successful！");//读取成功
+			log.info("Load Successful");
 			return result;
 		} catch (Exception e) {
 			result.setRet(Constant.ERROR);
-			result.setMessage("读取失败!");
+			result.setMessage("Read failure!");//读取失败
 			result.setDetail(IOUtils.getError(e));
 			log.error("读取异常", e);
 			return result;
@@ -128,10 +128,10 @@ public class SettingServiceImpl implements SettingService{
 			    return result;
             }
 			result.setRet(Constant.SUCCESS);
-			result.setMessage("设置成功！");
+			result.setMessage("successfully set！");//设置成功
 			return result;
 		} catch (Exception e) {
-			result.setMessage("设置失败!");
+			result.setMessage("Setup failed!");//设置失败
 			result.setDetail(IOUtils.getError(e));
 			log.error("设置信息和功率失败", e);
 			return result;
@@ -169,11 +169,11 @@ public class SettingServiceImpl implements SettingService{
                 return result;
             }
 			result.setRet(Constant.SUCCESS);
-			result.setMessage("设置成功！");
+			result.setMessage("successfully set！");//设置失败
 			return result;
 		} catch (Exception e) {
 			result.setRet(Constant.ERROR);
-			result.setMessage("设置默认值失败!");
+			result.setMessage("The default setting failed!");//设置默认值失败
 			result.setDetail(IOUtils.getError(e));
 			log.error("设置默认值失败!",e);
 			return result;

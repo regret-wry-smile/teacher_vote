@@ -114,7 +114,7 @@ public class ScoreServiceImpl implements ScoreService {
 			record2.setId(2);
 		}
 		result.setRet(Constant.SUCCESS);
-		result.setMessage("停止成功");
+		result.setMessage("Stop success");
 		return result;
 	}
 
@@ -204,6 +204,9 @@ public class ScoreServiceImpl implements ScoreService {
 			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//结束时间
 			record2.setAnswerEnd(df.format(new Date()));
 			List<Record2> records = RedisMapScore.getScoreRecordList();
+			if (StringUtils.isEmpty(records)){
+				return ;
+			}
 			for (int i = 0; i < records.size(); i++) {
 				records.get(i).setAnswerStart(record2.getAnswerStart());
 				records.get(i).setAnswerEnd(record2.getAnswerEnd());
@@ -219,7 +222,7 @@ public class ScoreServiceImpl implements ScoreService {
 			}
 		}catch (Exception e){
 			result.setRet(Constant.ERROR);
-			result.setMessage("指令发送失败");
+			result.setMessage("导入失败");
 		}
 	}
 
