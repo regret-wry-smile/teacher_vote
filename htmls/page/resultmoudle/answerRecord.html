@@ -91,6 +91,23 @@
 		<div id="myModal" class="modal fade" data-keyboard="false" data-backdrop="static" data-role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 			<div id="loading" class="loading">loading</div>
 		</div>
+		<!--确认弹框-->
+		<script type="text/ng-template" id="sureModal.html">
+			<form name="myForm" novalidate="novalidate">
+				<div class="modal-header">
+					<button type="button" class="close" ng-click="cancel()"><span aria-hidden="true">×</span><span class="sr-only">关闭</span></button>
+					<h4 class="modal-title">Sure</h4>
+				</div>
+				<div class="modal-body">
+					{{content}}
+				</div>
+				<div class="modal-footer text-center">
+					<button type="button" class="btn btn-primary" ng-click="ok()" ng-disabled="!myForm.$valid">Submit</button>
+					<button type="button" class="btn btn-default" ng-click="cancel()">Cancel</button>
+
+				</div>
+			</form>
+		</script>
 			<div class="header clearfix">
 				<div class="pull-left">
 					<img src="../../image/set.png" class="ml25" />

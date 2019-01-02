@@ -1,7 +1,7 @@
 //定义模块时引入依赖  
-var app = angular.module('app', ['ui.bootstrap', 'toastr']);
+var app = angular.module('app',['ui.bootstrap','toastr']);
 //作答记录
-app.controller('answerRecordCtrl', function($scope, toastr, $modal) {
+app.controller('answerRecordCtrl', function($scope,$modal,toastr) {
 
 		$scope.setClass = {
 			classes: '', //班级id
@@ -192,7 +192,7 @@ app.controller('answerRecordCtrl', function($scope, toastr, $modal) {
 				if(i.checked && index === -1) {
 					var item = i;
 					$scope.onechecked.push(item);
-					$scope.checkedId.push(i.id.toString());
+					$scope.checkedId.push(i.id);
 				} else if(!i.checked && index !== -1) {
 					$scope.selected = false;
 					$scope.onechecked.splice(index, 1);
@@ -209,6 +209,7 @@ app.controller('answerRecordCtrl', function($scope, toastr, $modal) {
 
 		//删除记录
 		$scope.deleteRcord = function() {
+
 			if($scope.onechecked.length > 0) {
 				var content = "delete selected records";
 				var modalInstance = $modal.open({
@@ -223,14 +224,15 @@ app.controller('answerRecordCtrl', function($scope, toastr, $modal) {
 				});
 
 				modalInstance.result.then(function(info) {
-					for(var i = 0; i < $scope.onechecked.length; i++) {
+					/*for(var i = 0; i < $scope.onechecked.length; i++) {
 						$scope.checkedstudentIds.push($scope.onechecked[i].studentId);
-					}
+					}*/
 					var param = {
-						testId: $scope.setClass.paper,
-						studentIds: $scope.checkedstudentIds
+						id:$scope.checkedId
+						/*testId: $scope.setClass.paper,
+						studentIds: $scope.checkedstudentIds*/
 					}
-					//console.log(JSON.stringify(param))
+					console.log(JSON.stringify(param))
 					$scope.result = JSON.parse(execute_record("delete_record", JSON.stringify(param)));
 					if($scope.result.ret == 'success') {
 						toastr.success($scope.result.message);
@@ -315,7 +317,7 @@ app.controller('answerRecordCtrl', function($scope, toastr, $modal) {
 		$scope.refreSelectRecord = function() {
 			var retDate = JSON.parse(result);
 			if(result.ret == 'error') {
-				toastr.error("查询失败！");
+				toastr.error("failed query！");
 			} else {
 				$scope.recordList = [];
 				$scope.recordList = retDate.item;
@@ -324,7 +326,7 @@ app.controller('answerRecordCtrl', function($scope, toastr, $modal) {
 	})
 	//确认弹出框
 app.controller('sureModalCtrl', function($scope, $modalInstance, toastr, content) {
-	$scope.content = '是否进行' + angular.copy(content) + '操作？';
+	$scope.content='Whether to ' +angular.copy(content)+ ' operations?';
 	$scope.ok = function() {
 		$modalInstance.close('success');
 	}
@@ -538,6 +540,16 @@ app.filter('questionType', function() {
 		return statename;
 	}
 });
+//确认弹出框
+app.controller('sureModalCtrl',function($scope,$modalInstance,toastr,content){
+	$scope.content='Whether to ' +angular.copy(content)+ ' operations?';
+	$scope.ok = function() {
+		$modalInstance.close('success');
+	}
+	$scope.cancel = function() {
+		$modalInstance.dismiss('cancel');
+	}
+})
 app.filter('AnswerType', function() {
 	return function(AnswerType) {
 		var statename = '';
