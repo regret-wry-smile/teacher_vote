@@ -43,7 +43,7 @@ public class VoteFunctionManage extends BrowserFunction{
 				result = voteService.getVoteTitleInfo();
 				break;
 			case "to_vote":
-				PageConstant.browser.setUrl(PageConstant.TEST_PAGE_URL);;
+				PageConstant.browser.setUrl(PageConstant.VOTE_ANSWER_URL_START);
 				break;
 			default:
 				result.setRet(Constant.ERROR);
