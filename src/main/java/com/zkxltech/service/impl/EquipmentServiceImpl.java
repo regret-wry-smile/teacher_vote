@@ -43,7 +43,6 @@ public class EquipmentServiceImpl implements EquipmentService {
 			String str = DeviceComm.getDeviceInfo();
 			if (com.zkxltech.ui.util.StringUtils.isEmpty(str)) {
 				r.setRet(Constant.ERROR);
-				r.setMessage("指令发送失败");
 				return r;
 			}
 			r.setItem(str);
@@ -51,7 +50,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 		} catch (Exception e) {
 			log.error(IOUtils.getError(e));
 			r.setRet(Constant.ERROR);
-			r.setMessage("指令发送失败");
+			r.setMessage("Send instruction failed");
 		}
 
 		return r;
@@ -66,7 +65,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 			String str = DeviceComm.getDeviceInfo();
 			if (com.zkxltech.ui.util.StringUtils.isEmpty(str)) {
 				r.setRet(Constant.ERROR);
-				r.setMessage("指令发送失败");
+				r.setMessage("Send instruction failed");
 				return r;
 			}
 			r.setItem(str);
@@ -96,7 +95,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 		} catch (Exception e) {
 			log.error(IOUtils.getError(e));
 			r.setRet(Constant.ERROR);
-			r.setMessage("指令发送失败");
+			r.setMessage("Send instruction failed");
 		}
 
 		return r;
@@ -155,7 +154,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 
 			if (ret != 0) {
 				r.setRet(Constant.ERROR);
-				r.setMessage("指令发送失败");
+				r.setMessage("Send instruction failed");
 				return r;
 			}
 			r.setRet(Constant.SUCCESS);
@@ -169,7 +168,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 		} catch (Exception e) {
 			log.error(IOUtils.getError(e));
 			r.setRet(Constant.ERROR);
-			r.setMessage("指令发送失败");
+			r.setMessage("Send instruction failed");
 		}
 		return r;
 	}
@@ -181,15 +180,15 @@ public class EquipmentServiceImpl implements EquipmentService {
 			int ret = DeviceComm.answerStop();
 			if (ret != 0) {
 				r.setRet(Constant.ERROR);
-				r.setMessage("指令发送失败");
+				r.setMessage("Send instruction failed");
 				return r;
 			}
-			r.setMessage("指令发送成功");
+			r.setMessage("Instruction sent successfully");
 			r.setRet(Constant.SUCCESS);
 		} catch (Exception e) {
 			log.error(IOUtils.getError(e));
 			r.setRet(Constant.ERROR);
-			r.setMessage("指令发送失败");
+			r.setMessage("Send instruction failed");
 		}
 		return r;
 	}
@@ -200,15 +199,15 @@ public class EquipmentServiceImpl implements EquipmentService {
 			int ret = DeviceComm.answerStart(answer_str);
 			if (ret != 0) {
 				r.setRet(Constant.ERROR);
-				r.setMessage("指令发送失败");
+				r.setMessage("Send instruction failed");
 				return r;
 			}
-			r.setMessage("指令发送成功");
+			r.setMessage("Instruction sent successfully");
 			r.setRet(Constant.SUCCESS);
 		} catch (Exception e) {
 			log.error(IOUtils.getError(e));
 			r.setRet(Constant.ERROR);
-			r.setMessage("指令发送失败");
+			r.setMessage("Send instruction failed");
 		}
 		return r;
 	}
@@ -219,15 +218,15 @@ public class EquipmentServiceImpl implements EquipmentService {
 			int ret = DeviceComm.answerStop();
 				if (ret != 0) {
 					r.setRet(Constant.ERROR);
-					r.setMessage("指令发送失败");
+					r.setMessage("Send instruction failed");
 					return r;
 				}
-				r.setMessage("指令发送成功");
+				r.setMessage("Instruction sent successfully");
 				r.setRet(Constant.SUCCESS);
 		} catch (Exception e) {
 			log.error(IOUtils.getError(e));
 			r.setRet(Constant.ERROR);
-			r.setMessage("指令发送失败");
+			r.setMessage("Send instruction failed");
 		}
 
 		return r;
@@ -239,15 +238,15 @@ public class EquipmentServiceImpl implements EquipmentService {
 			int ret = DeviceComm.clearWl();
 			if (ret != 0) {
 				r.setRet(Constant.ERROR);
-				r.setMessage("指令发送失败");
+				r.setMessage("Send instruction failed");
 				return r;
 			}
-			r.setMessage("指令发送成功");
+			r.setMessage("Instruction sent successfully");
 			r.setRet(Constant.SUCCESS);
 		} catch (Exception e) {
 			log.error(IOUtils.getError(e));
 			r.setRet(Constant.ERROR);
-			r.setMessage("指令发送失败");
+			r.setMessage("Send instruction failed");
 		}
 
 		return r;
@@ -261,15 +260,15 @@ public class EquipmentServiceImpl implements EquipmentService {
 			int ret = DeviceComm.setRfCh(rf_ch);
 			if (ret != 0) {
 				r.setRet(Constant.ERROR);
-				r.setMessage("指令发送失败");
+				r.setMessage("Send instruction failed");
 				return r;
 			}
-			r.setMessage("指令发送成功");
+			r.setMessage("Instruction sent successfully");
 			r.setRet(Constant.SUCCESS);
 		} catch (Exception e) {
 			log.error(IOUtils.getError(e));
 			r.setRet(Constant.ERROR);
-			r.setMessage("指令发送失败");
+			r.setMessage("Send instruction failed");
 		}
 
 		return r;
@@ -282,15 +281,15 @@ public class EquipmentServiceImpl implements EquipmentService {
 			int ret = DeviceComm.setTxPower(tx_power);
 			if (ret != 0) {
 				r.setRet(Constant.ERROR);
-				r.setMessage("指令发送失败");
+				r.setMessage("Send instruction failed");
 				return r;
 			}
-			r.setMessage("指令发送成功");
+			r.setMessage("Instruction sent successfully");
 			r.setRet(Constant.SUCCESS);
 		} catch (Exception e) {
 			log.error(IOUtils.getError(e));
 			r.setRet(Constant.ERROR);
-			r.setMessage("指令发送失败");
+			r.setMessage("Send instruction failed");
 		}
 
 		return r;

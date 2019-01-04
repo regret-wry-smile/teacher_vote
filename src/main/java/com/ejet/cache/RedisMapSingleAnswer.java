@@ -146,12 +146,12 @@ public class RedisMapSingleAnswer {
                      }
                      list.add(studentInfo);
                   }
-                  keyEveryAnswerMap[0]=card_id;
+                  keyEveryAnswerMap[0] = card_id;
             }
-            RedisMapUtil.setRedisMap(everyAnswerMap, keyEveryAnswerMap, 0, record2);
+            everyAnswerMap.put(keyEveryAnswerMap[0], record2);
         }
       //  keyEveryAnswerMap[1]="1";
-      
+        
         BrowserManager.refresAnswerNum();
     }
     public static List<Record2> getSingleRecordList(){

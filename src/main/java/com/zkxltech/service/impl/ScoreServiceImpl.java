@@ -151,7 +151,7 @@ public class ScoreServiceImpl implements ScoreService {
 			int ret = DeviceComm.answerStart(strBuilder.toString());
 			if (ret != 0) {
 				r.setRet(Constant.ERROR);
-				r.setMessage("指令发送失败");
+				r.setMessage("Send instruction failed");
 				return r;
 			}
 
@@ -160,12 +160,12 @@ public class ScoreServiceImpl implements ScoreService {
 			/* 添加到线程管理 */
 			ThreadManager.getInstance().addThread(thread);
 			r.setRet(Constant.SUCCESS);
-			r.setMessage("发送成功");
+			r.setMessage("Sent successfully");
 			return r;
 		} catch (Exception e) {
 			logger.error(IOUtils.getError(e));
 			r.setRet(Constant.ERROR);
-			r.setMessage("指令发送失败");
+			r.setMessage("Send instruction failed");
 			return r;
 		}
 	}
@@ -195,7 +195,7 @@ public class ScoreServiceImpl implements ScoreService {
 			}
 		} catch (Exception e) {
 			result.setRet(Constant.ERROR);
-			result.setMessage("导入失败");
+			result.setMessage("Import failure");
 		}
 	}
 	public void insertRecord2(){
@@ -222,7 +222,7 @@ public class ScoreServiceImpl implements ScoreService {
 			}
 		}catch (Exception e){
 			result.setRet(Constant.ERROR);
-			result.setMessage("导入失败");
+			result.setMessage("Import failure");
 		}
 	}
 

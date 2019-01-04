@@ -619,12 +619,12 @@ public class RecordServiceImpl implements RecordService{
                 return r;
             }
         } catch (Exception e) {
-            r.setMessage("删除失败");
+            r.setMessage("Delete failed");
             r.setDetail(IOUtils.getError(e));
             log.error(IOUtils.getError(e));
         }
         r.setRet(Constant.SUCCESS);
-        r.setMessage("删除成功");
+        r.setMessage("Delete successfully");
         return r;
     }
     public void openFile() throws IOException{

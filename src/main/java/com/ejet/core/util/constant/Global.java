@@ -17,9 +17,14 @@ public class Global {
 	public static ClassInfo classInfo;
 	
 	/**
-	 * 当前班级学生信息
+	 * 当前班级学生信息(已绑定学生)
 	 */
 	public static List<StudentInfo> studentInfos;
+	
+	/**
+	 * 当前班级学生信息(所有学生)
+	 */
+	public static List<StudentInfo> allStudentInfos;
 	
 	public static ClassHour classHour;
 	/**
@@ -80,6 +85,14 @@ public class Global {
 
 	public static void setModeMsg(String modeMsg) {
 		Global.modeMsg = modeMsg;
+	}
+
+	public static List<StudentInfo> getAllStudentInfos() {
+		return allStudentInfos;
+	}
+
+	public static void setAllStudentInfos(List<StudentInfo> allStudentInfos) {
+		Global.allStudentInfos = allStudentInfos;
 	}
 
 

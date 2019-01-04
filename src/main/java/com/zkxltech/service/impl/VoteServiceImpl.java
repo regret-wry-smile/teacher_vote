@@ -130,7 +130,7 @@ public class VoteServiceImpl implements VoteService{
 			int ret = DeviceComm.answerStart(strBuilder.toString());
 			if (ret != 0) {
 				r.setRet(Constant.ERROR);
-				r.setMessage("指令发送失败");
+				r.setMessage("Instruction sending failed");
 				return r;
 			}
 
@@ -139,12 +139,12 @@ public class VoteServiceImpl implements VoteService{
 			/* 添加到线程管理 */
 			ThreadManager.getInstance().addThread(thread);
 			r.setRet(Constant.SUCCESS);
-			r.setMessage("发送成功");
+			r.setMessage("Send successfully");
 			return r;
 		} catch (Exception e) {
 			logger.error(IOUtils.getError(e));
 			r.setRet(Constant.ERROR);
-			r.setMessage("指令发送失败");
+			r.setMessage("Instruction sending failed");
 			return r;
 		}
 
