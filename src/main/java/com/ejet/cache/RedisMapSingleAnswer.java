@@ -39,12 +39,14 @@ import net.sf.json.JSONObject;
 public class RedisMapSingleAnswer {
 	/**
 	 * 每条作答记录缓存
-	 * -答题器编号
-	 * 			-题号
+	 * 			
 	 */		//{0691699866=Record2。。。0692333258=Record2 [id
 	private static Map<String, Object> everyAnswerMap = Collections.synchronizedMap(new HashMap<String, Object>());
-	//private static String[] keyEveryAnswerMap = {"iclickerId","questionId"};
-	private static String[] keyEveryAnswerMap = {"iclickerId"};	//[0691792618]
+	/**
+	 * 节点
+	 */
+	private static String[] keyEveryAnswerMap = {"iclickerId","questionId"};
+	//private static String[] keyEveryAnswerMap = {"iclickerId"};	//[0691792618]
 	
 	private static final Logger logger = LoggerFactory.getLogger(RedisMapSingleAnswer.class);
 	/**字母对应的人数*/	//{A=1, B=1, C=1, D=1, E=0, F=0}
@@ -64,95 +66,102 @@ public class RedisMapSingleAnswer {
                                 JUDGE_TRUE = "true",JUDGE_FALSE = "false";
     
     public static void addAnswer(String jsonData){
-    	Constant.QUESTION_ID++;
-    	Record2 record2 = new Record2();
-    	logger.info("【单选接收到的数据】"+jsonData);
-        JSONArray jsonArray= JSONArray.fromObject(jsonData);
-        
-        for (Object object : jsonArray) {
-            JSONObject jsonObject = JSONObject.fromObject(object);
-            if (!jsonObject.containsKey("result")) {
-            	  String card_id = jsonObject.getString("card_id");
-                  StudentInfo studentInfo = studentInfoMap.get(card_id);
-                  
-                  record2.setStudentId(studentInfo.getStudentId());
-                  record2.setStudentName(studentInfo.getStudentName());
-                  record2.setClassId(studentInfo.getClassId());
-                  record2.setIclickerId(studentInfo.getIclickerId());
-                  record2.setQuestionId("第"+Constant.QUESTION_ID+"题");
-                  
-                  if (studentInfo == null) { //如果根据卡号未找到学生,表示不是本班的
-                      continue;
-                  }
-                  String sb = jsonObject.getString("update_time");
-                  String str = sb.substring(0,19);
-                  record2.setAnswerStart(str);
-                  
-                  SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//结束时间
-                  record2.setAnswerClick(df.format(new Date()));
-                  
-                  JSONArray answers =  JSONArray.fromObject(jsonObject.get("answers"));
-                  for (Object answerOb : answers) {
-                      JSONObject answerJO = JSONObject.fromObject(answerOb);
-                      String result = answerJO.getString("answer");
+    	try {
+    		Constant.QUESTION_ID++;
+        	logger.info("【单选接收到的数据】"+jsonData);
+            JSONArray jsonArray= JSONArray.fromObject(jsonData);
+            
+            for (Object object : jsonArray) {
+            	Record2 record2 = new Record2();
+                JSONObject jsonObject = JSONObject.fromObject(object);
+                if (!jsonObject.containsKey("result")) {
+                	  String card_id = jsonObject.getString("card_id");
+                      StudentInfo studentInfo = studentInfoMap.get(card_id);
                       
-                      record2.setAnswer(result);
-                      record2.setQuestionType(answerJO.getString("type"));//s位字母，d位数字，j位判断
-                      switch(record2.getQuestionType()){
-                      	case "s":
-                      		record2.setQuestionType("1");
-                      		record2.setQuestionShow("Questionnaire-Letter");
-                      		break;
-                      	case "d":
-                      		record2.setQuestionType("2");
-                      		record2.setQuestionShow("Questionnaire-Digit");
-                      		break;
-                      	case "j":
-                      		record2.setQuestionType("3");
-                      		record2.setQuestionShow("Questionnaire-Y/N");
-                      		break;
-                      }
+                      record2.setStudentId(studentInfo.getStudentId());
+                      record2.setStudentName(studentInfo.getStudentName());
+                      record2.setClassId(studentInfo.getClassId());
+                      record2.setIclickerId(studentInfo.getIclickerId());
+                      record2.setQuestionId("第"+Constant.QUESTION_ID+"题");
                       
-                      if (StringUtils.isEmpty(result)) {
+                      if (studentInfo == null) { //如果根据卡号未找到学生,表示不是本班的
                           continue;
                       }
+                      String sb = jsonObject.getString("update_time");
+                      String str = sb.substring(0,19);
+                      record2.setAnswerStart(str);
                       
-                      //记录提交的卡id
-                      if (iclickerAnswerMap.containsKey(card_id)) { //已经提交过,将以前提交的答题总数减一,并将以前该答题对象的学生名称去掉,将新值重新添加
-                          String lastAnswer = iclickerAnswerMap.get(card_id);
-                          Integer countNum = singleAnswerNumMap.get(lastAnswer);
-                          singleAnswerNumMap.put(lastAnswer, --countNum);//往singleAnswerNumMap存答案对应的个数
-                          List<StudentInfo> list = singleAnswerStudentNameMap.get(lastAnswer);
-                          list.remove(studentInfo.getStudentName());
-                      }
-                      iclickerAnswerMap.put(card_id, result);	//往iclickerAnswerMap集合中存
-                      switch (answer.getType()) {
-                          case Constant.ANSWER_CHAR_TYPE:
-                              setCharCount(result);
-                              break;
-                          case Constant.ANSWER_NUMBER_TYPE:
-                              setNumberCount(result);
-                              break;
-                          case Constant.ANSWER_JUDGE_TYPE:
-                              setJudgeCount(result);
-                              break;
-                      }
+                      SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//结束时间
+                      record2.setAnswerClick(df.format(new Date()));
                       
-                     //往singleAnswerStudentNameMap集合中，字母对应的学生名称
-                     List<StudentInfo> list = singleAnswerStudentNameMap.get(result);
-                     if (list == null) {
-                         list = new ArrayList<>();
-                         singleAnswerStudentNameMap.put(result, list);
-                     }
-                     list.add(studentInfo);
-                  }
-                  keyEveryAnswerMap[0] = card_id;
+                      JSONArray answers =  JSONArray.fromObject(jsonObject.get("answers"));
+                      for (Object answerOb : answers) {
+                          JSONObject answerJO = JSONObject.fromObject(answerOb);
+                          String result = answerJO.getString("answer");
+                          
+                          record2.setAnswer(result);
+                          record2.setQuestionType(answerJO.getString("type"));//s位字母，d位数字，j位判断
+                          switch(record2.getQuestionType()){
+                          	case "s":
+                          		record2.setQuestionType("1");
+                          		record2.setQuestionShow("Questionnaire-Letter");
+                          		break;
+                          	case "d":
+                          		record2.setQuestionType("2");
+                          		record2.setQuestionShow("Questionnaire-Digit");
+                          		break;
+                          	case "j":
+                          		record2.setQuestionType("3");
+                          		record2.setQuestionShow("Questionnaire-Y/N");
+                          		break;
+                          }
+                          
+                          if (StringUtils.isEmpty(result)) {
+                              continue;
+                          }
+                          
+                          //记录提交的卡id
+                          if (iclickerAnswerMap.containsKey(card_id)) { //已经提交过,将以前提交的答题总数减一,并将以前该答题对象的学生名称去掉,将新值重新添加
+                              String lastAnswer = iclickerAnswerMap.get(card_id);
+                              Integer countNum = singleAnswerNumMap.get(lastAnswer);
+                              singleAnswerNumMap.put(lastAnswer, --countNum);//往singleAnswerNumMap存答案对应的个数
+                              List<StudentInfo> list = singleAnswerStudentNameMap.get(lastAnswer);
+                              list.remove(studentInfo.getStudentName());
+                          }
+                          iclickerAnswerMap.put(card_id, result);	//往iclickerAnswerMap集合中存
+                          switch (answer.getType()) {
+                              case Constant.ANSWER_CHAR_TYPE:
+                                  setCharCount(result);
+                                  break;
+                              case Constant.ANSWER_NUMBER_TYPE:
+                                  setNumberCount(result);
+                                  break;
+                              case Constant.ANSWER_JUDGE_TYPE:
+                                  setJudgeCount(result);
+                                  break;
+                          }
+                          
+                         //往singleAnswerStudentNameMap集合中，字母对应的学生名称
+                         List<StudentInfo> list = singleAnswerStudentNameMap.get(result);
+                         if (list == null) {
+                             list = new ArrayList<>();
+                             singleAnswerStudentNameMap.put(result, list);
+                         }
+                         list.add(studentInfo);
+                      }
+                      keyEveryAnswerMap[0] = card_id;
+                }
+                keyEveryAnswerMap[1]="1";
+                RedisMapUtil.setRedisMap(everyAnswerMap, keyEveryAnswerMap, 0, record2);	//[0691699866, 1]
+
             }
-            everyAnswerMap.put(keyEveryAnswerMap[0], record2);
-        }
-      //  keyEveryAnswerMap[1]="1";
-        
-        BrowserManager.refresAnswerNum();
+           
+            
+            BrowserManager.refresAnswerNum();
+		} catch (Exception e) {
+			  logger.error(IOUtils.getError(e));
+		}
+    	
     }
     public static List<Record2> getSingleRecordList(){
     	
@@ -165,6 +174,7 @@ public class RedisMapSingleAnswer {
 			for (String id : iclickerAnswerMap.keySet()) { //遍历学生
 				StudentInfo studentInfo= studentInfoMap.get(id);
 				keyEveryAnswerMap[0] = studentInfo.getIclickerId();
+				keyEveryAnswerMap[1]="1";
 				Record2 record2 = (Record2) RedisMapUtil.getRedisMap(everyAnswerMap, keyEveryAnswerMap, 0);
 				
 				record2.setAnswerEnd(date);
