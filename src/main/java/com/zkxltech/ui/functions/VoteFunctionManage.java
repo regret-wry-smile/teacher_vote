@@ -1,14 +1,13 @@
 package com.zkxltech.ui.functions;
 
-import org.eclipse.swt.browser.Browser;
-import org.eclipse.swt.browser.BrowserFunction;
-
 import com.ejet.core.util.constant.Constant;
 import com.zkxltech.domain.Result;
 import com.zkxltech.service.VoteService;
 import com.zkxltech.service.impl.VoteServiceImpl;
-
+import com.zkxltech.ui.util.PageConstant;
 import net.sf.json.JSONObject;
+import org.eclipse.swt.browser.Browser;
+import org.eclipse.swt.browser.BrowserFunction;
 
 /**
  * 【投票模块页面调用方法】
@@ -42,6 +41,9 @@ public class VoteFunctionManage extends BrowserFunction{
 				break;
 			case "get_voteTitleInfo":
 				result = voteService.getVoteTitleInfo();
+				break;
+			case "to_vote":
+				PageConstant.browser.setUrl(PageConstant.TEST_PAGE_URL);;
 				break;
 			default:
 				result.setRet(Constant.ERROR);

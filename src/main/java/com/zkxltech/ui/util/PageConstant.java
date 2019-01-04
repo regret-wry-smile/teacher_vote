@@ -22,6 +22,10 @@ public class PageConstant {
 	 * 答题页面类型
 	 */
 	public static String PAGE_ANSWER_URL_NO_START = COMMON_URL+"/page/answermoudle/startAnswer.html";
+	/**
+	 * 投票答题页面类型
+	 */
+	public static String VOTE_ANSWER_URL_START = COMMON_URL+"/page/answermoudle/votemoudle.html";
 	
 	/**
 	 * 设置页面类型
