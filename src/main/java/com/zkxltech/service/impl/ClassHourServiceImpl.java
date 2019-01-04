@@ -52,7 +52,7 @@ public class ClassHourServiceImpl implements ClassHourService{
 			r = classHourSql.selectClassHour(classHour);
 			List<ClassHour> classHours = (List<ClassHour>) r.getItem();
 			if (classHours.size() != 0){
-				result.setMessage("This scene already exists, please fill in again！");//此场景已有，请重新填写!
+				result.setMessage("This scenario already exists, please fill in again！");//此场景已有，请重新填写!
 
 			}else {
 				classHour.setClassHourId(com.ejet.core.util.StringUtils.getUUID());
@@ -60,15 +60,15 @@ public class ClassHourServiceImpl implements ClassHourService{
 				Global.setClassHour(classHour);
 				result = classHourSql.insertClassHour(classHour);
 				if (Constant.SUCCESS.equals(result.getRet())) {
-					result.setMessage("New courses successfully added!");//新增课程成功
+					result.setMessage("New scenario successfully added!");//新增课程成功
 				} else {
-					result.setMessage("New course failed！");//新增课程失败
+					result.setMessage("New scenario failed！");//新增课程失败
 				}
 			}
 			return result;
 		} catch (Exception e) {
 			result.setRet(Constant.ERROR);
-			result.setMessage("New course failed！");//新增课程失败
+			result.setMessage("New scenario failed！");//新增课程失败
 			result.setDetail(IOUtils.getError(e));
 			logger.error(IOUtils.getError(e));
 			return result;
@@ -82,14 +82,14 @@ public class ClassHourServiceImpl implements ClassHourService{
 			ClassHour classHour =  (ClassHour) StringUtils.parseJSON(object, ClassHour.class);
 			result = classHourSql.deleteAnswerInfo(classHour);
 			if (Constant.SUCCESS.equals(result.getRet())) {
-				result.setMessage("Course deleted successfully!");//删除课程成功
+				result.setMessage("scenario deleted successfully!");//删除课程成功
 			}else {
-				result.setMessage("Failed to delete course！");//删除课程失败
+				result.setMessage("Failed to delete scenario！");//删除课程失败
 			}
 			return result;
 		} catch (Exception e) {
 			result.setRet(Constant.ERROR);
-			result.setMessage("Failed to delete course！");//删除课程失败
+			result.setMessage("Failed to delete scenario！");//删除课程失败
 			result.setDetail(IOUtils.getError(e));
 			logger.error(IOUtils.getError(e));
 			return result;
