@@ -1,22 +1,14 @@
 package com.ejet.cache;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
+import com.ejet.core.util.RedisMapUtil;
+import com.ejet.core.util.constant.Constant;
+import com.ejet.core.util.io.IOUtils;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.ejet.core.util.constant.Constant;
-import com.ejet.core.util.io.IOUtils;
-
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
+import java.util.*;
 /**
  * 考勤相关
  * @author zhouwei
@@ -26,7 +18,10 @@ public class RedisMapAttendance {
 	private static final Logger logger = LoggerFactory.getLogger(RedisMapAttendance.class);
 	/**卡号为key  value为 学生名称和考勤的状态*/
 	private static Map<String, Map<String,String>> attendanceMap = Collections.synchronizedMap(new HashMap<>());
-	/**绑定时用来去除重复的提交,代表当前提交的人*/
+	/**已签到人员的信息*/
+	private static Map<String,Object> SignMap = Collections.synchronizedMap(new HashMap<String, Object>());
+	private static String[] SignBodyMap = {"iclicker"};
+    /**绑定时用来去除重复的提交,代表当前提交的人*/
     private static Set<String> cardIdSet = new HashSet<>();
 	public static void addAttendance(String jsonData){
 		try {
@@ -41,10 +36,12 @@ public class RedisMapAttendance {
 		                continue;
 		            }
 		            cardIdSet.add(card_id);
+					SignBodyMap[0] = card_id;
 		            Map<String, String> map = attendanceMap.get(card_id);
 		            for (String key : map.keySet()) {
 		                if (key.equals("status")) {
 		                    map.put(key, Constant.ATTENDANCE_YES);
+							RedisMapUtil.setRedisMap(SignMap,SignBodyMap,0,map);
 		                }
 		            }
 		            BrowserManager.refresAttendance();
@@ -55,6 +52,14 @@ public class RedisMapAttendance {
 		}
         
     }
+//    /*获取当前班级中签到人员的信息*/
+//    public static String getAttendances(){
+//		String[] keString = new String[2];
+//		keString[0] = "0";
+//		keString[1] = "1";
+//		for (String )
+//		return null;
+//    }
 	/*获取当前班级中所有人的考勤状态*/
 	public static String getAttendance(){
 	    List<Map<String,String>> list = new ArrayList<>();
@@ -87,7 +92,17 @@ public class RedisMapAttendance {
     public static void setAttendanceMap(Map<String, Map<String, String>> attendanceMap) {
         RedisMapAttendance.attendanceMap = attendanceMap;
     }
-    public static Set<String> getCardIdSet() {
+
+	public static Map<String, Object> getSignMap() {
+		return SignMap;
+	}
+	public static void setSignMap(Map<String, Object> signMap) {
+		SignMap = signMap;
+	}
+	public static void clearSignMap(){
+		SignMap.clear();
+	}
+	public static Set<String> getCardIdSet() {
         return cardIdSet;
     }
     public static void setCardIdSet(Set<String> cardIdSet) {

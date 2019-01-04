@@ -1,5 +1,6 @@
 package com.zkxltech.service.impl;
 
+import com.ejet.cache.RedisMapAttendance;
 import com.ejet.core.util.constant.Constant;
 import com.ejet.core.util.constant.Global;
 import com.ejet.core.util.io.IOUtils;
@@ -218,6 +219,10 @@ public class ClassHourServiceImpl implements ClassHourService{
 			Global.setClassId(null);
 			Global.setClassInfo(null);
 			Global.setStudentInfos(null);
+            //每次调用签到先清空数据
+            RedisMapAttendance.clearAttendanceMap();
+            RedisMapAttendance.clearCardIdSet();
+			RedisMapAttendance.clearSignMap();
 			
 			result.setRet(Constant.SUCCESS);
 			result.setMessage("End the class！");

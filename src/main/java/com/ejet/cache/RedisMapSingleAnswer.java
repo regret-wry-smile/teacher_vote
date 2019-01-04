@@ -1,19 +1,5 @@
 package com.ejet.cache;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.alibaba.fastjson.JSON;
 import com.ejet.core.util.RedisMapUtil;
 import com.ejet.core.util.StringUtils;
 import com.ejet.core.util.comm.ListUtils;
@@ -22,14 +8,15 @@ import com.ejet.core.util.constant.Global;
 import com.ejet.core.util.io.IOUtils;
 import com.zkxltech.domain.Answer;
 import com.zkxltech.domain.ClassHour;
-import com.zkxltech.domain.ClassTestVo;
-import com.zkxltech.domain.QuestionInfo;
-import com.zkxltech.domain.Record;
 import com.zkxltech.domain.Record2;
 import com.zkxltech.domain.StudentInfo;
-
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * 多选
@@ -76,6 +63,9 @@ public class RedisMapSingleAnswer {
                 JSONObject jsonObject = JSONObject.fromObject(object);
                 if (!jsonObject.containsKey("result")) {
                 	  String card_id = jsonObject.getString("card_id");
+                    if (StringUtils.isEmpty(RedisMapAttendance.getSignMap().get(card_id))){
+                        continue;
+                    }
                       StudentInfo studentInfo = studentInfoMap.get(card_id);
                       
                       record2.setStudentId(studentInfo.getStudentId());
@@ -265,7 +255,7 @@ public class RedisMapSingleAnswer {
     //获取当前提交答案的人数
     public static Object getSingleAnswerNum() {
         JSONObject jo = new JSONObject();
-        jo.put("totalStudent", studentInfoMap.size());
+        jo.put("totalStudent", RedisMapAttendance.getSignMap().size());
         jo.put("current", iclickerAnswerMap.size());
         return jo.toString();
     }

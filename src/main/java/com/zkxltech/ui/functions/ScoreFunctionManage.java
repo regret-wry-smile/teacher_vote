@@ -1,17 +1,12 @@
 package com.zkxltech.ui.functions;
 
-import org.eclipse.swt.browser.Browser;
-import org.eclipse.swt.browser.BrowserFunction;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.ejet.core.util.constant.Constant;
 import com.zkxltech.domain.Result;
 import com.zkxltech.service.ScoreService;
 import com.zkxltech.service.impl.ScoreServiceImpl;
-import com.zkxltech.service.impl.VoteServiceImpl;
-
 import net.sf.json.JSONObject;
+import org.eclipse.swt.browser.Browser;
+import org.eclipse.swt.browser.BrowserFunction;
 
 /**
  * 【评分模块页面调用方法】
@@ -43,6 +38,7 @@ public class ScoreFunctionManage extends BrowserFunction{
 			case "get_score":
 				result = scoreService.getScore();
 				break;
+			//获取柱状图需要的数据
 			case "get_scoreTitleInfo":
 				result = scoreService.getScoreTitleInfo();
 				break;
