@@ -17,7 +17,7 @@ public class Global {
 	public static ClassInfo classInfo;
 	
 	/**
-	 * 当前班级学生信息(已绑定学生)
+	 * 当前班级学生信息(已签到学生)
 	 */
 	public static List<StudentInfo> studentInfos;
 	

@@ -45,7 +45,7 @@ public class SingleAnswerThread extends BaseThread {
         } catch (InterruptedException e) {
             logger.error(IOUtils.getError(e));
         } catch (Throwable e){
-            logger.error("线程获取硬件数据异常",IOUtils.getError(e));
+            logger.error("线程获取硬件数据异常:"+IOUtils.getError(e));
         }
     }
 }

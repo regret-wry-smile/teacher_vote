@@ -332,9 +332,9 @@ public class StudentInfoServiceImpl implements StudentInfoService{
         Result r = new Result();
         try {
         	r.setRet(Constant.ERROR);
-        	 //每次调用签到先清空数据
-            RedisMapAttendance.clearAttendanceMap();
-            RedisMapAttendance.clearCardIdSet();
+//        	 //每次调用签到先清空数据
+//            RedisMapAttendance.clearAttendanceMap();
+//            RedisMapAttendance.clearCardIdSet();
             /*停止所有线程*/
             ThreadManager.getInstance().stopAllThread();
             if (param == null) {
@@ -364,7 +364,12 @@ public class StudentInfoServiceImpl implements StudentInfoService{
 	            Map<String, String> studentInfoMap = new HashMap<>();
 	            studentInfoMap.put("studentName", studentInfo.getStudentName());
 	            studentInfoMap.put("studentId",studentInfo.getStudentId());//学生id
-	            studentInfoMap.put("status", Constant.ATTENDANCE_NO);
+	            Map<String, String> attendMap = RedisMapAttendance.getAttendanceMap().get(studentInfo.getIclickerId());
+	            if(StringUtils.isEmpty(attendMap)){
+	            	studentInfoMap.put("status", Constant.ATTENDANCE_NO);	
+	            }else{
+	            	studentInfoMap.put("status", attendMap.get("status"));	
+	            }
 	            RedisMapAttendance.getAttendanceMap().put(studentInfo.getIclickerId(), studentInfoMap);
 	        }
 	        BaseThread thread = new AttendanceThread();
