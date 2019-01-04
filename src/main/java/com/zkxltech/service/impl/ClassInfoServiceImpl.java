@@ -112,14 +112,14 @@ public class ClassInfoServiceImpl implements ClassInfoService{
 			ClassInfo classInfo =  (ClassInfo) StringUtils.parseJSON(object, ClassInfo.class);
 			result = classInfoSql.updateClassInfo(classInfo);
 			if (Constant.SUCCESS.equals(result.getRet())) {
-				result.setMessage("修改班级成功!");
+				result.setMessage("Modify the class successfully!");//修改班级成功
 			}else {
-				result.setMessage("修改班级失败！");
+				result.setMessage("Failed to modify the class！");//修改班级失败
 			}
 			return result;
 		} catch (Exception e) {
 			result.setRet(Constant.ERROR);
-			result.setMessage("修改班级失败！");
+			result.setMessage("Failed to modify the class！");//修改班级失败
 			result.setDetail(IOUtils.getError(e));
 			log.error(IOUtils.getError(e));
 			return result;
