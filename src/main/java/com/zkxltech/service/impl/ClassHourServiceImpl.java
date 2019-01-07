@@ -225,7 +225,7 @@ public class ClassHourServiceImpl implements ClassHourService{
 			RedisMapAttendance.clearSignMap();
 			
 			result.setRet(Constant.SUCCESS);
-			result.setMessage("End the class！");
+			result.setMessage("End the class！");//结束课程
 		} catch (Exception e) {
 			result.setRet(Constant.ERROR);
 			result.setMessage("End the class failed！");
@@ -241,10 +241,10 @@ public class ClassHourServiceImpl implements ClassHourService{
 		try {
 			result.setItem(Global.getClassInfo());
 			result.setRet(Constant.SUCCESS);
-			result.setMessage("The current class information was obtained successfully！");
+			result.setMessage("The current class information was obtained successfully！");//当前类信息获得成功!
 		} catch (Exception e) {
 			result.setRet(Constant.ERROR);
-			result.setMessage("Failed to obtain current class information！");
+			result.setMessage("Failed to obtain current class information！");//未能获得当前类信息!
 			logger.error(IOUtils.getError(e));
 		}
 		return result;
@@ -258,14 +258,14 @@ public class ClassHourServiceImpl implements ClassHourService{
 		try {
 			result = classHourSql.selectClassHour(classHour);
 			if (Constant.SUCCESS.equals(result.getRet())) {
-				result.setMessage("Successfully obtained the corresponding subject scene information of the current class!");
+				result.setMessage("Successfully obtained the corresponding subject scene information of the current class!");//成功获取当前类对应的主题场景信息!
 			}else {
-				result.setMessage("Failed to obtain the corresponding subject scene information of the current class！");
+				result.setMessage("Failed to obtain the corresponding subject scene information of the current class！");//未能获得相应的主题场景信息的当前类!
         }
 			return result;
 		} catch (Exception e) {
 			result.setRet(Constant.ERROR);
-			result.setMessage("Failed to obtain the corresponding subject scene information of the current class！");
+			result.setMessage("Failed to obtain the corresponding subject scene information of the current class！");//未能获得相应的主题场景信息的当前类!
 			result.setDetail(IOUtils.getError(e));
 			logger.error(IOUtils.getError(e));
 			return result;

@@ -4,7 +4,6 @@ import com.ejet.core.util.constant.Constant;
 import com.zkxltech.domain.Result;
 import com.zkxltech.service.VoteService;
 import com.zkxltech.service.impl.VoteServiceImpl;
-import com.zkxltech.ui.util.PageConstant;
 import net.sf.json.JSONObject;
 import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.browser.BrowserFunction;
@@ -43,7 +42,7 @@ public class VoteFunctionManage extends BrowserFunction{
 				result = voteService.getVoteTitleInfo();
 				break;
 			case "to_vote":
-				PageConstant.browser.setUrl(PageConstant.VOTE_ANSWER_URL_START);
+				result = voteService.toVote();
 				break;
 			default:
 				result.setRet(Constant.ERROR);
