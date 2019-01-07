@@ -66,6 +66,7 @@ public class RedisMapSingleAnswer {
                 if (!jsonObject.containsKey("result")) {
                 	  String card_id = jsonObject.getString("card_id");
                     if (StringUtils.isEmpty(RedisMapAttendance.getSignMap().get(card_id))){
+                        Constant.QUESTION_ID--;
                         continue;
                     }
                       StudentInfo studentInfo = studentInfoMap.get(card_id);
@@ -92,7 +93,7 @@ public class RedisMapSingleAnswer {
                           String result = answerJO.getString("answer");
                           
                           record2.setAnswer(result);
-                          if (condition.equals(Constant.BUSINESS_VOTE)){
+                          if (!StringUtils.isEmpty(condition)){
                               record2.setQuestionType("5");
                               record2.setQuestionShow("Vote");
                           }else {

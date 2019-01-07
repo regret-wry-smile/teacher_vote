@@ -318,6 +318,7 @@ public class AnswerInfoServiceImpl implements AnswerInfoService{
         	List<Record2> records = RedisMapSingleAnswer.getSingleRecordList();//如何从缓存中取数据。
         	
 			result =recordSql2.insertRecords(records); //将缓存中数据保存到数据库
+			RedisMapSingleAnswer.setCondition(null);
         }catch (Exception e) {
         	 log.error(IOUtils.getError(e));
             r.setMessage("System Exceptions");
