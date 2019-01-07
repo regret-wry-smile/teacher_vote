@@ -290,7 +290,7 @@ public class StudentInfoSql {
             r.setMessage("缺少参数 :绑定状态不能为空");
             return r;
         }
-        String sb ="update student_info set status = "+status;
+        String sb ="update student_info set status = "+status +", iclicker_id = NULL";
         return dbHelper.onUpdate(sb.toString(), null);
     }
 }
