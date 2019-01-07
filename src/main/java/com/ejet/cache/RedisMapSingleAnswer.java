@@ -42,6 +42,8 @@ public class RedisMapSingleAnswer {
     private static Map<String,List<StudentInfo>> singleAnswerStudentNameMap = Collections.synchronizedMap(new HashMap<>());
     /**本班卡号对应学生信息*/
     private static Map<String,StudentInfo> studentInfoMap = new HashMap<>();
+    /**判断是投票还是答题*/
+    private static String condition;
     /**记录提交的卡id*/
     //private static Set<String> iclickerIdsSet = new HashSet<>();	//{A=1, B=1, C=1, D=1, E=0, F=0}
     private static Map<String,String> iclickerAnswerMap = new HashMap<>();
@@ -90,22 +92,26 @@ public class RedisMapSingleAnswer {
                           String result = answerJO.getString("answer");
                           
                           record2.setAnswer(result);
-                          record2.setQuestionType(answerJO.getString("type"));//s位字母，d位数字，j位判断
-                          switch(record2.getQuestionType()){
-                          	case "s":
-                          		record2.setQuestionType("1");
-                          		record2.setQuestionShow("Questionnaire-Letter");
-                          		break;
-                          	case "d":
-                          		record2.setQuestionType("2");
-                          		record2.setQuestionShow("Questionnaire-Digit");
-                          		break;
-                          	case "j":
-                          		record2.setQuestionType("3");
-                          		record2.setQuestionShow("Questionnaire-Y/N");
-                          		break;
+                          if (condition.equals(Constant.BUSINESS_VOTE)){
+                              record2.setQuestionType("5");
+                              record2.setQuestionShow("Vote");
+                          }else {
+                              record2.setQuestionType(answerJO.getString("type"));//s位字母，d位数字，j位判断
+                              switch (record2.getQuestionType()) {
+                                  case "s":
+                                      record2.setQuestionType("1");
+                                      record2.setQuestionShow("Questionnaire-Letter");
+                                      break;
+                                  case "d":
+                                      record2.setQuestionType("2");
+                                      record2.setQuestionShow("Questionnaire-Digit");
+                                      break;
+                                  case "j":
+                                      record2.setQuestionType("3");
+                                      record2.setQuestionShow("Questionnaire-Y/N");
+                                      break;
+                              }
                           }
-                          
                           if (StringUtils.isEmpty(result)) {
                               continue;
                           }
@@ -302,5 +308,13 @@ public class RedisMapSingleAnswer {
     }
     public static void clearIclickerAnswerMap(){
         iclickerAnswerMap.clear();
+    }
+
+    public static String getCondition() {
+        return condition;
+    }
+
+    public static void setCondition(String condition) {
+        RedisMapSingleAnswer.condition = condition;
     }
 }

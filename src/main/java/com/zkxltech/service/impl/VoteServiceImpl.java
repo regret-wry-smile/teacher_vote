@@ -1,5 +1,6 @@
 package com.zkxltech.service.impl;
 
+import com.ejet.cache.RedisMapSingleAnswer;
 import com.ejet.cache.RedisMapVote;
 import com.ejet.core.util.constant.Constant;
 import com.ejet.core.util.constant.Global;
@@ -174,7 +175,7 @@ public class VoteServiceImpl implements VoteService{
 			PageConstant.browser.setUrl(PageConstant.VOTE_ANSWER_URL_START);
 			result.setRet(Constant.SUCCESS);
 			result.setMessage("进入投票页面成功！");
-			result.setRemak("5");
+			RedisMapSingleAnswer.setCondition(Constant.BUSINESS_VOTE);
 			return result;
 		}catch (Exception e){
 			result.setRet(Constant.ERROR);
