@@ -32,7 +32,7 @@
 		<!--<script src="../../js/common.js"></script>-->
 		<script src="../../js/jquery.nicescroll.min.js"></script>
 		<!--<script src="../../js/ui-validate.js"></script>-->
-		<script src="../../js/vconsole.min.js"></script>
+		<!--<script src="../../js/vconsole.min.js"></script>-->
 		<script type="text/javascript" src="../../js/bootstrap.js" ></script>
 		<script type="text/javascript" src="../../js/app.js" ></script>
 		<script src="../../js/controllers/answerRecordController.js"></script>
@@ -151,7 +151,7 @@
 								<th style="width: 5%;">No.</th>
 								<th style="width: 8%;">Audience ID</th>
 								<th style="width: 10%;">Answer Type</th>
-								<th style="width: 10%;">Result</th>
+								<th style="width: 8%;">Result</th>							
 								<th style="width: 22%;">Time</th>
 								<th style="width: 8%;" class="pr1">Select
 								<label style="margin-bottom: 0;"><input type="checkbox" class="allCheck" ng-model="selected" ng-change="selectAll()"></label></th>
@@ -169,8 +169,10 @@
 									<span ng-if="item.questionType=='2'">digit</span>
 									<span ng-if="item.questionType=='3'">judge</span>
 									<span ng-if="item.questionType=='4'">multiple choice</span>
+									<span ng-if="item.questionType=='5'">vote</span>
+									<span ng-if="item.questionType=='6'">survey</span>
 								</td>
-								<td style="width: 10%;">{{item.answer}}</td>
+								<td style="width: 8%;">{{item.answer}}</td>
 								<td style="width: 22%;">{{item.answerStart}}~{{item.answerEnd}}</td>	
 								<td style="width: 8%;" class="ml5"><input type="checkbox" style="margin-left: 0.45rem;" ng-model="item.checked" class="ml32" name="check" ng-change="selectOne()" ng-click="$event.stopPropagation();"></td>
 							</tr>

@@ -350,7 +350,7 @@ app.controller("oneAnswerDetailModalCtrl", function($scope, $modalInstance, toas
 		}
 		console.log(JSON.stringify(param))
 		$scope.result = JSON.parse(execute_record("select_student_record_detail", JSON.stringify(param)));
-		console.log(JSON.stringify($scope.result))
+		console.log("结果"+JSON.stringify($scope.result))
 		if($scope.result.ret == 'success') {
 			$scope.oneRecordList = $scope.result.item;
 		} else {
