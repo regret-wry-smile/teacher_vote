@@ -1,5 +1,6 @@
 package com.zkxltech.service.impl;
 
+import com.ejet.cache.RedisMapAttendance;
 import com.ejet.cache.RedisMapSingleAnswer;
 import com.ejet.cache.RedisMapVote;
 import com.ejet.core.util.constant.Constant;
@@ -172,11 +173,17 @@ public class VoteServiceImpl implements VoteService{
 	public Result toVote(){
 		result = new Result();
 		try {
-			PageConstant.browser.setUrl(PageConstant.VOTE_ANSWER_URL_START);
-			result.setRet(Constant.SUCCESS);
-			result.setMessage("进入投票页面成功！");
-			RedisMapSingleAnswer.setCondition(Constant.BUSINESS_VOTE);
-			return result;
+			if (RedisMapAttendance.getSignMap().size() != 0){
+				PageConstant.browser.setUrl(PageConstant.VOTE_ANSWER_URL_START);
+				result.setRet(Constant.SUCCESS);
+				result.setMessage("进入投票页面成功！");
+				RedisMapSingleAnswer.setCondition(Constant.BUSINESS_VOTE);
+				return result;
+			}else {
+				result.setRet(Constant.ERROR);
+				result.setMessage("Please sign in first！");
+				return result;
+			}
 		}catch (Exception e){
 			result.setRet(Constant.ERROR);
 			result.setMessage("进入投票页面成功失败！");
