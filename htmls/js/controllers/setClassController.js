@@ -270,7 +270,7 @@ app.controller('setClassCtrl', function($rootScope,$scope, toastr,$modal,$window
 //			toastr.success($scope.result.message);
 			$rootScope.studentAttendList=JSON.parse(execute_attendance("get_sign_in"));
 			$rootScope.signList=JSON.parse(execute_attendance("get_submit_num"));				
-			console.log("人员列表"+JSON.stringify($rootScope.studentAttendList));
+			//console.log("人员列表"+JSON.stringify($rootScope.studentAttendList));
 			/*$scope.param = "classId=" + $scope.setClass.classesobject.key + "&className=" + $scope.setClass.classesobject.value + "&classhourid=" + $scope.sujectNameobject.key+"&classhourname=" +$scope.sujectNameobject.value+ "&suject="+$scope.setClass.subject;			
 			$scope.objectUrl = '../../page/answermoudle/userAttend.html' + '?' + $scope.param;
 			$window.location.href =$scope.objectUrl;*/
@@ -285,7 +285,7 @@ app.controller('setClassCtrl', function($rootScope,$scope, toastr,$modal,$window
 			classId:$scope.classesobject.key
 		}
 		$scope.result=JSON.parse(execute_preemptive("quick_answer",JSON.stringify(param)));
-		console.log("抢答"+JSON.stringify($scope.result))
+		//console.log("抢答"+JSON.stringify($scope.result))
 		if($scope.result.ret=='success'){
 			toastr.success($scope.result.message);
 			$scope.objectUrl = '../../page/answermoudle/stopAnswer.html';
@@ -313,6 +313,30 @@ app.controller('setClassCtrl', function($rootScope,$scope, toastr,$modal,$window
 	$scope.skipVote=function(){		
 		var result=JSON.parse(execute_vote("to_vote"));
 		console.log(JSON.stringify(result))
+		if(result.ret!='success'){
+			toastr.error(result.message);	
+		}
+		
+	}
+	/*跳转到答题页面*/
+	$scope.Question=function(){
+		$rootScope.signList=JSON.parse(execute_attendance("get_submit_num"));	
+		if($rootScope.signList){			
+			$scope.answerobjectUrl = '../../page/answermoudle/answermoudle.html';
+			$window.location.href =$scope.answerobjectUrl;
+		}else{
+			toastr.warning("Please sign in first.");
+		}
+	}
+	/*跳转到调查页面*/
+	$scope.Survey=function(){
+		$rootScope.signList=JSON.parse(execute_attendance("get_submit_num"));	
+		if($rootScope.signList){			
+			$scope.surveyobjectUrl = '../../page/answermoudle/setMarkmoudle.html';
+			$window.location.href =$scope.surveyobjectUrl;
+		}else{
+			toastr.warning("Please sign in first.");
+		}
 	}
 	//下课
 	$scope.stopClass=function(){

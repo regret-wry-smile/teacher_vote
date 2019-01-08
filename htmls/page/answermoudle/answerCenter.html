@@ -23,7 +23,7 @@
 		<script type="text/javascript" src="../../js/select/select.jquery.js" ></script>
 		<script src="../../js/jquery.nicescroll.min.js"></script>
 		<!--<script src="../../js/common.js"></script>-->
-		<script src="../../js/vconsole.min.js"></script>
+		<!--<script src="../../js/vconsole.min.js"></script>-->
 		<script type="text/javascript" src="../../js/bootstrap.js" ></script>
 		<script src="../../js/controllers/setClassController.js"></script>
 		
@@ -61,7 +61,8 @@
 		  	<div class="block">
 		  	<ul class="col-3">
 		  		<li>
-		  			<a href="../../page/answermoudle/answermoudle.html">
+		  			<a href="javascript:;" ng-href={{answerobjectUrl}} ng-click="Question()">
+	  				<!--<a href="../../page/answermoudle/answermoudle.html" >-->
 		  				<img src="../../image/answer.png"/>
 		  				<span>Questionnaire</span>
 		  			</a>
@@ -85,7 +86,8 @@
 		  			</a>
 		  		</li>
 		  		<li>
-		  			<a href="../../page/answermoudle/setMarkmoudle.html">
+		  			<a href="javascript:;" ng-href={{surveyobjectUrl}} ng-click="Survey()">
+		  			<!--<a href="../../page/answermoudle/setMarkmoudle.html">-->
 	  				<!--<a href="javascript:;" ng-href={{MarkobjectUrl}} ng-click="skipMark()">-->
 		  				<img src="../../image/mark.png" />
 		  				<span>Survey</span>
