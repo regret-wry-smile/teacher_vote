@@ -758,7 +758,8 @@ label.circle{
 }
 .modboxs .box{
 	float: left;
-	min-width: 7%;
+	min-width: 10%;
+	/*min-width: 7%;*/
 	background: #fff;
 	font-size: 0.18rem;
 	text-align: center;
