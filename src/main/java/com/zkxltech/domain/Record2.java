@@ -84,6 +84,7 @@ public class Record2 {
 	 */
 	private List<Integer> Ids;
 	
+	private List<Record2> datalists;
 	public Integer getId() {
 		return id;
 	}
@@ -203,6 +204,13 @@ public class Record2 {
 	}
 	public void setIds(List<Integer> ids) {
 		Ids = ids;
+	}
+	
+	public List<Record2> getDatalists() {
+		return datalists;
+	}
+	public void setDatalists(List<Record2> datalists) {
+		this.datalists = datalists;
 	}
 	
 	

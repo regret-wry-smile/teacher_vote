@@ -1,9 +1,11 @@
 package com.zkxltech.ui.util;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFFont;
@@ -17,14 +19,15 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 
 import com.ejet.core.util.constant.Constant;
-import com.sun.javafx.collections.MappingChange.Map;
+
 import com.sun.org.apache.bcel.internal.generic.NEW;
+import com.zkxltech.domain.Record2;
 
 @SuppressWarnings("deprecation")
 public class ExportExcel2 {
 
     public static SXSSFWorkbook ExportWithResponse(String sheetName,String dates,String className,
-    		int columnNumber, int[] columnWidth,String[] columnName, List<List<Object>> dataList) throws Exception { 
+    		int columnNumber, int[] columnWidth,String[] columnName, List<List<Object>> dataList,List<Map<String,List<Record2>>> arrlist) throws Exception { 
         
     	SXSSFWorkbook wb = new SXSSFWorkbook(); 
         if (columnNumber == columnWidth.length&& columnWidth.length == columnName.length) {  
@@ -137,7 +140,7 @@ public class ExportExcel2 {
             }  
   
             // 第五步，创建单元格，并设置值  
-            for (int i = 0; i < dataList.size(); i++)   
+           /* for (int i = 0; i < dataList.size(); i++)   
             {  
                 row = sheet.createRow((int) i + 5);  
                 // 为数据内容设置特点新单元格样式1 自动换行 上下居中  
@@ -155,8 +158,7 @@ public class ExportExcel2 {
                 // 为数据内容设置特点新单元格样式2 自动换行 上下居中左右也居中  
                 CellStyle zidonghuanhang2 = wb.createCellStyle();  
                 zidonghuanhang2.setWrapText(true);// 设置自动换行  
-                zidonghuanhang2  
-                        .setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER); // 创建一个上下居中格式  
+                zidonghuanhang2.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER); // 创建一个上下居中格式  
                 zidonghuanhang2.setAlignment(HSSFCellStyle.ALIGN_CENTER);// 左右居中  
   
                 // 设置边框  
@@ -166,8 +168,7 @@ public class ExportExcel2 {
                 zidonghuanhang2.setBorderRight(HSSFCellStyle.BORDER_THIN);  
                 zidonghuanhang2.setBorderTop(HSSFCellStyle.BORDER_THIN);  
                 Cell datacell = null;  
-                for (int j = 0; j < columnNumber; j++)   
-                {  
+                for (int j = 0; j < columnNumber; j++){  
                     datacell = row.createCell(j);
                     if (dataList.get(i).size()>j) {
                     	 String cellValue = "";
@@ -194,8 +195,92 @@ public class ExportExcel2 {
 					}
                    
                 }  
-            }  
-  
+               
+            }  */
+            
+            int i=0; 
+            int l=0;
+            for(Map<String,List<Record2>> map : arrlist){  //1.获取list中每一个map,即得到每条数据
+            	
+                 // 为数据内容设置特点新单元格样式1 自动换行 上下居中  
+                 CellStyle zidonghuanhang = wb.createCellStyle();  
+                 zidonghuanhang.setWrapText(true);// 设置自动换行  
+                 zidonghuanhang.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER); // 创建一个居中格式  
+   
+                 // 设置边框  
+                 zidonghuanhang.setBottomBorderColor(HSSFColor.BLACK.index);  
+                 zidonghuanhang.setBorderBottom(HSSFCellStyle.BORDER_THIN);  
+                 zidonghuanhang.setBorderLeft(HSSFCellStyle.BORDER_THIN);  
+                 zidonghuanhang.setBorderRight(HSSFCellStyle.BORDER_THIN);  
+                 zidonghuanhang.setBorderTop(HSSFCellStyle.BORDER_THIN);  
+   
+                 // 为数据内容设置特点新单元格样式2 自动换行 上下居中左右也居中  
+                 CellStyle zidonghuanhang2 = wb.createCellStyle();  
+                 zidonghuanhang2.setWrapText(true);// 设置自动换行  
+                 zidonghuanhang2.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER); // 创建一个上下居中格式  
+                 zidonghuanhang2.setAlignment(HSSFCellStyle.ALIGN_CENTER);// 左右居中  
+   
+                 // 设置边框  
+                 zidonghuanhang2.setBottomBorderColor(HSSFColor.BLACK.index);  
+                 zidonghuanhang2.setBorderBottom(HSSFCellStyle.BORDER_THIN);  
+                 zidonghuanhang2.setBorderLeft(HSSFCellStyle.BORDER_THIN);  
+                 zidonghuanhang2.setBorderRight(HSSFCellStyle.BORDER_THIN);  
+                 zidonghuanhang2.setBorderTop(HSSFCellStyle.BORDER_THIN);  
+                 Cell datacell = null;  
+               
+                for(String key : map.keySet()){    //2.遍历每个map,得到含题号的list
+                    String type = key;
+                    String cellValue = "";
+                    
+                    List<Record2> list = map.get(key);
+                    int j=0;
+                    for(Record2 record4 : list){   //3.遍历含题号的list
+                        String questionId = record4.getQuestionId();
+                        cellValue = questionId;
+                        
+                        List<Record2> list2 = record4.getDatalists();
+                       
+                        for(Record2 record5 : list2){   //4.遍历最后的dataList
+                        	
+                        	/*sheet.addMergedRegion(new CellRangeAddress(l+4, l+j+3, 0,0)); // 合并列
+                            row = sheet.createRow(l+4);
+                            datacell = row.createCell(0);
+                            datacell.setCellStyle(zidonghuanhang2);
+                            datacell.setCellValue(type);*/
+                             
+                        	row = sheet.createRow((int) i + 6);
+                        	i++;
+                            j++;
+                            
+                            if(j==1){
+                            	l=i;
+                            }
+                            String [] strArray = new String [4];
+                          /*  strArray[0]=type;
+                            strArray[1]=questionId;*/
+                            strArray[0] = ""+j;	//编号
+                            strArray[1]=record5.getAnswer();
+                            strArray[2]=record5.getStudentName();
+                            strArray[3]=record5.getAnswerClick();
+                            
+                            for (int k = 0; k < strArray.length; k++) {
+                            	
+                            	 datacell = row.createCell(k+2);
+                            	 cellValue=strArray[k];
+                            	 datacell.setCellStyle(zidonghuanhang2);
+                                 datacell.setCellValue(cellValue); 
+							}
+                        }
+                    }
+                    sheet.addMergedRegion(new CellRangeAddress(l+4, l+j+3, 0,0)); // 合并列
+                    row = sheet.createRow(l+4);
+                    datacell = row.createCell(0);
+                    datacell.setCellStyle(zidonghuanhang2);
+                    datacell.setCellValue(type); 
+                }
+                
+
+            }
             // 第六步，将文件存到浏览器设置的下载位置  
            // String filename = fileName + ".xls";  
           

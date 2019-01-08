@@ -67,7 +67,7 @@ public class RedisMapSingleAnswer {
     
     public static void addAnswer(String jsonData){
     	try {
-    		Constant.QUESTION_ID++;
+    		
         	logger.info("【单选接收到的数据】"+jsonData);
             JSONArray jsonArray= JSONArray.fromObject(jsonData);
             

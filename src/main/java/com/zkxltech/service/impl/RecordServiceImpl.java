@@ -10,6 +10,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -346,9 +347,65 @@ public class RecordServiceImpl implements RecordService{
                         }
                     }
                     String[] columnName = new String[columnNumber];// 标题
-                    columnName[0] = "id";columnName[1] = "StudentId";columnName[2] = "StudentName";
-                    columnName[3] = "QuestionType";columnName[4] = "Answer";columnName[5] = "AnswerTime";
-                 
+                    columnName[0] = "QuestionType";columnName[1] = "StudentId";columnName[2] = "Id";
+                    columnName[3] = "Answer";columnName[4] = "StudentName";columnName[5] = "AnswerTime";
+                   
+                   /* List<Record2> list = new ArrayList<>();
+                    List<Record2> list1 = new ArrayList<>();
+                    Record2 re = new Record2();
+                    String[] str = {"Questionnaire-Letter","Questionnaire-Digit","Questionnaire-Y/N","MutipleChoice-letter","Survey",""};
+                    for (String s : str){
+                        re.setQuestionShow(s);
+                        for(Record2 record2:records){
+                            if(s.equals(record2.getQuestionShow())){
+                                list1.add(record2);
+                            }
+                        }
+                        re.setDatalists(list1);
+                        list.add(re);
+                    }
+                    System.out.println(list.toString());*/
+                    List<Map<String,List<Record2>>> list = new ArrayList<>();
+                    List<String> list4 = new ArrayList<>();
+                    List<String> list5 = new ArrayList<>();
+
+                    for(Record2 record3:records){
+                        list4.add(record3.getQuestionShow());
+                        if(record3.getQuestionId()!=null){
+                            list5.add(record3.getQuestionId());
+                        }
+                    }
+                    removeDuplicate(list4);
+                    removeDuplicate(list5);
+                    for (String s : list4){
+                        Map<String,List<Record2>> map = new HashMap<>();
+                        List<Record2> list1 = new ArrayList<>();
+                        List<Record2> list2 = new ArrayList<>();
+
+                        for(Record2 record2:records){
+                            if(s.equals(record2.getQuestionShow())){
+                                list2.add(record2);
+                            }
+                        }
+                        for(String s1:list5){
+                            Record2 re = new Record2();
+                            List<Record2> list3 = new ArrayList<>();
+                            re.setQuestionId(s1);
+                            for(Record2 record3:list2){
+                                if(s1.equals(record3.getQuestionId())){
+                                    list3.add(record3);
+                                }
+                            }
+                            re.setDatalists(list3);
+                            if(re.getDatalists().size()>0){
+                                list1.add(re);
+                            }
+                        }
+                        map.put(s,list1);
+                        list.add(map);
+                    }
+
+                    
                     List<List<Object>> lists = new ArrayList<List<Object>>();
                     int i =0;
                     for (Record2 record2 : records) {
@@ -357,16 +414,17 @@ public class RecordServiceImpl implements RecordService{
                              listMaps.add(null);
                          }
                          i++;
-                         listMaps.set(0,""+i); //答题器编号
-                         listMaps.set(1,  record2.getStudentId()); 
+                         listMaps.set(0,""+i); //编号
+                         listMaps.set(1,record2.getStudentId()); //学生ID
                          listMaps.set(2,record2.getStudentName());//姓名
-                         listMaps.set(3,record2.getQuestionShow());//姓名
-                         listMaps.set(4,record2.getAnswer());//姓名
-                         listMaps.set(5,record2.getAnswerClick());//姓名
+                         listMaps.set(3,record2.getQuestionShow());//答题类型
+                         listMaps.set(4,record2.getAnswer());//答案
+                         listMaps.set(5,record2.getAnswerClick());//答案提交时间
                          lists.add(listMaps);
-					}
+					}//[[1, 10003, 王大玫, Questionnaire-Y/N, false, 2018-12-29 10:03:55], [2, 10001, 张惠江, Questionnaire-Y/N, false, 2018-12-29 10:03:52]]
+                   
                     String flieUrl = System.getProperty("user.dir").replaceAll("\\\\", "/") + "/"+"excels/";
-                    SXSSFWorkbook wb = ExportExcel2.ExportWithResponse("answer sheet",dates,className, columnNumber, columnWidth, columnName , lists);   
+                    SXSSFWorkbook wb = ExportExcel2.ExportWithResponse("answer sheet",dates,className, columnNumber, columnWidth, columnName , lists, list);   
                     File file = new File(flieUrl);
                     if (!file.exists()) {
                         file.mkdirs();
@@ -677,4 +735,11 @@ public class RecordServiceImpl implements RecordService{
 	            return result;
 	        }
 	}
+	  public static List removeDuplicate(List list) {
+	        HashSet h = new HashSet(list);
+	        list.clear();
+	        list.addAll(h);
+	        return list;
+	    }
+
 }

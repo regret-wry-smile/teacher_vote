@@ -219,7 +219,7 @@ public class AnswerInfoServiceImpl implements AnswerInfoService{
 	
 	@Override
     public Result singleAnswer(Object param) {
-		
+		Constant.QUESTION_ID++;
         Result r = new Result();
         r.setRet(Constant.ERROR);
         /*停止所有线程*/
