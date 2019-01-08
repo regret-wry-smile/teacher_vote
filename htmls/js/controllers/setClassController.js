@@ -314,7 +314,7 @@ app.controller('setClassCtrl', function($rootScope,$scope, toastr,$modal,$window
 		var result=JSON.parse(execute_vote("to_vote"));
 		console.log(JSON.stringify(result))
 		if(result.ret!='success'){
-			toastr.error(result.message);	
+			toastr.warning(result.message);	
 		}
 		
 	}
