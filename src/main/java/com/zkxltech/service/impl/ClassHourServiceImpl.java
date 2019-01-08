@@ -223,7 +223,8 @@ public class ClassHourServiceImpl implements ClassHourService{
             RedisMapAttendance.clearAttendanceMap();
             RedisMapAttendance.clearCardIdSet();
 			RedisMapAttendance.clearSignMap();
-			
+			//将题号清零
+            Constant.QUESTION_ID =0;
 			result.setRet(Constant.SUCCESS);
 			result.setMessage("End the class！");//结束课程
 		} catch (Exception e) {
