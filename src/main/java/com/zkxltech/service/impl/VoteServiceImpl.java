@@ -1,8 +1,6 @@
 package com.zkxltech.service.impl;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import com.ejet.cache.RedisMapSingleAnswer;
 import com.ejet.cache.RedisMapVote;
 import com.ejet.core.util.constant.Constant;
 import com.ejet.core.util.constant.Global;
@@ -14,7 +12,10 @@ import com.zkxltech.service.VoteService;
 import com.zkxltech.thread.BaseThread;
 import com.zkxltech.thread.ThreadManager;
 import com.zkxltech.thread.VoteThread;
+import com.zkxltech.ui.util.PageConstant;
 import com.zkxltech.ui.util.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class VoteServiceImpl implements VoteService{
     private static final Logger logger = LoggerFactory.getLogger(VoteServiceImpl.class);
@@ -161,6 +162,24 @@ public class VoteServiceImpl implements VoteService{
 		} catch (Exception e) {
 			result.setRet(Constant.ERROR);
 			result.setMessage("获取投票主题失败！");
+			result.setDetail(IOUtils.getError(e));
+			logger.error(IOUtils.getError(e));
+			return result;
+		}
+	}
+
+	@Override
+	public Result toVote(){
+		result = new Result();
+		try {
+			PageConstant.browser.setUrl(PageConstant.VOTE_ANSWER_URL_START);
+			result.setRet(Constant.SUCCESS);
+			result.setMessage("进入投票页面成功！");
+			RedisMapSingleAnswer.setCondition(Constant.BUSINESS_VOTE);
+			return result;
+		}catch (Exception e){
+			result.setRet(Constant.ERROR);
+			result.setMessage("进入投票页面成功失败！");
 			result.setDetail(IOUtils.getError(e));
 			logger.error(IOUtils.getError(e));
 			return result;

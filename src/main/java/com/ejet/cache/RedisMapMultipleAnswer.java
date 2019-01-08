@@ -139,6 +139,9 @@ public class RedisMapMultipleAnswer {
 	        	JSONObject jsonObject = jsonArray.getJSONObject(i); //，每个学生的作答信息
 	        	if (!jsonObject.containsKey("result")) {
 	        	   	String carId = jsonObject.getString("card_id"); //答题器编号
+					if (StringUtils.isEmpty(RedisMapAttendance.getSignMap().get(carId))){
+						continue;
+					}
 					StudentInfo studentInfo = verifyCardId(carId);
 		        	if (studentInfo != null) {
 		        		JSONArray answers =  JSONArray.fromObject(jsonObject.get("answers"));
@@ -294,9 +297,9 @@ public class RedisMapMultipleAnswer {
 			if (map != null) {
 				answerN = map.size();
 			}
-			logger.info("作答人数："+ answerN+"总人数:"+Global.getStudentInfos().size());
+			logger.info("作答人数："+ answerN+"总人数:"+RedisMapAttendance.getSignMap().size());
 			answerNum.put("answerNum", answerN);
-			answerNum.put("total", Global.getStudentInfos().size());
+			answerNum.put("total", RedisMapAttendance.getSignMap().size());
 			return JSONObject.fromObject(answerNum).toString();
 		} catch (Exception e) {
 			logger.error(IOUtils.getError(e));

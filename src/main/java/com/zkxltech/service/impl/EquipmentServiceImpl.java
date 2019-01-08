@@ -238,15 +238,15 @@ public class EquipmentServiceImpl implements EquipmentService {
 			int ret = DeviceComm.clearWl();
 			if (ret != 0) {
 				r.setRet(Constant.ERROR);
-				r.setMessage("Send instruction failed");
+				r.setMessage("Send instruction failed");//指令发送失败
 				return r;
 			}
-			r.setMessage("Instruction sent successfully");
+			r.setMessage("Instruction sent successfully");//指令发送成功
 			r.setRet(Constant.SUCCESS);
 		} catch (Exception e) {
 			log.error(IOUtils.getError(e));
 			r.setRet(Constant.ERROR);
-			r.setMessage("Send instruction failed");
+			r.setMessage("Send instruction failed");//指令发送失败
 		}
 
 		return r;

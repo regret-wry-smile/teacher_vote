@@ -66,16 +66,6 @@ var app=angular.module('app',['ui.bootstrap','toastr']);
 			toastr.error($scope.result.message);
 		}
 	};
-	
-	/*for(var i=0;i<10;i++){
-		var item={"atype":"0","classId":"99999444","className":"哈哈哈哈哈哈哈哈哈哈","id":37}
-		$scope.classList.push(item)
-	}
-	for(var i=0;i<10;i++){
-		var item={"classId":"BJ1001","className":"自动测试","iclickerId":"6666660001","id":1001622,"status":"0","studentId":"10000001","studentName":"学001"}
-		$scope.studentList.push(item)
-	}*/
-	
 	var _init=function(){
 		_selectClass();
 		

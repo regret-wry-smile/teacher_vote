@@ -314,7 +314,7 @@ public class MainStart {
 			 
 			//关闭
 			CLabel cLabel01 = new CLabel(shell, SWT.NONE);
-			cLabel01.setToolTipText("关闭");
+			cLabel01.setToolTipText("Shut down");//关闭
 			cLabel01.setBackground(SWTResourceManager.getImage(MainStart.class, PageConstant.select_close));
 			cLabel01.setBounds(0, 0, 60, 38);
 			cLabel01.addMouseListener(new MouseAdapter() {
@@ -322,7 +322,7 @@ public class MainStart {
 				public void mouseDown(MouseEvent e) {
 					if(e.button == 1){
 						MessageBox messageBox = new MessageBox(new Shell(),SWT.ICON_QUESTION|SWT.YES|SWT.NO);
-		        		messageBox.setMessage("确定要退出？");
+		        		messageBox.setMessage("Are you sure you want to quit?");//确定要退出？
 		        		if (messageBox.open() == SWT.YES) {
 		        			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 //		        			 ClassHourSql classHourSql = new ClassHourSql();
@@ -335,7 +335,7 @@ public class MainStart {
 			
 			//答题
 			CLabel cLabel02 = new CLabel(shell, SWT.NONE);
-			cLabel02.setToolTipText("答题");
+			cLabel02.setToolTipText("Answer the questions");//答题
 			cLabel02.setBackground(SWTResourceManager.getImage(MainStart.class, PageConstant.select_answer));
 			cLabel02.setBounds(0, 38, 59, 38);
 			cLabel02.addMouseListener(new MouseAdapter() {
@@ -353,7 +353,7 @@ public class MainStart {
 			});
 			//设置
 			CLabel cLabel03 = new CLabel(shell, SWT.NONE);
-			cLabel03.setToolTipText("设置");
+			cLabel03.setToolTipText("Setting up");//设置
 			cLabel03.setBackground(SWTResourceManager.getImage(MainStart.class, PageConstant.select_set));
 			cLabel03.setBounds(0, 76, 60, 40);
 			cLabel03.addMouseListener(new MouseAdapter() {
@@ -368,7 +368,7 @@ public class MainStart {
 			});
 			//记录
 			CLabel cLabel04 = new CLabel(shell, SWT.NONE);
-			cLabel04.setToolTipText("记录");
+			cLabel04.setToolTipText("Record");//记录
 			cLabel04.setBackground(SWTResourceManager.getImage(MainStart.class, PageConstant.select_record));
 			cLabel04.setBounds(0, 114, 60, 40);
 			cLabel04.addMouseListener(new MouseAdapter() {

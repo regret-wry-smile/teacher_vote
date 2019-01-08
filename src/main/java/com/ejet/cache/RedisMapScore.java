@@ -167,6 +167,9 @@ public class RedisMapScore {
         	JSONObject jsonObject = jsonArray.getJSONObject(i); //，每个学生的作答信息
         	if (!jsonObject.containsKey("result")) {
         		String carId = jsonObject.getString("card_id"); //答题器编号
+				if (StringUtils.isEmpty(RedisMapAttendance.getSignMap().get(carId))){
+					continue;
+				}
             	if (!StringUtils.isEmpty(verifyCardId(carId))) {
             		JSONArray answers =  JSONArray.fromObject(jsonObject.get("answers"));
             		for (int j = 0; j < answers.size(); j++) {

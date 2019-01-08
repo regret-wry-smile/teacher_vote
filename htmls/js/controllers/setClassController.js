@@ -309,6 +309,11 @@ app.controller('setClassCtrl', function($rootScope,$scope, toastr,$modal,$window
 			toastr.error($scope.result.message);			
 		}
 	}*/
+	/*跳转到投票*/
+	$scope.skipVote=function(){		
+		var result=JSON.parse(execute_vote("to_vote"));
+		console.log(JSON.stringify(result))
+	}
 	//下课
 	$scope.stopClass=function(){
 		$scope.result=JSON.parse(execute_record("end_class"));
