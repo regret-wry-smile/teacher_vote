@@ -237,28 +237,33 @@ public class ExportExcel2 {
                     for(Record2 record4 : list){   //3.遍历含题号的list
                         String questionId = record4.getQuestionId();
                         cellValue = questionId;
-                        
+
                         List<Record2> list2 = record4.getDatalists();
+                        int m = i+5;
+                        if(m != (m+list2.size()-1)){
+                            sheet.addMergedRegion(new CellRangeAddress(m, m+list2.size()-1, 1,1)); // 合并列
+                        }
+                        row = sheet.createRow(m);
+                        datacell = row.createCell(1);
+                        datacell.setCellStyle(zidonghuanhang2);
+                        datacell.setCellValue(record4.getQuestionId());
                        
                         for(Record2 record5 : list2){   //4.遍历最后的dataList
-                        	
-                        	/*sheet.addMergedRegion(new CellRangeAddress(l+4, l+j+3, 0,0)); // 合并列
-                            row = sheet.createRow(l+4);
-                            datacell = row.createCell(0);
-                            datacell.setCellStyle(zidonghuanhang2);
-                            datacell.setCellValue(type);*/
-                             
-                        	row = sheet.createRow((int) i + 6);
+                            if(m==(i+5)){
+                                row = sheet.getRow(m);
+                            }else {
+                                row = sheet.createRow((int) i + 5);
+                            }
                         	i++;
                             j++;
-                            
+
                             if(j==1){
                             	l=i;
                             }
                             String [] strArray = new String [4];
                           /*  strArray[0]=type;
                             strArray[1]=questionId;*/
-                            strArray[0] = ""+j;	//编号
+                            strArray[0] = ""+i;	//编号
                             strArray[1]=record5.getAnswer();
                             strArray[2]=record5.getStudentName();
                             strArray[3]=record5.getAnswerClick();
@@ -272,11 +277,11 @@ public class ExportExcel2 {
 							}
                         }
                     }
-                    sheet.addMergedRegion(new CellRangeAddress(l+4, l+j+3, 0,0)); // 合并列
-                    row = sheet.createRow(l+4);
+                   sheet.addMergedRegion(new CellRangeAddress(l+4, l+j+3, 0,0)); // 合并列
+                    row = sheet.getRow(l+4);
                     datacell = row.createCell(0);
                     datacell.setCellStyle(zidonghuanhang2);
-                    datacell.setCellValue(type); 
+                    datacell.setCellValue(type);
                 }
                 
 
