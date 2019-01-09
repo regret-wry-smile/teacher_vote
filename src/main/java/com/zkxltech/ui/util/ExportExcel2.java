@@ -26,8 +26,8 @@ import com.zkxltech.domain.Record2;
 @SuppressWarnings("deprecation")
 public class ExportExcel2 {
 
-    public static SXSSFWorkbook ExportWithResponse(String sheetName,String dates,String className,
-    		int columnNumber, int[] columnWidth,String[] columnName, List<List<Object>> dataList,List<Map<String,List<Record2>>> arrlist) throws Exception { 
+    public static SXSSFWorkbook ExportWithResponse(String sheetName,String title, String dates,String className,
+    		int columnNumber, int[] columnWidth,String[] columnName, List<Map<String,List<Record2>>> arrlist) throws Exception {
         
     	SXSSFWorkbook wb = new SXSSFWorkbook(); 
         if (columnNumber == columnWidth.length&& columnWidth.length == columnName.length) {  
@@ -58,7 +58,8 @@ public class ExportExcel2 {
             sheet.addMergedRegion(new CellRangeAddress(0, 0, 0,15)); // 合并列标题  
 
             cell1.setCellStyle(style2); // 设置标题样式  
-            
+            cell1.setCellValue(title); // 设置创建标题
+
             //创建试卷名称列
             Row row2 = sheet.createRow((int) 1);  
             row2.setHeightInPoints(12);// 设备标题的高度  
@@ -137,69 +138,10 @@ public class ExportExcel2 {
                 Cell cell = row.createCell(i);  
                 cell.setCellValue(columnName[i]);  
                 cell.setCellStyle(style);  
-            }  
-  
-            // 第五步，创建单元格，并设置值  
-           /* for (int i = 0; i < dataList.size(); i++)   
-            {  
-                row = sheet.createRow((int) i + 5);  
-                // 为数据内容设置特点新单元格样式1 自动换行 上下居中  
-                CellStyle zidonghuanhang = wb.createCellStyle();  
-                zidonghuanhang.setWrapText(true);// 设置自动换行  
-                zidonghuanhang.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER); // 创建一个居中格式  
-  
-                // 设置边框  
-                zidonghuanhang.setBottomBorderColor(HSSFColor.BLACK.index);  
-                zidonghuanhang.setBorderBottom(HSSFCellStyle.BORDER_THIN);  
-                zidonghuanhang.setBorderLeft(HSSFCellStyle.BORDER_THIN);  
-                zidonghuanhang.setBorderRight(HSSFCellStyle.BORDER_THIN);  
-                zidonghuanhang.setBorderTop(HSSFCellStyle.BORDER_THIN);  
-  
-                // 为数据内容设置特点新单元格样式2 自动换行 上下居中左右也居中  
-                CellStyle zidonghuanhang2 = wb.createCellStyle();  
-                zidonghuanhang2.setWrapText(true);// 设置自动换行  
-                zidonghuanhang2.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER); // 创建一个上下居中格式  
-                zidonghuanhang2.setAlignment(HSSFCellStyle.ALIGN_CENTER);// 左右居中  
-  
-                // 设置边框  
-                zidonghuanhang2.setBottomBorderColor(HSSFColor.BLACK.index);  
-                zidonghuanhang2.setBorderBottom(HSSFCellStyle.BORDER_THIN);  
-                zidonghuanhang2.setBorderLeft(HSSFCellStyle.BORDER_THIN);  
-                zidonghuanhang2.setBorderRight(HSSFCellStyle.BORDER_THIN);  
-                zidonghuanhang2.setBorderTop(HSSFCellStyle.BORDER_THIN);  
-                Cell datacell = null;  
-                for (int j = 0; j < columnNumber; j++){  
-                    datacell = row.createCell(j);
-                    if (dataList.get(i).size()>j) {
-                    	 String cellValue = "";
-                    	 if (dataList.get(i).get(j) instanceof HashMap) {
-                    		 HashMap<String, Object> map =((HashMap<String, Object>)dataList.get(i).get(j));
-                    		 cellValue = (String) map.get("answer");
-                    		 datacell.setCellStyle(zidonghuanhang2);  
-                    		 if (!Constant.ZHUGUANTI_NUM.equals(map.get("type"))) {//客观题分对错
-                    			 if (Constant.RESULT_TRUE.equals(map.get("result"))) {
-                       			  	datacell.setCellStyle(trueStyle);  
-                    			 }else {
-                    				datacell.setCellStyle(falseStyle);  
-                    			 }
-							}
-                    	 }else {
-                    		 cellValue = (String) dataList.get(i).get(j);
-                    		 datacell.setCellStyle(zidonghuanhang2);  
-                    	 }
-                    	 datacell.setCellValue(cellValue);  
-                        
-					}else {
-						datacell.setCellValue("");  
-						datacell.setCellStyle(zidonghuanhang2);  
-					}
-                   
-                }  
-               
-            }  */
-            
-            int i=0; 
-            int l=0;
+            }
+
+            // 第五步，创建单元格，并设置值
+            int i=0;  int l=0;
             for(Map<String,List<Record2>> map : arrlist){  //1.获取list中每一个map,即得到每条数据
             	
                  // 为数据内容设置特点新单元格样式1 自动换行 上下居中  
