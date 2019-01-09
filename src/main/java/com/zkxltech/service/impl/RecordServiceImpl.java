@@ -321,7 +321,8 @@ public class RecordServiceImpl implements RecordService{
                     
     	            String title = "Record export table";
     	            String className = "ClassName:"+record.getClassId(); 
-    	            
+    	            String scenario = "Scenario:"+record.getSubject();
+
     	            if("0".equals(record.getQuestionType())){
     	            	record.setQuestionType(null);
     	            }
@@ -392,7 +393,7 @@ public class RecordServiceImpl implements RecordService{
 
                    
                     String flieUrl = System.getProperty("user.dir").replaceAll("\\\\", "/") + "/"+"excels/";
-                    SXSSFWorkbook wb = ExportExcel2.ExportWithResponse("answer sheet",title,dates,className, columnNumber, columnWidth, columnName , list);
+                    SXSSFWorkbook wb = ExportExcel2.ExportWithResponse("answer sheet",title,dates,className,scenario, columnNumber, columnWidth, columnName , list);
                     File file = new File(flieUrl);
                     if (!file.exists()) {
                         file.mkdirs();
