@@ -42,7 +42,7 @@ public class ExportExcel2 {
                 {  
                     if (i == j)   
                     {  
-                        sheet.setColumnWidth(i, columnWidth[j] * 256); // 单独设置每列的宽  
+                        sheet.setColumnWidth(i, columnWidth[j] * 256*2); // 单独设置每列的宽  
                     }  
                 }  
             }  

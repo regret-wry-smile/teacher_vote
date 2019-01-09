@@ -90,7 +90,7 @@ public class DBHelper2{
 		  } catch ( Exception e ) {
 			  log.error(IOUtils.getError(e));
 			  result.setRet(Constant.ERROR);
-			  result.setMessage("sql执行失败！");
+			  result.setMessage("Sql exec failure！");
 			  result.setDetail(e.getMessage());
 		  }finally {
 				try {

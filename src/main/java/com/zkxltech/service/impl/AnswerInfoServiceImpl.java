@@ -45,7 +45,7 @@ public class AnswerInfoServiceImpl implements AnswerInfoService{
 			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//结束时间
 			record2.setAnswerStart(df.format(new Date()));
 			record2.setQuestionId(""+Constant.QUESTION_ID);
-			record2.setQuestionName("第"+Constant.QUESTION_ID+"题");
+			record2.setQuestionName("Question Name:"+Constant.QUESTION_ID);
 			result = EquipmentServiceImpl.getInstance().answerStart2(Constant.ANSWER_MULTIPLE_TYPE,list);
 			if (Constant.ERROR.equals(result.getRet())) {
 				result.setRet(Constant.ERROR);
