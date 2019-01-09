@@ -70,24 +70,22 @@ public class ExportExcel2 {
             row2.setHeightInPoints(12);// 设备标题的高度  
             Cell cell2 = row2.createCell(0);// 创建标题第一列  
             sheet.addMergedRegion(new CellRangeAddress(1, 1, 0,8)); // 合并列
-           // cell2.setCellValue(manageName); 
+            cell2.setCellValue(dates); 
             
             //创建时间行
             Row row3 = sheet.createRow((int) 2);  
             row3.setHeightInPoints(12);// 设备标题的高度 
             Cell cell3 = row3.createCell(0);// 创建标题第一列  
             sheet.addMergedRegion(new CellRangeAddress(2, 2, 0,8)); // 合并列
-            cell3.setCellValue(dates); // 设置创建时间
+            cell3.setCellValue(className); // 设置创建时间
             
             //班级名称和学生人数行
             Row row4 = sheet.createRow((int) 3);  
             row4.setHeightInPoints(12);// 设备标题的高度 
             Cell cell4 = row4.createCell(0);// 创建标题第一列  
             Cell cell5 = row4.createCell(4);// 创建标题第二列  
-            sheet.addMergedRegion(new CellRangeAddress(3, 3, 0,3)); // 合并列
-            sheet.addMergedRegion(new CellRangeAddress(3, 3, 4,8)); // 合并列
-            cell4.setCellValue(className); // 设置班级名称
-            cell5.setCellValue(scenario); // 设置科目名称
+            sheet.addMergedRegion(new CellRangeAddress(3, 3, 0,8)); // 合并列
+            cell4.setCellValue(scenario); // 设置班级名称
 
             
             // 创建第1行 也就是表头  

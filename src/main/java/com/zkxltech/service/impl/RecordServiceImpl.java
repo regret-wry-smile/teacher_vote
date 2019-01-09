@@ -318,9 +318,18 @@ public class RecordServiceImpl implements RecordService{
                         BrowserManager.showMessage(false,"Missing Parameters:ClassId,Scenario");
                         return;
                     }
-                    
+                    ClassHour classHour = new ClassHour();
+                    ClassHourSql c = new ClassHourSql();
+                    classHour.setClassId(record.getClassId());
+                   
+                    Result result1 = c.selectClassHour(classHour);
+                    List<ClassHour> classList= (List<ClassHour>) result1.getItem();
+                    String a = "";
+                    for(ClassHour classHour1 : classList){
+                    	 a = "ClassName:" + classHour1.getClassName();
+                    }
+                    String className = a;
     	            String title = "Record export table";
-    	            String className = "ClassName:"+record.getClassId(); 
     	            String scenario = "Scenario:"+record.getSubject();
 
     	            if("0".equals(record.getQuestionType())){
