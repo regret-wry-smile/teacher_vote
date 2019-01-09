@@ -319,7 +319,7 @@ public class RecordServiceImpl implements RecordService{
                         return;
                     }
                     
-    	            
+    	            String title = "Record export table";
     	            String className = "ClassName:"+record.getClassId(); 
     	            
     	            if("0".equals(record.getQuestionType())){
@@ -349,22 +349,7 @@ public class RecordServiceImpl implements RecordService{
                     String[] columnName = new String[columnNumber];// 标题
                     columnName[0] = "QuestionType";columnName[1] = "Object";columnName[2] = "Id";
                     columnName[3] = "Answer";columnName[4] = "StudentName";columnName[5] = "AnswerTime";
-                   
-                   /* List<Record2> list = new ArrayList<>();
-                    List<Record2> list1 = new ArrayList<>();
-                    Record2 re = new Record2();
-                    String[] str = {"Questionnaire-Letter","Questionnaire-Digit","Questionnaire-Y/N","MutipleChoice-letter","Survey",""};
-                    for (String s : str){
-                        re.setQuestionShow(s);
-                        for(Record2 record2:records){
-                            if(s.equals(record2.getQuestionShow())){
-                                list1.add(record2);
-                            }
-                        }
-                        re.setDatalists(list1);
-                        list.add(re);
-                    }
-                    System.out.println(list.toString());*/
+
                     List<Map<String,List<Record2>>> list = new ArrayList<>();
                     List<String> list4 = new ArrayList<>();
                     List<String> list5 = new ArrayList<>();
@@ -405,26 +390,9 @@ public class RecordServiceImpl implements RecordService{
                         list.add(map);
                     }
 
-                    
-                    List<List<Object>> lists = new ArrayList<List<Object>>();
-                    int i =0;
-                    for (Record2 record2 : records) {
-                    	 List<Object> listMaps = new ArrayList<Object>();
-                         while (columnNumber > listMaps.size()) {
-                             listMaps.add(null);
-                         }
-                         i++;
-                         listMaps.set(0,""+i); //编号
-                         listMaps.set(1,record2.getStudentId()); //学生ID
-                         listMaps.set(2,record2.getStudentName());//姓名
-                         listMaps.set(3,record2.getQuestionShow());//答题类型
-                         listMaps.set(4,record2.getAnswer());//答案
-                         listMaps.set(5,record2.getAnswerClick());//答案提交时间
-                         lists.add(listMaps);
-					}//[[1, 10003, 王大玫, Questionnaire-Y/N, false, 2018-12-29 10:03:55], [2, 10001, 张惠江, Questionnaire-Y/N, false, 2018-12-29 10:03:52]]
                    
                     String flieUrl = System.getProperty("user.dir").replaceAll("\\\\", "/") + "/"+"excels/";
-                    SXSSFWorkbook wb = ExportExcel2.ExportWithResponse("answer sheet",dates,className, columnNumber, columnWidth, columnName , lists, list);   
+                    SXSSFWorkbook wb = ExportExcel2.ExportWithResponse("answer sheet",title,dates,className, columnNumber, columnWidth, columnName , list);
                     File file = new File(flieUrl);
                     if (!file.exists()) {
                         file.mkdirs();
