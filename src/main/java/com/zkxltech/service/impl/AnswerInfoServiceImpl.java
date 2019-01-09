@@ -371,6 +371,7 @@ public class AnswerInfoServiceImpl implements AnswerInfoService{
 		for (int i=0 ;i<record2List.size();i++){
 			record2List.get(i).setAnswerEnd(df.format(new Date()));
 			record2List.get(i).setAnswerStart(record2.getAnswerStart());
+			record2List.get(i).setQuestionName(record2.getQuestionName());
 			record2List.get(i).setQuestionId(record2.getQuestionId());
 		}
 		result =recordSql2.insertRecords(record2List);
