@@ -1,5 +1,8 @@
 package com.zkxltech.thread;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,6 +37,9 @@ public class SingleAnswerThread extends BaseThread {
                     if (!StringUtils.isBlank(data) && !"[]".equals(data)) {
                         logger.info("获取到答题数据:===>>"+data);
                     	String jsonData = JSONArray.fromObject(data).toString();
+                    	String answerstart = ""; 
+                    	SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//结束时间
+                    	df.format(new Date());
 //                        StringBuilder stringBuilder = new StringBuilder(jsonData);
 //                        if (jsonData.startsWith("{")) {
 //                            stringBuilder.insert(0, "[").append("]");

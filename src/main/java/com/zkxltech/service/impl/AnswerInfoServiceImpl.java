@@ -30,6 +30,7 @@ public class AnswerInfoServiceImpl implements AnswerInfoService{
 	private RecordSql recordSql = new RecordSql();
 	private RecordSql2 recordSql2 = new RecordSql2();
 	private static BaseThread equipmentStatusThread;
+	public static String answerstart = "";
     
 	@Override
 	public Result startMultipleAnswer(Object object) {
@@ -230,6 +231,10 @@ public class AnswerInfoServiceImpl implements AnswerInfoService{
         RedisMapSingleAnswer.clearSingleAnswerStudentNameMap();
         RedisMapSingleAnswer.clearIclickerAnswerMap();
         try{
+        
+        	SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//结束时间
+			answerstart = df.format(new Date());
+			
         	RequestVo requestVo = StringUtils.parseJSON(param, RequestVo.class);
 			List<RequestVo> list = new ArrayList<RequestVo>();
 			list.add(requestVo);
@@ -290,6 +295,7 @@ public class AnswerInfoServiceImpl implements AnswerInfoService{
 	            r.setMessage("Instruction sending failed");//指令发送失败
 	            return r;
 	        }
+            
 	        BaseThread thread = new SingleAnswerThread();
 	        thread.start();
 	        ThreadManager.getInstance().addThread(thread);

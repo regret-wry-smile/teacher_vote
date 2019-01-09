@@ -10,6 +10,8 @@ import com.zkxltech.domain.Answer;
 import com.zkxltech.domain.ClassHour;
 import com.zkxltech.domain.Record2;
 import com.zkxltech.domain.StudentInfo;
+import com.zkxltech.service.impl.AnswerInfoServiceImpl;
+
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.slf4j.Logger;
@@ -76,16 +78,17 @@ public class RedisMapSingleAnswer {
                       record2.setIclickerId(studentInfo.getIclickerId());
                       record2.setQuestionId(""+Constant.QUESTION_ID);
                       record2.setQuestionName("Question Name:"+Constant.QUESTION_ID);
+                      record2.setAnswerStart(AnswerInfoServiceImpl.answerstart);
                       
                       if (studentInfo == null) { //如果根据卡号未找到学生,表示不是本班的
                           continue;
                       }
                       String sb = jsonObject.getString("update_time");
                       String str = sb.substring(0,19);
-                      record2.setAnswerStart(str);
+                      record2.setAnswerClick(str);
                       
-                      SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//结束时间
-                      record2.setAnswerClick(df.format(new Date()));
+                     /* SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//结束时间
+                      record2.setAnswerClick(df.format(new Date()));*/
                       
                       JSONArray answers =  JSONArray.fromObject(jsonObject.get("answers"));
                       for (Object answerOb : answers) {

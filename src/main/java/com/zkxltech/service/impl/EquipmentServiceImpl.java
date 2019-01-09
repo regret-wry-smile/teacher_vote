@@ -215,7 +215,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 	public Result bind_stop() {
 		Result r = new Result();
 		try {
-			int ret = DeviceComm.answerStop();
+			int ret = DeviceComm.wirelessBindStop();
 				if (ret != 0) {
 					r.setRet(Constant.ERROR);
 					r.setMessage("Send instruction failed");
