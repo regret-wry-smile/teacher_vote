@@ -337,6 +337,10 @@ public class RecordServiceImpl implements RecordService{
     	            }
     	            result = recordSql2.selectRecord(record);
     	            List<Record2> records = (List<Record2>) result.getItem();
+    	            if(records.size() == 0){
+    	            	BrowserManager.showMessage(false,"No data");
+                        return;
+    	            }
     	            result.setItem(records);       	    
                     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     SimpleDateFormat format2 = new SimpleDateFormat("yyyyMMddHHmmss");
