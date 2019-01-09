@@ -93,6 +93,9 @@ public class RedisMapScore {
 						keyBarMap[0] = questionId; //题号
 						for (String iclickerId : map2.keySet()) {
 							Answer answer = (Answer) JSONObject.toBean((JSONObject) map2.get(iclickerId), Answer.class);
+							if(StringUtils.isEmpty(answer.getAnswer())){
+								continue;
+							}
 							Record2 record2 = new Record2();
 							StudentInfo studentInfo = verifyCardId(iclickerId);
 							record2.setClassId(Global.getClassId());
