@@ -183,8 +183,6 @@ public class ExportExcel2 {
                     List<Record2> list = map.get(key);
                     int j=0;
                     for(Record2 record4 : list){   //3.遍历含题号的list
-                        String questionId = record4.getQuestionId();
-                        cellValue = questionId;
 
                         List<Record2> list2 = record4.getDatalists();
                         int m = i+5;
@@ -194,13 +192,13 @@ public class ExportExcel2 {
                         row = sheet.createRow(m);
                         datacell = row.createCell(1);
                         datacell.setCellStyle(zidonghuanhang2);
-                        datacell.setCellValue(record4.getQuestionId());
+                        datacell.setCellValue(record4.getQuestionName());
                        
                         for(Record2 record5 : list2){   //4.遍历最后的dataList
-                            if(m==(i+5)){
+                            if(m == (i+5)){
                                 row = sheet.getRow(m);
                             }else {
-                                row = sheet.createRow((int) i + 5);
+                                row = sheet.createRow(i + 5);
                             }
                         	i++;
                             j++;
@@ -209,8 +207,6 @@ public class ExportExcel2 {
                             	l=i;
                             }
                             String [] strArray = new String [4];
-                          /*  strArray[0]=type;
-                            strArray[1]=questionId;*/
                             strArray[0] = ""+i;	//编号
                             strArray[1]=record5.getAnswer();
                             strArray[2]=record5.getStudentName();

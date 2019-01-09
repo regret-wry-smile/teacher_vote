@@ -357,8 +357,8 @@ public class RecordServiceImpl implements RecordService{
 
                     for(Record2 record3:records){
                         list4.add(record3.getQuestionShow());
-                        if(record3.getQuestionId()!=null){
-                            list5.add(record3.getQuestionId());
+                        if(record3.getQuestionName()!=null){
+                            list5.add(record3.getQuestionName());
                         }
                     }
                     removeDuplicate(list4);
@@ -376,9 +376,9 @@ public class RecordServiceImpl implements RecordService{
                         for(String s1:list5){
                             Record2 re = new Record2();
                             List<Record2> list3 = new ArrayList<>();
-                            re.setQuestionId(s1);
+                            re.setQuestionName(s1);
                             for(Record2 record3:list2){
-                                if(s1.equals(record3.getQuestionId())){
+                                if(s1.equals(record3.getQuestionName())){
                                     list3.add(record3);
                                 }
                             }
