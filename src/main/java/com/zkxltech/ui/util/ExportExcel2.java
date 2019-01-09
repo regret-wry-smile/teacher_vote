@@ -206,8 +206,8 @@ public class ExportExcel2 {
                             }
                             String [] strArray = new String [4];
                             strArray[0] = ""+i;	//编号
-                            strArray[1]=record5.getAnswer();
-                            strArray[2]=record5.getStudentName();
+                            strArray[1]=record5.getStudentName();
+                            strArray[2]=record5.getAnswer();
                             strArray[3]=record5.getAnswerClick();
                             
                             for (int k = 0; k < strArray.length; k++) {
