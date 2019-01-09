@@ -316,10 +316,13 @@ public class AnswerInfoServiceImpl implements AnswerInfoService{
             }
             r.setRet(Constant.SUCCESS);
             r.setMessage("Stop success");//停止成功
+            RedisMapSingleAnswer.setCondition(null);
         	List<Record2> records = RedisMapSingleAnswer.getSingleRecordList();//如何从缓存中取数据。
-        	
+        	if(StringUtils.isEmptyList(records)){
+                Constant.QUESTION_ID--;
+                return r;
+            }
 			result =recordSql2.insertRecords(records); //将缓存中数据保存到数据库
-			RedisMapSingleAnswer.setCondition(null);
         }catch (Exception e) {
         	 log.error(IOUtils.getError(e));
             r.setMessage("System Exceptions");
@@ -356,11 +359,13 @@ public class AnswerInfoServiceImpl implements AnswerInfoService{
 	    ThreadManager.getInstance().stopAllThread();
         r = EquipmentServiceImpl.getInstance().answer_stop();
         if (r.getRet().equals(Constant.ERROR)) {
+            Constant.QUESTION_ID--;
             return r;
         }
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//结束时间
 		List<Record2> record2List =  RedisMapMultipleAnswer.getInsertRecord2();//获取缓存信息
 		if (StringUtils.isEmpty(record2List)){
+
 			return r;
 		}
 		for (int i=0 ;i<record2List.size();i++){
