@@ -205,6 +205,7 @@ public class ScoreServiceImpl implements ScoreService {
 			record2.setAnswerEnd(df.format(new Date()));
 			List<Record2> records = RedisMapScore.getScoreRecordList();
 			if (StringUtils.isEmpty(records)){
+				Constant.QUESTION_ID--;
 				return ;
 			}
 			for (int i = 0; i < records.size(); i++) {

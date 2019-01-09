@@ -66,7 +66,6 @@ public class RedisMapSingleAnswer {
                 if (!jsonObject.containsKey("result")) {
                 	  String card_id = jsonObject.getString("card_id");
                     if (StringUtils.isEmpty(RedisMapAttendance.getSignMap().get(card_id))){
-                        Constant.QUESTION_ID--;
                         continue;
                     }
                       StudentInfo studentInfo = studentInfoMap.get(card_id);
