@@ -277,7 +277,7 @@ public class StudentInfoServiceImpl implements StudentInfoService{
 				return result;
 			}
 			if (com.zkxltech.ui.util.StringUtils.isEmptyList(result.getItem())) {
-				result.setMessage("There are no students in the class！");//这个班级没有学生
+				result.setMessage("There are no perosons in the group！");//这个班级没有学生
 				result.setRet(Constant.ERROR);
 				return result;
 			}

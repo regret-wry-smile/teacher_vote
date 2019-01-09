@@ -176,7 +176,7 @@ public class ClassHourServiceImpl implements ClassHourService{
 			result = new StudentInfoServiceImpl().selectStudentInfo(studentInfo);
 			if (Constant.SUCCESS.equals(result.getRet())) {
 				if (StringUtils.isEmptyList(result.getItem())) {
-					result.setMessage("There are no students in the class！");
+					result.setMessage("There are no perosons in the group！");
 					result.setRet(Constant.ERROR);
 					return result;
 				}

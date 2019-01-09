@@ -357,7 +357,7 @@ public class RecordServiceImpl implements RecordService{
                         }
                     }
                     String[] columnName = new String[columnNumber];// 标题
-                    columnName[0] = "QuestionType";columnName[1] = "Object";columnName[2] = "Id";
+                    columnName[0] = "QuestionType";columnName[1] = "Object";columnName[2] = "Number";
                     columnName[3] = "Answer";columnName[4] = "StudentName";columnName[5] = "AnswerTime";
 
                     List<Map<String,List<Record2>>> list = new ArrayList<>();
