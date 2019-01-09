@@ -51,7 +51,7 @@ public class ScoreServiceImpl implements ScoreService {
 			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//开始时间
 			record2.setAnswerStart(df.format(new Date()));
 			record2.setId(1);
-			record2.setQuestionId("第"+Constant.QUESTION_ID+"题");
+			record2.setQuestionId(""+Constant.QUESTION_ID);
 			result.setMessage("开始评分！");
 			result.setRet(Constant.SUCCESS);
 			return result;
