@@ -312,16 +312,16 @@
   		
 		var nice = $("html").niceScroll(); // The document page (body)
 		/*	$("userlist").html($("#userlist").html()+' '+nice.version);*/
-		$('body').niceScroll({cursorborder:"",cursorcolor:"#d9d9d9",boxzoom:true});
+		$('body').niceScroll({cursorborder:"",cursorcolor:"#d9d9d9",boxzoom:false});
 		$("#userlist").niceScroll({
 			cursorborder: "",
 			cursorcolor: "#d9d9d9",
-			boxzoom: true
+			boxzoom: false
 		}); // First scrollable 
 		$("#classlist").niceScroll({
 			cursorborder: "",
 			cursorcolor: "#d9d9d9",
-			boxzoom: true
+			boxzoom: false
 		}); // First scrollable DIV
 		$('.classlist tbody tr td').click(function() {
 			$(this).find('span.name').addClass('active').siblings().removeClass('active');
