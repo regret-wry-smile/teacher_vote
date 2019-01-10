@@ -17,8 +17,7 @@ import com.zkxltech.domain.StudentInfo;
 import com.zkxltech.jdbc.DBHelper;
 import com.zkxltech.jdbc.DBHelper2;
 import com.zkxltech.ui.util.StringUtils;
-
-
+import jdk.nashorn.internal.objects.annotations.Where;
 
 public class StudentInfoSql {
 	private DBHelper<StudentInfo> dbHelper = new DBHelper<StudentInfo>();
@@ -270,7 +269,12 @@ public class StudentInfoSql {
         }
         
         //update student_info set status = '0' where iclicker_id in('3429469477','6666660002','************')
-        StringBuilder sb = new StringBuilder("update student_info set status = "+status+" where iclicker_id "+inOrNotIN+"(");
+		StringBuilder sb = new StringBuilder();
+		if (status.equals("0")){
+			sb.append("update student_info set status = "+status+",iclicker_id =NULL where iclicker_id "+inOrNotIN+"(");
+		}else {
+			sb.append("update student_info set status = "+status+" where iclicker_id "+inOrNotIN+"(");
+		}
         for (int i = 0; i< iclickerIds.size();i++) {
             sb.append("'");
             sb.append(iclickerIds.get(i));
