@@ -219,7 +219,9 @@ public class ExportExcel2 {
 							}
                         }
                     }
-                   sheet.addMergedRegion(new CellRangeAddress(l+4, l+j+3, 0,0)); // 合并列
+                    if((l+4) != (l+j+3)){
+                    	sheet.addMergedRegion(new CellRangeAddress(l+4, l+j+3, 0,0)); // 合并列
+                    }
                     row = sheet.getRow(l+4);
                     datacell = row.createCell(0);
                     datacell.setCellStyle(zidonghuanhang2);
