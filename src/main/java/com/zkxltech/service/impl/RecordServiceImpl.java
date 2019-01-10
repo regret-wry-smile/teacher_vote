@@ -325,8 +325,10 @@ public class RecordServiceImpl implements RecordService{
                     Result result1 = c.selectClassInfo(classInfo);
                     List<ClassInfo> classList= (List<ClassInfo>) result1.getItem();
                     String a = "";
+                    String b ="";
                     for(ClassInfo classInfo1 : classList){
-                    	 a = "ClassName:" + classInfo1.getClassName();
+                    	 a = "Group:" + classInfo1.getClassName();
+                    	 b = classInfo1.getClassName();
                     }
                     String className = a;
     	            String title = "Record export table";
@@ -348,7 +350,7 @@ public class RecordServiceImpl implements RecordService{
                     String time = format.format(new Date());
                     String date = format2.format(new Date());
                     
-                    fileName += record.getClassId()+"class"+record.getSubject()+date+".xls";
+                    fileName += b+"-group-"+record.getSubject()+"-"+date+".xls";
                     dates = "Create Time:"+time;
                   
                     int columnNumber = 6;
