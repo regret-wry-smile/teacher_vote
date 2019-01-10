@@ -252,9 +252,9 @@ public class StudentInfoServiceImpl implements StudentInfoService{
             }
 			result = studentInfoSql.updateStudentById(studentInfo);
 			if (Constant.SUCCESS.equals(result.getRet())) {
-				result.setMessage("Modify student information successfully!");
+				result.setMessage("Modify student information successfully!");//修改学生信息成功!
 			}else {
-				result.setMessage("Failed to modify student information！");
+				result.setMessage("Failed to modify student information！");//未能修改学生信息!
 			}
 			return result;
 		} catch (Exception e) {

@@ -39,7 +39,7 @@ public class SettingServiceImpl implements SettingService{
 				return result;
 			}
 			result.setRet(Constant.ERROR);
-			result.setMessage("Account password error！");
+			result.setMessage("Account password error！");//账户密码错误
 			return result;
 		} catch (Exception e) {
 			result.setRet(Constant.ERROR);
@@ -62,7 +62,7 @@ public class SettingServiceImpl implements SettingService{
 			Object item = get_device_info.getItem();
 			if (StringUtils.isEmpty(item)) {
                 result.setRet(Constant.ERROR);
-                result.setMessage("Equipment malfunction, Please restart");
+                result.setMessage("Equipment malfunction, Please restart");//设备故障，请重新启动
                 log.error("获取设备信息指令发送失败");
                 return result;
             }
