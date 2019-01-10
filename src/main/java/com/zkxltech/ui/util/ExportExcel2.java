@@ -191,21 +191,21 @@ public class ExportExcel2 {
                         datacell = row.createCell(1);
                         datacell.setCellStyle(zidonghuanhang2);
                         datacell.setCellValue(record4.getQuestionName());
-                       
+                       int n = 0;
                         for(Record2 record5 : list2){   //4.遍历最后的dataList
                             if(m == (i+5)){
                                 row = sheet.getRow(m);
                             }else {
                                 row = sheet.createRow(i + 5);
                             }
-                        	i++;
+                        	i++;n++;
                             j++;
 
                             if(j==1){
                             	l=i;
                             }
                             String [] strArray = new String [4];
-                            strArray[0] = ""+i;	//编号
+                            strArray[0] = ""+n;	//编号
                             strArray[1]=record5.getStudentName();
                             strArray[2]=record5.getAnswer();
                             strArray[3]=record5.getAnswerClick();
