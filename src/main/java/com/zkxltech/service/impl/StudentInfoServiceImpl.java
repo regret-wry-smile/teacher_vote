@@ -356,21 +356,35 @@ public class StudentInfoServiceImpl implements StudentInfoService{
 	        }
 	        List<StudentInfo> studentInfos = Global.getAllStudentInfos();
 	        if (ListUtils.isEmpty(studentInfos)) {
-	            r.setMessage("No student information was obtained");
+	            r.setMessage("No student information was obtained");//没有获得任何学生信息
 	            return r;
 	        }
+			/**将查出来的学生信息按是否绑定进行分类*/
+			List<StudentInfo> studentInfo1 = new ArrayList<>();
+	        for (StudentInfo studentInfo :studentInfos){
+	        	if (studentInfo.getStatus().equals("1")){
+					studentInfo1.add(studentInfo);
+				}
+			}
+			if (ListUtils.isEmpty(studentInfo1)) {
+				r.setRet(Constant.ERROR);
+				r.setMessage("No bound student information was obtained");//没有获得任何已绑定学生信息
+				return r;
+			}
 	        /**将查出来的学生信息按卡的id进行分类,并存入静态map中*/
-	        for (StudentInfo studentInfo : studentInfos) {
-	            Map<String, String> studentInfoMap = new HashMap<>();
-	            studentInfoMap.put("studentName", studentInfo.getStudentName());
-	            studentInfoMap.put("studentId",studentInfo.getStudentId());//学生id
-	            Map<String, String> attendMap = RedisMapAttendance.getAttendanceMap().get(studentInfo.getIclickerId());
-	            if(StringUtils.isEmpty(attendMap)){
-	            	studentInfoMap.put("status", Constant.ATTENDANCE_NO);	
-	            }else{
-	            	studentInfoMap.put("status", attendMap.get("status"));	
-	            }
-	            RedisMapAttendance.getAttendanceMap().put(studentInfo.getIclickerId(), studentInfoMap);
+	        for (StudentInfo studentInfo : studentInfo1) {
+	        	if (studentInfo.getStatus().equals("1")) {
+					Map<String, String> studentInfoMap = new HashMap<>();
+					studentInfoMap.put("studentName", studentInfo.getStudentName());
+					studentInfoMap.put("studentId", studentInfo.getStudentId());//学生id
+					Map<String, String> attendMap = RedisMapAttendance.getAttendanceMap().get(studentInfo.getIclickerId());
+					if (StringUtils.isEmpty(attendMap)) {
+						studentInfoMap.put("status", Constant.ATTENDANCE_NO);
+					} else {
+						studentInfoMap.put("status", attendMap.get("status"));
+					}
+					RedisMapAttendance.getAttendanceMap().put(studentInfo.getIclickerId(), studentInfoMap);
+				}
 	        }
 	        BaseThread thread = new AttendanceThread();
 	        thread.start();
