@@ -187,17 +187,25 @@ public class ExportExcel2 {
                         if(m != (m+list2.size()-1)){
                             sheet.addMergedRegion(new CellRangeAddress(m, m+list2.size()-1, 1,1)); // 合并列
                         }
-                        row = sheet.createRow(m);
-                        datacell = row.createCell(1);
+                        for(int h=0;h<list2.size();h++){
+                        	 row = sheet.createRow(m+h);
+                             datacell = row.createCell(1);
+                             datacell.setCellStyle(zidonghuanhang2);
+                        }
+                        
+                        for(int h=0;h<list2.size();h++){
+                       	 	row = sheet.getRow(m+h);
+                            datacell = row.createCell(0);
+                            datacell.setCellStyle(zidonghuanhang2);
+                       }
+                        
+                        row = sheet.getRow(m);
+                        datacell = row.getCell(1);
                         datacell.setCellStyle(zidonghuanhang2);
                         datacell.setCellValue(record4.getQuestionName());
                        int n = 0;
                         for(Record2 record5 : list2){   //4.遍历最后的dataList
-                            if(m == (i+5)){
-                                row = sheet.getRow(m);
-                            }else {
-                                row = sheet.createRow(i + 5);
-                            }
+                            row = sheet.getRow(i+5);
                         	i++;n++;
                             j++;
 
