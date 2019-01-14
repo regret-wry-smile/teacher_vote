@@ -87,7 +87,7 @@ public class StudentInfoServiceImpl implements StudentInfoService{
 			return result;
 		} catch (Exception e) {
 			result.setRet(Constant.ERROR);
-			result.setMessage("Failed to import students！");
+			result.setMessage("Failed to import students！(Maybe Id's length<5)");
 			result.setDetail(IOUtils.getError(e));
 			log.error(IOUtils.getError(e));
 			return result;

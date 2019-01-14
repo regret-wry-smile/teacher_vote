@@ -67,7 +67,8 @@ public class ImportExcelUtils {
                          	BigDecimal bd = new BigDecimal(Double.parseDouble(cell.toString()));
                          	System.out.println(bd.toPlainString());
                          	if(bd.toPlainString().length()>4){
-                                  return list;
+                         		 List<List<Object>> list1 = null; 
+                                return list1;
                          	}
                          }
                          li.add(getCellValue(cell));  
