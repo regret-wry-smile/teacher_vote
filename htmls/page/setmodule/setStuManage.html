@@ -85,7 +85,7 @@
 					<div class="form-group">
 						<label for="firstname" class="col-sm-3 control-label">GroupName</label>
 						<div class="col-sm-8">
-							<input type="text" autocomplete="off" name="name" id="" value="" class="form-control" ng-model="classInfo.className" required maxlength="10" placeholder="Please enter characters no longer than 10 bits in length" ng-pattern="/(^\s*)|(\s*$)/g" ng-change="selectClassName()"/>
+							<input type="text" autocomplete="off" name="name" id="" value="" class="form-control" ng-model="classInfo.className" required maxlength="20" placeholder="Please enter characters no longer than 20 bits in length" ng-pattern="/(^\s*)|(\s*$)/g" ng-change="selectClassName()"/>
 						</div>
 						<span ng-show="myForm.name.$invalid" class="warning">*</span>
 					</div>				
@@ -137,13 +137,13 @@
 			<form name="myForm" novalidate="novalidate">
 				<div class="modal-header">
 					<button type="button" class="close" ng-click="cancel()"><span aria-hidden="true">×</span><span class="sr-only">关闭</span></button>
-					<h4 class="modal-title">Sure</h4>
+					<h4 class="modal-title">&nbsp;</h4>
 				</div>
 				<div class="modal-body">
 					{{content}}
 				</div>
 				<div class="modal-footer text-center">
-					<button type="button" class="btn btn-primary" ng-click="ok()" ng-disabled="!myForm.$valid">Submit</button>
+					<button type="button" class="btn btn-primary" ng-click="ok()" ng-disabled="!myForm.$valid">Sure</button>
 					<button type="button" class="btn btn-default" ng-click="cancel()">Cancel</button>
 
 				</div>
@@ -188,7 +188,7 @@
 					<div class="form-group">
 						<label for="firstname" class="col-sm-3 control-label">Audience ID</label>
 						<div class="col-sm-8">
-							<input type="text" autocomplete="off" name="studentId" id="" value="" class="form-control" ng-model="student.studentId" required ng-pattern="/^[0-9]\d*$/" maxlength="10" onkeyup="this.value=this.value.replace(/[^\w]/g,'');" placeholder="Please enter a number no longer than 10 digits in length" ng-change="blurStunum()" />
+							<input type="text" autocomplete="off" name="studentId" id="" value="" class="form-control" ng-model="student.studentId" required ng-pattern="/^[0-9]\d*$/" maxlength="4" onkeyup="this.value=this.value.replace(/[^\w]/g,'');" placeholder="Please enter a number no longer than 4 digits in length" ng-change="blurStunum()" />
 						</div>
 						<span ng-show="myForm.studentId.$invalid" class="warning">*</span>
 					</div>

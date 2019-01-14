@@ -127,7 +127,7 @@
 						<span style="color: #31D884;">{{studentNum}}/{{totalStudent}}</span></span>
 						<span class="mr10">Percentage <span style="color: #31D884;">{{answerRate|number:1}}%</span></span>
 						<span class="view ml40" ng-click="viewDetail()" style="color: #3399cc;font-size: 20px;">
-							<a href="javascript:;" style="border-bottom: 1px solid #0088CC;">Click for details</a>
+							<a href="javascript:;" style="border-bottom: 1px solid #0088CC;" ng-show="answerRate!=0">Click for details</a>
 						</span>
 					</div>
 					<div class="pull-right">

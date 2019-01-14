@@ -758,7 +758,7 @@ label.circle{
 }
 .modboxs .box{
 	float: left;
-	min-width: 10%;
+	width: 5%;
 	/*min-width: 7%;*/
 	background: #fff;
 	font-size: 0.18rem;
@@ -1015,7 +1015,7 @@ img.rebtn:active,img.rebtn:hover{
 
 	.modboxs1 .box{
 		/*width: 8%;*/
-		min-width: 8%;
+		width: 5%;
 	}
 	button.circlefff{
 		/*margin: 4%;*/

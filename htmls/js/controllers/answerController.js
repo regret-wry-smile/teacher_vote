@@ -75,7 +75,7 @@ app.config(['$locationProvider', function($locationProvider) {
 
 //停止多选答题
 app.controller('stopAnswerTypeCtrl', function($scope,$rootScope, toastr, $location, $window) {
-	$('#myModal').modal('hide');
+$('#myModal').modal('hide');
 	//隐藏loading
 	var _hideModal=function(){
 		$('#myModal').modal('hide');

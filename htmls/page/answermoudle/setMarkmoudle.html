@@ -68,14 +68,15 @@
 			  			<div class="form-group">
 					  	<label for="firstname" class="col-sm-2 control-label text-right">Subject</label>
 					    <div class="col-sm-9">
-				    	<input type="text" autocomplete="off" name="title" placeholder="Required Field" id="" value=""  class="form-control" ng-model="markInfo.title" maxlength="20" required />					
+				    	<textarea  class="form-control" rows="3" autocomplete="off" name="title" placeholder="Please enter characters no longer than 100 bits in length" ng-model="markInfo.title" maxlength="100" required></textarea>
+				    	<!--<input type="text" autocomplete="off" name="title" placeholder="Please enter characters no longer than 100 bits in length" id="" value=""  class="form-control" ng-model="markInfo.title" maxlength="100" required />	-->				
 						</div>
 						<span ng-show="myForm.title.$invalid" class="warning">*</span>
 						</div>
 						<div class="form-group">
 					  	<label for="firstname" class="col-sm-2 control-label text-right">Description</label>
 					    <div class="col-sm-9">
-					    	<textarea  class="form-control" rows="3" ng-model="markInfo.describe" maxlength="100"></textarea>
+					    	<textarea  class="form-control" rows="3" placeholder="Please enter characters no longer than 100 bits in length" ng-model="markInfo.describe" maxlength="100"></textarea>
 						</div>
 						</div>
 	  					<div class="form-group ">
