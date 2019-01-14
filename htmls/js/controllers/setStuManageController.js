@@ -190,7 +190,7 @@ var app=angular.module('app',['ui.bootstrap','toastr']);
 	
 	// 删除班级	 
 	$scope.deleteClass=function(item){
-		var content="delete Group";
+		var content="delete this group";
 		var modalInstance = $modal.open({
 			templateUrl: 'sureModal.html',
 			controller: 'sureModalCtrl',
@@ -577,7 +577,7 @@ app.controller('uploadfileModalCtrl', function($scope,$modalInstance,toastr,info
 })
 //确认弹出框
 app.controller('sureModalCtrl',function($scope,$modalInstance,toastr,content){
-	$scope.content='Whether to ' +angular.copy(content)+ ' operations?';
+	$scope.content='Are you sure to ' +angular.copy(content)+'?';
 	$scope.ok = function() {
 		$modalInstance.close('success');
 	}
@@ -779,7 +779,7 @@ app.controller('addClassModalCtrl',function($scope,$modalInstance,$rootScope,toa
 		classId:"" //班级id
 	}
 	$scope.classInfo.atype1=angular.copy($scope.classInfo.atype);
-	$scope.title="AddGroup";
+	$scope.title="Add Group";
 	//班级id查重
 	$scope.selectClass=function(){
 		if($scope.classInfo.classId){

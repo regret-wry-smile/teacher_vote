@@ -108,7 +108,7 @@ app.controller('quickMarkCountCtrl', function($rootScope,$scope,$modal,toastr) {
 		$scope.data=[];
 		$scope.titleList=[];
 		$scope.result=JSON.parse(execute_score("get_score"));
-		console.log(JSON.stringify($scope.result))
+		//console.log(JSON.stringify("叔叔婶婶申诉书"+JSON.stringify($scope.result)))
 		if($scope.result.ret=='success'){			
 			$scope.markInfoslist=$scope.result.item;
 			if($scope.markInfoslist.length>3){
@@ -126,7 +126,8 @@ app.controller('quickMarkCountCtrl', function($rootScope,$scope,$modal,toastr) {
 					$scope.markInfoslist[i].average=$scope.markInfoslist[i].total/$scope.markInfoslist[i].peopleSum;
 				}*/			
 //			$scope.datalist=[$scope.markInfoslist[i].total,$scope.markInfoslist[i].peopleSum,$scope.markInfoslist[i].average];
-			$scope.datalist=[$scope.markInfoslist[i].peopleSum,$scope.markInfoslist[i].average];
+//			$scope.datalist=[$scope.markInfoslist[i].peopleSum,$scope.markInfoslist[i].average];
+			$scope.datalist=[$scope.markInfoslist[i].average];
 			console.log("头部"+JSON.stringify($scope.datalist))
 				var item={
 					name:$scope.markInfoslist[i].program,
@@ -188,7 +189,8 @@ app.controller('quickMarkCountCtrl', function($rootScope,$scope,$modal,toastr) {
 		        {
 		            type : 'category',
 //		            data : ['总分', '人数', '平均分'],
-					data : ['Attendees', 'Average'],
+//					data : ['Attendees', 'Average'],
+					data : ['Average'],
 		            axisTick: {
 		                alignWithLabel: true
 		            },

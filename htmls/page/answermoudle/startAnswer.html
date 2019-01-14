@@ -122,14 +122,14 @@
 			<script type="text/ng-template" id="sureModal.html">
 				<form name="myForm" novalidate="novalidate">
 					<div class="modal-header">
-						<button type="button" class="close" ng-click="cancel()"><span aria-hidden="true">×</span><span class="sr-only">关闭</span></button>
-						<h4 class="modal-title">Sure</h4>
+						<button type="button" class="close" ng-click="cancel()" ><span aria-hidden="true">×</span><span class="sr-only">关闭</span></button>
+						<h4 class="modal-title">&nbsp;</h4>
 					</div>
 					<div class="modal-body">
 						{{content}}
 					</div>
 					<div class="modal-footer text-center">
-						<button type="button" class="btn btn-primary" ng-click="ok()" ng-disabled="!myForm.$valid">Submit</button>
+						<button type="button" class="btn btn-primary" ng-click="ok()" ng-disabled="!myForm.$valid">Sure</button>
 						<button type="button" class="btn btn-default" ng-click="cancel()">Cancel</button>
 			
 					</div>

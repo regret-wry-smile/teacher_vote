@@ -325,7 +325,7 @@ app.controller('setClassCtrl', function($rootScope,$scope, toastr,$modal,$window
 			$scope.answerobjectUrl = '../../page/answermoudle/answermoudle.html';
 			$window.location.href =$scope.answerobjectUrl;
 		}else{
-			toastr.warning("Please sign in first.");
+			toastr.warning("Please sign in first！");
 		}
 	}
 	/*跳转到调查页面*/
@@ -335,7 +335,7 @@ app.controller('setClassCtrl', function($rootScope,$scope, toastr,$modal,$window
 			$scope.surveyobjectUrl = '../../page/answermoudle/setMarkmoudle.html';
 			$window.location.href =$scope.surveyobjectUrl;
 		}else{
-			toastr.warning("Please sign in first.");
+			toastr.warning("Please sign in first！");
 		}
 	}
 	//下课
@@ -352,7 +352,7 @@ app.controller('setClassCtrl', function($rootScope,$scope, toastr,$modal,$window
 	}
 })
 app.controller('addClassHourCtrl', function($rootScope,$scope,$modal,$modalInstance,toastr,infos) {	
-	$scope.title="AddScenario";
+	$scope.title="Add Scenario";
 	$scope.classInfo={
 		subjectName:''
 	}
@@ -472,6 +472,7 @@ app.controller('stopAnswerCtrl', function($rootScope,$scope,$modal,toastr,$inter
 //确认弹出框
 app.controller('sureModalCtrl',function($scope,$modalInstance,toastr,content){
 	$scope.content='Whether to ' +angular.copy(content)+ ' operations?';
+	$scope.content='Are you sure to delete this scenario?';
 	$scope.ok = function() {
 		$modalInstance.close('success');
 	}

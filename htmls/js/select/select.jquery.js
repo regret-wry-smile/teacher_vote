@@ -10,7 +10,7 @@
 			selectedProperty: 'data-select',
 			multiple: true,
 			setWidth: '200px',
-			setMaxOptionNum: 20,
+			setMaxOptionNum: 100,
 			defalutvalue:'',
 			optionsHoverStyle: 'newOptions_hover',      
 			change: function(){

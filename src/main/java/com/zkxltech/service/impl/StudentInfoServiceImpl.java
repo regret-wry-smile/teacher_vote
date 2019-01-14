@@ -247,14 +247,17 @@ public class StudentInfoServiceImpl implements StudentInfoService{
                     bindStatus = Constant.BING_YES;
                 }
 			    StudentInfoSql sql = new StudentInfoSql();
-			    iclickerIds = new ArrayList<>();
-			    iclickerIds.add(iclickerId);
-			    result = sql.updateStatusByIclickerIds(iclickerIds, bindStatus);
+			    result = sql.updateIclickerAndStatusByIclickeId(iclickerId, Constant.BING_NO);
 			    if (result.getRet().equals(Constant.ERROR)) {
 			        return result;
                 }
 			    
             }
+            if (studentInfo.getStudentId().length()>4){
+				result.setRet(Constant.ERROR);
+				result.setMessage("The student number is 4 at most !");//学生编号最多为4位
+				return result;
+			}
 			result = studentInfoSql.updateStudentById(studentInfo);
 			if (Constant.SUCCESS.equals(result.getRet())) {
 				result.setMessage("Modify student information successfully!");//修改学生信息成功!
@@ -361,21 +364,34 @@ public class StudentInfoServiceImpl implements StudentInfoService{
 	        }
 	        List<StudentInfo> studentInfos = Global.getAllStudentInfos();
 	        if (ListUtils.isEmpty(studentInfos)) {
-	            r.setMessage("No student information was obtained");
+	            r.setMessage("No student information was obtained");//没有获得任何学生信息
 	            return r;
 	        }
+			/**将查出来的学生信息按是否绑定进行分类*/
+			List<StudentInfo> studentInfo1 = new ArrayList<>();
+	        for (StudentInfo studentInfo :studentInfos){
+	        	if (studentInfo.getStatus().equals("1")){
+					studentInfo1.add(studentInfo);
+				}
+			}
+			if (ListUtils.isEmpty(studentInfo1)) {
+				r.setMessage("No bound student information was obtained");//没有获得任何已绑定学生信息
+				return r;
+			}
 	        /**将查出来的学生信息按卡的id进行分类,并存入静态map中*/
-	        for (StudentInfo studentInfo : studentInfos) {
-	            Map<String, String> studentInfoMap = new HashMap<>();
-	            studentInfoMap.put("studentName", studentInfo.getStudentName());
-	            studentInfoMap.put("studentId",studentInfo.getStudentId());//学生id
-	            Map<String, String> attendMap = RedisMapAttendance.getAttendanceMap().get(studentInfo.getIclickerId());
-	            if(StringUtils.isEmpty(attendMap)){
-	            	studentInfoMap.put("status", Constant.ATTENDANCE_NO);	
-	            }else{
-	            	studentInfoMap.put("status", attendMap.get("status"));	
-	            }
-	            RedisMapAttendance.getAttendanceMap().put(studentInfo.getIclickerId(), studentInfoMap);
+	        for (StudentInfo studentInfo : studentInfo1) {
+	        	if (studentInfo.getStatus().equals("1")) {
+					Map<String, String> studentInfoMap = new HashMap<>();
+					studentInfoMap.put("studentName", studentInfo.getStudentName());
+					studentInfoMap.put("studentId", studentInfo.getStudentId());//学生id
+					Map<String, String> attendMap = RedisMapAttendance.getAttendanceMap().get(studentInfo.getIclickerId());
+					if (StringUtils.isEmpty(attendMap)) {
+						studentInfoMap.put("status", Constant.ATTENDANCE_NO);
+					} else {
+						studentInfoMap.put("status", attendMap.get("status"));
+					}
+					RedisMapAttendance.getAttendanceMap().put(studentInfo.getIclickerId(), studentInfoMap);
+				}
 	        }
 	        BaseThread thread = new AttendanceThread();
 	        thread.start();
