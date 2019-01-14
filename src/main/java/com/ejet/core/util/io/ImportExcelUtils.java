@@ -1,7 +1,8 @@
 package com.ejet.core.util.io;
 
 import java.io.IOException;  
-import java.io.InputStream;  
+import java.io.InputStream;
+import java.math.BigDecimal;
 import java.text.DecimalFormat;  
 import java.text.SimpleDateFormat;  
 import java.util.ArrayList;  
@@ -12,7 +13,9 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;  
 import org.apache.poi.ss.usermodel.Sheet;  
 import org.apache.poi.ss.usermodel.Workbook;  
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;  
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+import com.ejet.cache.BrowserManager;  
   
   
 public class ImportExcelUtils {  
@@ -56,12 +59,20 @@ public class ImportExcelUtils {
                 	continue;
                 }  
                 //遍历所有的列  
-                List<Object> li = new ArrayList<Object>();  
-                for (int y = row.getFirstCellNum(); y < row.getLastCellNum(); y++) {  
-                    cell = row.getCell(y);
-                    
-                    li.add(getCellValue(cell));  
-                }  
+                List<Object> li = new ArrayList<Object>(); 
+                	 for (int y = row.getFirstCellNum(); y < row.getLastCellNum(); y++) {  
+                         cell = row.getCell(y);
+                         if(row.getFirstCellNum()==y){
+                         	
+                         	BigDecimal bd = new BigDecimal(Double.parseDouble(cell.toString()));
+                         	System.out.println(bd.toPlainString());
+                         	if(bd.toPlainString().length()>4){
+                                  return list;
+                         	}
+                         }
+                         li.add(getCellValue(cell));  
+                     } 
+				
                 if (li.size()==cols) {
                 	list.add(li);  
 				}

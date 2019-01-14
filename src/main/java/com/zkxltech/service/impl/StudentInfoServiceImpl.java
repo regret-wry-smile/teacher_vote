@@ -74,9 +74,14 @@ public class StudentInfoServiceImpl implements StudentInfoService{
 			ClassInfo classInfo =  (ClassInfo) StringUtils.parseToBean(JSONObject.fromObject(classInfoObj), ClassInfo.class);
 			List<List<Object>> list = ImportExcelUtils.getBankListByExcel(new FileInputStream(new File(fileName)), fileName);
 			result = studentInfoSql.importStudent(list,classInfo);
-			if (Constant.SUCCESS.equals(result.getRet())) {
+			
+			if (list.isEmpty()) {
+				result.setRet(Constant.ERROR);
+				result.setMessage("Student number length should be less than 5");
+			}else if(Constant.SUCCESS.equals(result.getRet())){
 				result.setMessage("Import success!");
-			}else {
+			}
+			else {
 				result.setMessage(result.getMessage());
 			}
 			return result;
