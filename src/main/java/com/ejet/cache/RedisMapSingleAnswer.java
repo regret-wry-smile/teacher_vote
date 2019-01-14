@@ -94,7 +94,7 @@ public class RedisMapSingleAnswer {
                       for (Object answerOb : answers) {
                           JSONObject answerJO = JSONObject.fromObject(answerOb);
                           String result = answerJO.getString("answer");
-                          
+                          record2.setAnswer(result);
                          
                           if (!StringUtils.isEmpty(condition)){
                               record2.setQuestionType("5");
