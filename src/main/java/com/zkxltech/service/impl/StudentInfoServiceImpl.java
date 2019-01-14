@@ -242,9 +242,7 @@ public class StudentInfoServiceImpl implements StudentInfoService{
                     bindStatus = Constant.BING_YES;
                 }
 			    StudentInfoSql sql = new StudentInfoSql();
-			    iclickerIds = new ArrayList<>();
-			    iclickerIds.add(iclickerId);
-			    result = sql.updateStatusByIclickerIds(iclickerIds, bindStatus);
+			    result = sql.updateIclickerAndStatusByIclickeId(iclickerId, Constant.BING_NO);
 			    if (result.getRet().equals(Constant.ERROR)) {
 			        return result;
                 }

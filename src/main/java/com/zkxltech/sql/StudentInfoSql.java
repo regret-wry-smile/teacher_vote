@@ -297,4 +297,9 @@ public class StudentInfoSql {
         String sb ="update student_info set status = "+status +", iclicker_id = NULL";
         return dbHelper.onUpdate(sb.toString(), null);
     }
+    
+    public Result updateIclickerAndStatusByIclickeId(String IclickeId, String status) {
+        String sb ="update student_info set status = "+status +", iclicker_id = NULL where iclicker_id = '"+ IclickeId+"'";
+        return dbHelper.onUpdate(sb.toString(), null);
+    }
 }

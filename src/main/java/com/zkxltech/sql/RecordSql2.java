@@ -93,7 +93,7 @@ public class RecordSql2 {
 				index++;
 			}
 		}
-		System.out.println(sqlBuilder.toString());
+		//System.out.println(sqlBuilder.toString());
 		return dbHelper.onQuery(sqlBuilder.toString(), record);
 	}
 	
