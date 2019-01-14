@@ -248,6 +248,11 @@ public class StudentInfoServiceImpl implements StudentInfoService{
                 }
 			    
             }
+            if (studentInfo.getStudentId().length()>4){
+				result.setRet(Constant.ERROR);
+				result.setMessage("The student number is 4 at most !");//学生编号最多为4位
+				return result;
+			}
 			result = studentInfoSql.updateStudentById(studentInfo);
 			if (Constant.SUCCESS.equals(result.getRet())) {
 				result.setMessage("Modify student information successfully!");//修改学生信息成功!
@@ -365,7 +370,6 @@ public class StudentInfoServiceImpl implements StudentInfoService{
 				}
 			}
 			if (ListUtils.isEmpty(studentInfo1)) {
-				r.setRet(Constant.ERROR);
 				r.setMessage("No bound student information was obtained");//没有获得任何已绑定学生信息
 				return r;
 			}
