@@ -322,7 +322,6 @@ public class AnswerInfoServiceImpl implements AnswerInfoService{
             }
             r.setRet(Constant.SUCCESS);
             r.setMessage("Stop success");//停止成功
-            RedisMapSingleAnswer.setCondition(null);
         	List<Record2> records = RedisMapSingleAnswer.getSingleRecordList();//如何从缓存中取数据。
         	if(StringUtils.isEmptyList(records)){
                 Constant.QUESTION_ID--;
