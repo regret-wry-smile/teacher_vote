@@ -67,7 +67,7 @@ public class RedisMapSingleAnswer {
                 JSONObject jsonObject = JSONObject.fromObject(object);
                 if (!jsonObject.containsKey("result")) {
                 	  String card_id = jsonObject.getString("card_id");
-                    if (StringUtils.isEmpty(RedisMapAttendance.getSignMap().get(card_id))){
+                    if (!StringUtils.isEmpty(iclickerAnswerMap.get(card_id))){
                         continue;
                     }
                       StudentInfo studentInfo = studentInfoMap.get(card_id);
@@ -100,9 +100,9 @@ public class RedisMapSingleAnswer {
                               record2.setQuestionType("5");
                               record2.setQuestionShow("Vote");
                               if(result.equals("true")){
-                            	  record2.setAnswer("√");
+                            	  record2.setAnswer("agree");
                               }else{
-                            	  record2.setAnswer("×");
+                            	  record2.setAnswer("disagree");
                               }
                           }else {
                               record2.setQuestionType(answerJO.getString("type"));//s位字母，d位数字，j位判断
