@@ -706,9 +706,86 @@ public class RecordServiceImpl implements RecordService{
 	                result.setMessage("查询记录失败!");
 	                return result;
 	            }
-	            List<Record2> records = (List<Record2>) result.getItem();
-	            
-	            result.setItem(records);
+	            List<Record2> recordList = (List<Record2>) result.getItem();
+
+                //获取组名
+                ClassInfo classInfo = new ClassInfo();
+                ClassInfoSql c = new ClassInfoSql();
+                classInfo.setClassId(record.getClassId());
+                Result result1 = c.selectClassInfo(classInfo);
+                List<ClassInfo> classList= (List<ClassInfo>) result1.getItem();
+                //获取所有的类型
+                List<String> groupList = new ArrayList<>();
+                List<String> scenzrioList = new ArrayList<>();
+                List<String> remarkList = new ArrayList<>();
+                List<String> typeList = new ArrayList<>();
+
+                for(Record2 record2 : recordList){
+                    groupList.add(record2.getClassId());
+                    scenzrioList.add(record2.getSubject());
+                    if(record2.getRemark() == null){
+                        record2.setRemark("");
+                        remarkList.add(record2.getRemark());
+                    }else{
+                        remarkList.add(record2.getRemark());
+                    }
+                    typeList.add(record2.getQuestionShow());
+                }
+                removeDuplicate(groupList);
+                removeDuplicate(scenzrioList);
+                removeDuplicate(remarkList);
+                removeDuplicate(typeList);
+
+                //筛选日期
+                for(Record2 record2: recordList){
+                    String str = record2.getAnswerEnd().substring(0,10);
+                    record2.setAnswerEnd(str);
+                }
+                //整合数据
+                List<Record2> lists = new ArrayList<>();
+                for (String str1 : groupList) {
+                    for(String str2 : scenzrioList){
+                        for(String str3 : remarkList){
+                            for(String str4 : typeList){
+                                Record2 record4 = new Record2();
+                                record4.setClassId(str1);
+                                record4.setSubject(str2);
+                                record4.setRemark(str3);
+                                record4.setQuestionShow(str4);
+                                List<Record2> dataList = new ArrayList<>();
+                                List<String> list = new ArrayList<>();
+                                for(Record2 record2 : recordList) {
+                                    if (record2.getRemark() == null) {
+                                        record2.setRemark("");
+                                    }
+                                    if (str1.equals(record2.getClassId()) && str2.equals(record2.getSubject()) &&
+                                            str3.equals(record2.getRemark()) && str4.equals(record2.getQuestionShow())) {
+                                        list.add(record2.getAnswerEnd());
+                                    }
+                                }
+                                removeDuplicate(list);
+                                for(String str5 : list){
+                                    Record2 record3 = new Record2();
+                                    record3.setAnswerEnd(str5);
+                                    dataList.add(record3);
+                                }
+                                record4.setDatalists(dataList);
+                                lists.add(record4);
+                            }
+                        }
+                    }
+                }
+
+                //设置组名
+                for(Record2 record2 : lists){
+                    for(ClassInfo classInfo1 : classList){
+                        if(record2.getClassId().equals(classInfo1.getClassId())){
+                            record2.setClassId(classInfo1.getClassName());
+                        }
+                    }
+                }
+
+	            result.setItem(lists);
 	            result.setMessage("查询记录成功!");
 	            return result;
 	        } catch (Exception e) {

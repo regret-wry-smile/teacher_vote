@@ -67,10 +67,9 @@ public class RecordSql2 {
 				}else {
 					sqlBuilder.append(" and ");
 				}
-				if("answer_start".equals(dbHelper.HumpToUnderline(files[i].getName()))){
-					sqlBuilder.append(dbHelper.HumpToUnderline(files[i].getName())+" >= ?");
-				}else if ("answer_end".equals(dbHelper.HumpToUnderline(files[i].getName()))){
-					
+				
+				if ("answer_end".equals(dbHelper.HumpToUnderline(files[i].getName()))){
+					sqlBuilder.append(dbHelper.HumpToUnderline(files[i].getName())+" > "+"\""+record.getAnswerEnd()+"\"");
 					String d = record.getAnswerEnd();
 					DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 					//加一天
@@ -84,8 +83,10 @@ public class RecordSql2 {
 						} catch (Exception e) {
 						e.printStackTrace();
 					}
-					sqlBuilder.append(dbHelper.HumpToUnderline(files[i].getName())+" <= ?");
+					sqlBuilder.append(" and "+dbHelper.HumpToUnderline(files[i].getName())+" < ?");
 					
+				}else if("remark".equals(dbHelper.HumpToUnderline(files[i].getName()))){
+					sqlBuilder.append(dbHelper.HumpToUnderline(files[i].getName())+"like '%?%'");
 				}else{
 					sqlBuilder.append(dbHelper.HumpToUnderline(files[i].getName())+" = ?");
 				}
@@ -93,8 +94,8 @@ public class RecordSql2 {
 				index++;
 			}
 		}
-		//System.out.println(sqlBuilder.toString());
-		return dbHelper.onQuery(sqlBuilder.toString(), record);
+		System.out.println(sqlBuilder.toString());
+		return dbHelper.onQuery(sqlBuilder.toString(),record);
 	}
 	
 	public Result deleteRecord(Record2 record) throws IllegalArgumentException, IllegalAccessException{
