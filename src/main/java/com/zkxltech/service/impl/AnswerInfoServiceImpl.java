@@ -230,6 +230,9 @@ public class AnswerInfoServiceImpl implements AnswerInfoService{
         RedisMapSingleAnswer.clearStudentInfoMap();
         RedisMapSingleAnswer.clearSingleAnswerStudentNameMap();
         RedisMapSingleAnswer.clearIclickerAnswerMap();
+        if (StringUtils.isEmpty(RedisMapSingleAnswer.getCondition())){
+			RedisMapSingleAnswer.setCondition(Constant.BUSINESS_ANSWER);
+		}
         try{
         
         	SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//结束时间
