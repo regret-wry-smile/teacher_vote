@@ -103,6 +103,7 @@ public class RedisMapMultipleAnswer {
 				StudentInfo studentInfo = verifyCardId(iclicker);
 				record2.setClassId(Global.getClassId());
 				record2.setSubject(Global.getClassHour().getSubjectName());
+				record2.setRemark(Global.getClassHour().getClassHourName());
 				record2.setQuestionShow("MutipleChoice-letter");
 				record2.setQuestionType("4");
 				record2.setIclickerId(iclicker);

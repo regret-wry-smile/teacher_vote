@@ -100,7 +100,8 @@ public class RedisMapScore {
 							StudentInfo studentInfo = verifyCardId(iclickerId);
 							record2.setClassId(Global.getClassId());
 							record2.setSubject(Global.getClassHour().getSubjectName());
-							record2.setClassHourId(Global.getClassHour().getClassHourId());
+							//record2.setClassHourId(Global.getClassHour().getClassHourId());
+							record2.setRemark(Global.getClassHour().getClassHourName());
 							record2.setTestId(scoreInfoId);
 							record2.setQuestion(score.getTitle());
 							record2.setQuestionName(programs.get(i));
