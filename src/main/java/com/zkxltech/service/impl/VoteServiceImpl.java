@@ -79,16 +79,17 @@ public class VoteServiceImpl implements VoteService{
 	public Result stopVote() {
         Result r = new Result();
         Global.setModeMsg(Constant.BUSINESS_NORMAL);
+		RedisMapSingleAnswer.setCondition(Constant.BUSINESS_NORMAL);
         /*停止所有线程管理*/
         ThreadManager.getInstance().stopAllThread();
         
-        if (thread != null && thread instanceof VoteThread) {
-            VoteThread c =  (VoteThread)thread;
-            c.setFLAG(false);
-            logger.info("投票线程停止成功");
-        }else{
-            logger.error("投票线程停止失败");
-        }
+//        if (thread != null && thread instanceof VoteThread) {
+//            VoteThread c =  (VoteThread)thread;
+//            c.setFLAG(false);
+//            logger.info("投票线程停止成功");
+//        }else{
+//            logger.error("投票线程停止失败");
+//        }
         r = EquipmentServiceImpl.getInstance().answer_stop();
         if (r.getRet().equals(Constant.ERROR)) {
             return r;

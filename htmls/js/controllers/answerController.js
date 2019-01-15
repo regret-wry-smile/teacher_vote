@@ -9,6 +9,7 @@ app.controller('mainAnswerCtrl', function($scope,$rootScope, toastr, $window) {
 	})
 	//单选
 app.controller('answerCtrl', function($scope,$rootScope, toastr, $window) {
+
 	$rootScope.userdetailshow = false; //默认答题详情页面隐藏
 	$rootScope.isStopAswer = false;//默认在停止答题页面
 		//切换答题类型
@@ -35,6 +36,12 @@ app.controller('answerCtrl', function($scope,$rootScope, toastr, $window) {
 				console.log(JSON.stringify($scope.param))
 				$scope.objectUrl = '../../page/answermoudle/stopsingeAnswer.html' + '?' + $scope.param;
 				$window.location.href = $scope.objectUrl;*/
+			}
+		}
+		$scope.stopVote=function(){
+			var result=JSON.parse(execute_vote("stop_vote"));
+			if(result.ret!="success"){
+				toastr.error(result.message);	
 			}
 		}
 	})
