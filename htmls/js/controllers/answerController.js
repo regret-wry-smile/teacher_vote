@@ -407,7 +407,8 @@ app.controller('stopSingeAnswerCtrl', function($scope,$rootScope, $location, toa
 						//rangeList = ["Yes", "No"];
 						$scope.resultmap = {
 							"Yes": $scope.resultmap["true"],
-							"No": $scope.resultmap["false"]
+							"No": $scope.resultmap["false"],
+							"abstention":$scope.resultmap["abstention"]
 						}
 					}
 					//$scope.rangeList=["A","B","C","D","E"];
