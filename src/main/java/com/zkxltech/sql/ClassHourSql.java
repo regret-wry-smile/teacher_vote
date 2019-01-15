@@ -1,19 +1,12 @@
 package com.zkxltech.sql;
 
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 import com.alibaba.fastjson.JSONObject;
-import com.ejet.core.util.constant.Constant;
-import com.sun.org.apache.bcel.internal.generic.Select;
-import com.zkxltech.domain.AnswerInfo;
 import com.zkxltech.domain.ClassHour;
 import com.zkxltech.domain.Result;
-import com.zkxltech.domain.TestPaper;
 import com.zkxltech.jdbc.DBHelper;
 import com.zkxltech.ui.util.StringUtils;
+
+import java.lang.reflect.Field;
 
 
 /**
@@ -133,7 +126,7 @@ public class ClassHourSql {
 	 * */
 	public Result updateTestPaper(ClassHour classHour) throws IllegalArgumentException, IllegalAccessException{
 		StringBuilder sqlBuilder = new StringBuilder();
-		sqlBuilder.append("update answer_info");
+		sqlBuilder.append("update class_hour");
 		Field[] files = dbHelper.getFields(classHour);
 		int index = 0;
 		for (int i = 1; i < files.length; i++) {
@@ -148,7 +141,7 @@ public class ClassHourSql {
 				index++;
 			}
 		}
-		sqlBuilder.append(" where id = '"+classHour.getId()+"'");
-		return dbHelper.onUpdate(sqlBuilder.toString(), classHour);
+		sqlBuilder.append(" where class_name = '"+classHour.getClassName()+"' and subject_name ='"+classHour.getSubjectName()+"'");
+		return dbHelper.onUpdate(sqlBuilder.toString());
 	}
 }

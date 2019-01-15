@@ -215,6 +215,9 @@ public class ClassHourServiceImpl implements ClassHourService{
 		result = new Result();
 		result.setRet(Constant.SUCCESS);
 		try {
+			ClassHour classHour = Global.getClassHour();
+			classHour.setEndTime(com.ejet.core.util.StringUtils.formatDateTime(new Date()));
+			result = classHourSql.updateTestPaper(classHour);
 			Global.setClassHour(null);
 			Global.setClassId(null);
 			Global.setClassInfo(null);
