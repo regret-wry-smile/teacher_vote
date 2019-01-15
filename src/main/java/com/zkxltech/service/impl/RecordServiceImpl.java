@@ -736,11 +736,6 @@ public class RecordServiceImpl implements RecordService{
                 removeDuplicate(remarkList);
                 removeDuplicate(typeList);
 
-                //筛选日期
-                for(Record2 record2: recordList){
-                    String str = record2.getAnswerEnd().substring(0,10);
-                    record2.setAnswerEnd(str);
-                }
                 //整合数据
                 List<Record2> lists = new ArrayList<>();
                 for (String str1 : groupList) {
@@ -760,7 +755,8 @@ public class RecordServiceImpl implements RecordService{
                                     }
                                     if (str1.equals(record2.getClassId()) && str2.equals(record2.getSubject()) &&
                                             str3.equals(record2.getRemark()) && str4.equals(record2.getQuestionShow())) {
-                                        list.add(record2.getAnswerEnd());
+                                    	String str = record2.getAnswerEnd().substring(0,10);
+                                        list.add(str);
                                     }
                                 }
                                 removeDuplicate(list);
