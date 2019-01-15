@@ -192,7 +192,7 @@ public class RedisMapSingleAnswer {
 				ClassHour str = Global.getClassHour();
 				
 				record2.setSubject(str.getSubjectName());
-				record2.setClassHourId(str.getClassHourName());
+				record2.setRemark(str.getClassHourName());
 				records.add(record2);
 			}
 			logger.info("要保存的单选题作答记录："+JSONArray.fromObject(records));

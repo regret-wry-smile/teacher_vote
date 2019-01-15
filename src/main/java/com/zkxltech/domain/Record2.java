@@ -16,6 +16,10 @@ public class Record2 {
 	 */
 	private String subject;
 	/**
+	 * 备注
+	 */
+	private String remark;
+	/**
 	 * 课时表对应的主键。这个字段现在改为备注
 	 */
 	private String classHourId;
@@ -211,6 +215,12 @@ public class Record2 {
 	}
 	public void setDatalists(List<Record2> datalists) {
 		this.datalists = datalists;
+	}
+	public String getRemark() {
+		return remark;
+	}
+	public void setRemark(String remark) {
+		this.remark = remark;
 	}
 	
 	
