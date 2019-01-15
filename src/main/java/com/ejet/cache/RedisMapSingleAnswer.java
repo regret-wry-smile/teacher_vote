@@ -270,6 +270,11 @@ public class RedisMapSingleAnswer {
     }
     //获取每个答案对应的人数
     public static String getSingleAnswer(){
+        if (RedisMapSingleAnswer.getCondition().equals(Constant.BUSINESS_VOTE)&&singleAnswerNumMap.size()==2){
+            Integer i=0;
+            i=RedisMapAttendance.getSignMap().size()-iclickerAnswerMap.size();
+            singleAnswerNumMap.put("abstention",i);
+        }
         return JSONObject.fromObject(singleAnswerNumMap).toString();
     }
     //获取当前提交答案的人数
