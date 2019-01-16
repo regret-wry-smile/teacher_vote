@@ -69,7 +69,8 @@ public class RecordSql2 {
 				}
 				
 				if("remark".equals(dbHelper.HumpToUnderline(files[i].getName()))){
-					sqlBuilder.append(dbHelper.HumpToUnderline(files[i].getName())+"like '%?%'");
+					sqlBuilder.append(dbHelper.HumpToUnderline(files[i].getName())+" like \"%"+record.getRemark()+"%\"");
+					sqlBuilder.append("and ? is not null");
 				}else{
 					sqlBuilder.append(dbHelper.HumpToUnderline(files[i].getName())+" = ?");
 				}
@@ -106,9 +107,10 @@ public class RecordSql2 {
 	  		          sqlBuilder.append(")");
 				}else if("remark".equals(dbHelper.HumpToUnderline(files[i].getName()))){
 					if(record.getRemark() == null){
-						sqlBuilder.append(dbHelper.HumpToUnderline(files[i].getName())+"is null");
+						sqlBuilder.append(dbHelper.HumpToUnderline(files[i].getName())+"is ?");
 					}else{
-						sqlBuilder.append(dbHelper.HumpToUnderline(files[i].getName())+"like '%?%'");
+						sqlBuilder.append(dbHelper.HumpToUnderline(files[i].getName())+" like \"%"+record.getRemark()+"%\"");
+						sqlBuilder.append("and ? is not null");
 					}
 					
 				}else{
@@ -119,6 +121,7 @@ public class RecordSql2 {
 			
   			}
   		}
+          System.out.println(sqlBuilder.toString());
         return dbHelper.onUpdate(sqlBuilder.toString(), record);
   }
 

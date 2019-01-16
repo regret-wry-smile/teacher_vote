@@ -54,7 +54,7 @@ public class ClassHourServiceImpl implements ClassHourService{
 			List<ClassHour> classHours = (List<ClassHour>) r.getItem();
 			if (classHours.size() != 0){
 				result.setMessage("This scenario already exists, please fill in again！");//此场景已有，请重新填写!
-
+			
 			}else {
 				classHour.setClassHourId(com.ejet.core.util.StringUtils.getUUID());
 				classHour.setSubjectId(com.ejet.core.util.StringUtils.getUUID());
@@ -127,6 +127,7 @@ public class ClassHourServiceImpl implements ClassHourService{
 			ClassHour classHour = (ClassHour) StringUtils.parseJSON(classHourObj, ClassHour.class);
 			
 			Global.setClassId(classHour.getClassId());
+			
 			
 			Global.setClassHour(classHour);
 

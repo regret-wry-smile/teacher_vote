@@ -315,23 +315,6 @@ public class RecordServiceImpl implements RecordService{
                 try{
                 	Record2 record = com.zkxltech.ui.util.StringUtils.parseJSON(object, Record2.class);
                     
-                	ClassHour classHour = new ClassHour();
-                	ClassHourSql c = new ClassHourSql();
-                	classHour.setClassId(record.getClassId());
-                	classHour.setSubjectId(record.getStudentId());
-                   
-                    Result result1 = c.selectClassHour(classHour);
-                    List<ClassHour> classList= (List<ClassHour>) result1.getItem();
-                    String a = "";
-                    String b ="";
-                    for(ClassHour classInfo1 : classList){
-                    	 a = classInfo1.getSubjectName();
-                    	 b = classInfo1.getClassName();
-                    }
-                    String className = "Group:" + a;
-    	            String title = "Record export table";
-    	            String scenario = "Scenario:"+b;
-
     	            if("0".equals(record.getQuestionType())){
     	            	record.setQuestionType(null);
     	            }
@@ -347,14 +330,56 @@ public class RecordServiceImpl implements RecordService{
     	            	BrowserManager.showMessage(false,"No data");
                         return;
     	            }
-    	            result.setItem(records);       	    
+    	            result.setItem(records);
+    	            List<String> list6 = new ArrayList<>();
+    	            List<String> list7 = new ArrayList<>();
+    	        	ClassHour classHour = new ClassHour();
+                	ClassHourSql c = new ClassHourSql();
+                   
+                    Result result1 = c.selectClassHour(classHour);
+                    
+                    List<ClassHour> classList = (List<ClassHour>) result1.getItem();
+    	            for (Record2 record2 : records) {
+    	            	for(ClassHour classHour1 : classList){
+                            if(record2.getClassId().equals(classHour1.getClassId()) && record2.getSubject().equals(classHour1.getSubjectId())){
+                            	list6.add(classHour1.getClassName());
+        						list7.add(classHour1.getSubjectName());
+                            }
+                        }
+						
+					}
+    	            removeDuplicate(list6);
+    	            removeDuplicate(list7);
+    	            
+                   
+                    StringBuffer a = new StringBuffer();
+                    StringBuffer b = new StringBuffer();
+                    
+                    for(int i=0;i<list6.size();i++){
+                    	 a.append(list6.get(i));
+                    	 if(i < (list6.size()-1)){
+                    		 a.append("、"); 
+                    	 }
+                    }
+                    for(int i=0;i<list7.size();i++){
+                   	 b.append(list7.get(i));
+                   	 if(i < (list7.size()-1)){
+                   		 b.append("、"); 
+                   	 }
+                   }
+                    String str1 = a.toString();
+                    String str2 = b.toString();
+                    String className = "Group:" + str1;
+    	            String title = "Record export table";
+    	            String scenario = "Scenario:"+str2;
+    	            
                     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     SimpleDateFormat format2 = new SimpleDateFormat("yyyyMMddHHmmss");
                     
                     String time = format.format(new Date());
                     String date = format2.format(new Date());
                     
-                    fileName += b+"-group-"+record.getSubject()+"-"+date+".xls";
+                    fileName += "group-"+str1+"-date-"+date+".xls";
                     dates = "Create Time:"+time;
                   
                     int columnNumber = 6;
@@ -789,7 +814,7 @@ public class RecordServiceImpl implements RecordService{
                
                 for(Record2 record2 : lists){
                     for(ClassHour classHour1 : classList){
-                        if(record2.getClassId().equals(classHour1.getClassId())){
+                        if(record2.getClassId().equals(classHour1.getClassId()) && record2.getSubject().equals(classHour1.getSubjectId())){
                             record2.setClassId(classHour1.getClassName());
                             record2.setSubject(classHour1.getSubjectName());
                         }
