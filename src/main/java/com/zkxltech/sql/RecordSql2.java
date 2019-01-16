@@ -82,7 +82,7 @@ public class RecordSql2 {
 	}
 	
 	public Result deleteRecord(Record2 record) throws IllegalArgumentException, IllegalAccessException{
-	     StringBuilder sqlBuilder = new StringBuilder();
+	      StringBuilder sqlBuilder = new StringBuilder();
           sqlBuilder.append("delete from record2");
           Field[] files = dbHelper.getFields(record);
           int index = 0;

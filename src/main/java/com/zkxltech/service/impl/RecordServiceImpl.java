@@ -334,12 +334,7 @@ public class RecordServiceImpl implements RecordService{
     	            if("0".equals(record.getQuestionType())){
     	            	record.setQuestionType(null);
     	            }
-    	            if("0".equals(record.getClassId())){
-                        record.setClassId(null);
-                    }
-                    if("0".equals(record.getSubject())){
-                        record.setSubject(null);
-                    }
+    	            
     	            result = recordSql2.selectRecord(record);
     	            if (Constant.ERROR.equals(result.getRet())) {
     	            	result.setMessage("Query record failed!");
@@ -664,10 +659,13 @@ public class RecordServiceImpl implements RecordService{
                 return r;
             }*/
             RecordSql2 sql = new RecordSql2();
-            r = sql.deleteRecord(record);
-            if (r.getRet().equals(Constant.ERROR)) {
-                return r;
+            for(Record2 record2 : record.getDatalists()){
+            	 r = sql.deleteRecord(record);
+	            if (r.getRet().equals(Constant.ERROR)) {
+	                return r;
+	            }
             }
+           
         } catch (Exception e) {
             r.setMessage("Delete failed");
             r.setDetail(IOUtils.getError(e));
@@ -709,12 +707,7 @@ public class RecordServiceImpl implements RecordService{
 	            if("0".equals(record.getQuestionType())){
 	            	record.setQuestionType(null);
 	            }
-	            if("0".equals(record.getClassId())){
-                    record.setClassId(null);
-                }
-                if("0".equals(record.getSubject())){
-                    record.setSubject(null);
-                }
+	            
 	            result = recordSql2.selectRecord(record);
 	            
 	            if (Constant.ERROR.equals(result.getRet())) {
