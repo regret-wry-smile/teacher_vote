@@ -9,7 +9,8 @@ app.controller('answerRecordCtrl', function($scope,$modal,toastr) {
 			sujectHour: '', //课程id
 			answerStart: '', //试卷id
 			sujectHour1: '',
-			answerEnd: ''
+			answerEnd: '',
+			remark:''
 		}
 		$scope.classList = []; //班级数组
 		$scope.subjectlists = []; //科目数组
@@ -111,9 +112,11 @@ app.controller('answerRecordCtrl', function($scope,$modal,toastr) {
 				var params = {
 					classId: $scope.setClass.classes,
 					subject: $scope.setClass.subject,
-					answerStart: $scope.setClass.answerStart,
-					answerEnd: $scope.setClass.answerEnd,
-					questionType: $scope.setClass.sujectHour
+					/*answerStart: $scope.setClass.answerStart,
+					answerEnd: $scope.setClass.answerEnd,*/
+					questionType: $scope.setClass.sujectHour,
+					remark :$scope.setClass.remark,
+					answerEnd:$scope.setClass.answerStart
 				}
 				console.log("参数" + JSON.stringify(params))
 				var result = JSON.parse(execute_record("select_record2", JSON.stringify(params)));
