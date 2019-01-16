@@ -106,8 +106,7 @@ public class RecordSql2 {
 	  		          sqlBuilder.append(")");
 				}else if("remark".equals(dbHelper.HumpToUnderline(files[i].getName()))){
 					if(record.getRemark() == null){
-						record.setRemark("");
-						sqlBuilder.append(dbHelper.HumpToUnderline(files[i].getName())+"like '%?%'");
+						sqlBuilder.append(dbHelper.HumpToUnderline(files[i].getName())+"is null");
 					}else{
 						sqlBuilder.append(dbHelper.HumpToUnderline(files[i].getName())+"like '%?%'");
 					}

@@ -8,9 +8,13 @@ import com.ejet.core.util.constant.Global;
 import com.ejet.core.util.io.IOUtils;
 import com.zkxltech.domain.Answer;
 import com.zkxltech.domain.ClassHour;
+import com.zkxltech.domain.ClassInfo;
 import com.zkxltech.domain.Record2;
+import com.zkxltech.domain.Result;
 import com.zkxltech.domain.StudentInfo;
 import com.zkxltech.service.impl.AnswerInfoServiceImpl;
+import com.zkxltech.sql.ClassHourSql;
+import com.zkxltech.sql.ClassInfoSql;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -191,7 +195,16 @@ public class RedisMapSingleAnswer {
 				System.out.println("====="+JSONObject.fromObject(record2));
 				ClassHour str = Global.getClassHour();
 				
-				record2.setSubject(str.getSubjectName());
+				ClassHour classHour = new ClassHour();
+            	ClassHourSql c = new ClassHourSql();
+            	classHour.setSubjectName(str.getSubjectName());
+                Result result1 = c.selectClassHour(classHour);
+                List<ClassHour> classList= (List<ClassHour>) result1.getItem();
+                String str1 = "";
+				for (ClassHour classInfo2 : classList) {
+					str1 = classInfo2.getSubjectId();
+				}
+				record2.setSubject(str1);
 				record2.setRemark(str.getClassHourName());
 				records.add(record2);
 			}

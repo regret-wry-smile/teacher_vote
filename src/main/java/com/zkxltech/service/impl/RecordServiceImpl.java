@@ -315,21 +315,22 @@ public class RecordServiceImpl implements RecordService{
                 try{
                 	Record2 record = com.zkxltech.ui.util.StringUtils.parseJSON(object, Record2.class);
                     
-                    ClassInfo classInfo = new ClassInfo();
-                    ClassInfoSql c = new ClassInfoSql();
-                    classInfo.setClassId(record.getClassId());
+                	ClassHour classHour = new ClassHour();
+                	ClassHourSql c = new ClassHourSql();
+                	classHour.setClassId(record.getClassId());
+                	classHour.setSubjectId(record.getStudentId());
                    
-                    Result result1 = c.selectClassInfo(classInfo);
-                    List<ClassInfo> classList= (List<ClassInfo>) result1.getItem();
+                    Result result1 = c.selectClassHour(classHour);
+                    List<ClassHour> classList= (List<ClassHour>) result1.getItem();
                     String a = "";
                     String b ="";
-                    for(ClassInfo classInfo1 : classList){
-                    	 a = "Group:" + classInfo1.getClassName();
+                    for(ClassHour classInfo1 : classList){
+                    	 a = classInfo1.getSubjectName();
                     	 b = classInfo1.getClassName();
                     }
-                    String className = a;
+                    String className = "Group:" + a;
     	            String title = "Record export table";
-    	            String scenario = "Scenario:"+record.getSubject();
+    	            String scenario = "Scenario:"+b;
 
     	            if("0".equals(record.getQuestionType())){
     	            	record.setQuestionType(null);
@@ -717,11 +718,12 @@ public class RecordServiceImpl implements RecordService{
 	            List<Record2> recordList = (List<Record2>) result.getItem();
 
                 //获取组名
-                ClassInfo classInfo = new ClassInfo();
-                ClassInfoSql c = new ClassInfoSql();
-                classInfo.setClassId(record.getClassId());
-                Result result1 = c.selectClassInfo(classInfo);
-                List<ClassInfo> classList= (List<ClassInfo>) result1.getItem();
+	            ClassHour classHour = new ClassHour();
+            	ClassHourSql c = new ClassHourSql();
+            	classHour.setClassId(record.getClassId());
+            	classHour.setSubjectId(record.getSubject());
+                Result result1 = c.selectClassHour(classHour);
+                List<ClassHour> classList= (List<ClassHour>) result1.getItem();
                 //获取所有的类型
                 List<String> groupList = new ArrayList<>();
                 List<String> scenzrioList = new ArrayList<>();
@@ -786,9 +788,10 @@ public class RecordServiceImpl implements RecordService{
                 //设置组名
                
                 for(Record2 record2 : lists){
-                    for(ClassInfo classInfo1 : classList){
-                        if(record2.getClassId().equals(classInfo1.getClassId())){
-                            record2.setClassId(classInfo1.getClassName());
+                    for(ClassHour classHour1 : classList){
+                        if(record2.getClassId().equals(classHour1.getClassId())){
+                            record2.setClassId(classHour1.getClassName());
+                            record2.setSubject(classHour1.getSubjectName());
                         }
                     }
                 }

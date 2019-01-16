@@ -57,6 +57,7 @@ public class ClassHourServiceImpl implements ClassHourService{
 
 			}else {
 				classHour.setClassHourId(com.ejet.core.util.StringUtils.getUUID());
+				classHour.setSubjectId(com.ejet.core.util.StringUtils.getUUID());
 				classHour.setStartTime(com.ejet.core.util.StringUtils.formatDateTime(new Date()));
 				Global.setClassHour(classHour);
 				result = classHourSql.insertClassHour(classHour);

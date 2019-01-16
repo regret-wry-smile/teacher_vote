@@ -5,8 +5,12 @@ import com.ejet.core.util.StringUtils;
 import com.ejet.core.util.constant.Global;
 import com.ejet.core.util.io.IOUtils;
 import com.zkxltech.domain.Answer;
+import com.zkxltech.domain.ClassHour;
 import com.zkxltech.domain.Record2;
+import com.zkxltech.domain.Result;
 import com.zkxltech.domain.StudentInfo;
+import com.zkxltech.sql.ClassHourSql;
+
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.slf4j.Logger;
@@ -102,7 +106,19 @@ public class RedisMapMultipleAnswer {
 				Answer answer = (Answer) map.get(iclicker);
 				StudentInfo studentInfo = verifyCardId(iclicker);
 				record2.setClassId(Global.getClassId());
-				record2.setSubject(Global.getClassHour().getSubjectName());
+				
+				ClassHour classHour = new ClassHour();
+            	ClassHourSql c = new ClassHourSql();
+            	ClassHour str = Global.getClassHour();
+            	classHour.setSubjectName(str.getSubjectName());
+                Result result1 = c.selectClassHour(classHour);
+                List<ClassHour> classList= (List<ClassHour>) result1.getItem();
+                String str1 = "";
+				for (ClassHour classInfo2 : classList) {
+					str1 = classInfo2.getSubjectId();
+				}
+				record2.setSubject(str1);
+				
 				record2.setRemark(Global.getClassHour().getClassHourName());
 				record2.setQuestionShow("MutipleChoice-letter");
 				record2.setQuestionType("4");
