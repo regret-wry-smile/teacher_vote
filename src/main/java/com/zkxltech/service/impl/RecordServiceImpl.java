@@ -314,10 +314,7 @@ public class RecordServiceImpl implements RecordService{
                 FileOutputStream out = null ;
                 try{
                 	Record2 record = com.zkxltech.ui.util.StringUtils.parseJSON(object, Record2.class);
-                    if (StringUtils.isBlank(record.getClassId())||StringUtils.isBlank(record.getSubject())){
-                        BrowserManager.showMessage(false,"Missing Parameters:ClassId,Scenario");
-                        return;
-                    }
+                    
                     ClassInfo classInfo = new ClassInfo();
                     ClassInfoSql c = new ClassInfoSql();
                     classInfo.setClassId(record.getClassId());
@@ -337,7 +334,18 @@ public class RecordServiceImpl implements RecordService{
     	            if("0".equals(record.getQuestionType())){
     	            	record.setQuestionType(null);
     	            }
+    	            if("0".equals(record.getClassId())){
+                        record.setClassId(null);
+                    }
+                    if("0".equals(record.getSubject())){
+                        record.setSubject(null);
+                    }
     	            result = recordSql2.selectRecord(record);
+    	            if (Constant.ERROR.equals(result.getRet())) {
+    	                r.setMessage("查询记录失败!");
+    	                return ;
+    	            }
+    	            
     	            List<Record2> records = (List<Record2>) result.getItem();
     	            if(records.size() == 0){
     	            	BrowserManager.showMessage(false,"No data");
@@ -701,7 +709,14 @@ public class RecordServiceImpl implements RecordService{
 	            if("0".equals(record.getQuestionType())){
 	            	record.setQuestionType(null);
 	            }
+	            if("0".equals(record.getClassId())){
+                    record.setClassId(null);
+                }
+                if("0".equals(record.getSubject())){
+                    record.setSubject(null);
+                }
 	            result = recordSql2.selectRecord(record);
+	            
 	            if (Constant.ERROR.equals(result.getRet())) {
 	                result.setMessage("查询记录失败!");
 	                return result;
