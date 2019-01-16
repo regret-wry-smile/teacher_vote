@@ -370,7 +370,7 @@ public class AnswerInfoServiceImpl implements AnswerInfoService{
             Constant.QUESTION_ID--;
             return r;
         }
-		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//结束时间
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");//结束时间
 		List<Record2> record2List =  RedisMapMultipleAnswer.getInsertRecord2();//获取缓存信息
 		if (StringUtils.isEmpty(record2List)){
 

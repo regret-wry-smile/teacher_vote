@@ -177,7 +177,7 @@ public class RedisMapSingleAnswer {
     	
     	try {
 			List<Record2> records = new ArrayList<Record2>();
-			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//结束时间
+			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");//结束时间
 			String date = df.format(new Date());
 			
 			//{0691792618=C, 0692264522=A, 0691699866=B, 0692333258=D}

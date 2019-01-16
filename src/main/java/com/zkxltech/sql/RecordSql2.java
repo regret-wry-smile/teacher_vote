@@ -68,24 +68,7 @@ public class RecordSql2 {
 					sqlBuilder.append(" and ");
 				}
 				
-				if ("answer_end".equals(dbHelper.HumpToUnderline(files[i].getName()))){
-					sqlBuilder.append(dbHelper.HumpToUnderline(files[i].getName())+" > "+"\""+record.getAnswerEnd()+"\"");
-					String d = record.getAnswerEnd();
-					DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-					//加一天
-					try {
-						Date dd = df.parse(d);
-						Calendar calendar = Calendar.getInstance();
-						calendar.setTime(dd);
-						calendar.add(Calendar.DAY_OF_MONTH, 1);//加一天
-						record.setAnswerEnd(df.format(calendar.getTime()).toString());
-						
-						} catch (Exception e) {
-						e.printStackTrace();
-					}
-					sqlBuilder.append(" and "+dbHelper.HumpToUnderline(files[i].getName())+" < ?");
-					
-				}else if("remark".equals(dbHelper.HumpToUnderline(files[i].getName()))){
+				if("remark".equals(dbHelper.HumpToUnderline(files[i].getName()))){
 					sqlBuilder.append(dbHelper.HumpToUnderline(files[i].getName())+"like '%?%'");
 				}else{
 					sqlBuilder.append(dbHelper.HumpToUnderline(files[i].getName())+" = ?");
@@ -111,8 +94,30 @@ public class RecordSql2 {
   				}else {
   					sqlBuilder.append(" and ");
   				}
-  				sqlBuilder.append(dbHelper.HumpToUnderline(files[i].getName())+" = ?");
-  				index++;
+  				if ("answer_end".equals(dbHelper.HumpToUnderline(files[i].getName()))){
+  					List<Record2> list = record.getDatalists();
+  					sqlBuilder.append(dbHelper.HumpToUnderline(files[i].getName()) + "in (");
+	  		          for (int j = 0; j< list.size();j++) {
+	  		            sqlBuilder.append(list.get(j));
+	  		            if (j != list.size()-1) {
+	  		              sqlBuilder.append(",");
+	  		            }
+	  		          }
+	  		          sqlBuilder.append(")");
+				}else if("remark".equals(dbHelper.HumpToUnderline(files[i].getName()))){
+					if(record.getRemark() == null){
+						record.setRemark("");
+						sqlBuilder.append(dbHelper.HumpToUnderline(files[i].getName())+"like '%?%'");
+					}else{
+						sqlBuilder.append(dbHelper.HumpToUnderline(files[i].getName())+"like '%?%'");
+					}
+					
+				}else{
+					sqlBuilder.append(dbHelper.HumpToUnderline(files[i].getName())+" = ?");
+				}
+				
+				index++;
+			
   			}
   		}
         return dbHelper.onUpdate(sqlBuilder.toString(), record);

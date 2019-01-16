@@ -301,16 +301,16 @@ public class RecordServiceImpl implements RecordService{
     //新的导出
     @Override
     public Result testExport2(Object object) {
-        Result r = new Result();
-        r.setMessage("Exporting...");
-        r.setRet(Constant.SUCCESS);
+         result = new Result();
+         result.setMessage("Exporting...");
+         result.setRet(Constant.SUCCESS);
         new Thread(new Runnable() {
             @Override
             public void run() {
                 String fileName = "";
                 String dates = "";
-                Result r = new Result();
-                r.setRet(Constant.ERROR);
+                result = new Result();
+                result.setRet(Constant.ERROR);
                 FileOutputStream out = null ;
                 try{
                 	Record2 record = com.zkxltech.ui.util.StringUtils.parseJSON(object, Record2.class);
@@ -342,7 +342,7 @@ public class RecordServiceImpl implements RecordService{
                     }
     	            result = recordSql2.selectRecord(record);
     	            if (Constant.ERROR.equals(result.getRet())) {
-    	                r.setMessage("查询记录失败!");
+    	            	result.setMessage("Query record failed!");
     	                return ;
     	            }
     	            
@@ -428,8 +428,8 @@ public class RecordServiceImpl implements RecordService{
                     openFile();
                 }catch (Exception e) {
                     log.error("", e);
-                    r.setMessage("Export fail");
-                    r.setDetail(IOUtils.getError(e));
+                    result.setMessage("Export fail");
+                    result.setDetail(IOUtils.getError(e));
                     BrowserManager.showMessage(false,"Export fail");
                 }finally {
                     BrowserManager.removeLoading();
@@ -443,7 +443,7 @@ public class RecordServiceImpl implements RecordService{
                 }
             }
         }).start();
-        return r;
+        return result;
     }
     /**
      * 查询答题记录
@@ -664,7 +664,7 @@ public class RecordServiceImpl implements RecordService{
                 return r;
             }*/
             RecordSql2 sql = new RecordSql2();
-            r = sql.deleteRecordByStudentId(record);
+            r = sql.deleteRecord(record);
             if (r.getRet().equals(Constant.ERROR)) {
                 return r;
             }
@@ -718,7 +718,7 @@ public class RecordServiceImpl implements RecordService{
 	            result = recordSql2.selectRecord(record);
 	            
 	            if (Constant.ERROR.equals(result.getRet())) {
-	                result.setMessage("查询记录失败!");
+	                result.setMessage("Query record failed !");
 	                return result;
 	            }
 	            List<Record2> recordList = (List<Record2>) result.getItem();
@@ -775,19 +775,23 @@ public class RecordServiceImpl implements RecordService{
                                     }
                                 }
                                 removeDuplicate(list);
-                                for(String str5 : list){
-                                    Record2 record3 = new Record2();
-                                    record3.setAnswerEnd(str5);
-                                    dataList.add(record3);
+                                if(list.size() != 0){
+                                	for(String str5 : list){
+                                		
+                                        Record2 record3 = new Record2();
+                                        record3.setAnswerEnd(str5);
+                                        dataList.add(record3);
+                                    }
+                                    record4.setDatalists(dataList);
+                                    lists.add(record4);
                                 }
-                                record4.setDatalists(dataList);
-                                lists.add(record4);
                             }
                         }
                     }
                 }
 
                 //设置组名
+               
                 for(Record2 record2 : lists){
                     for(ClassInfo classInfo1 : classList){
                         if(record2.getClassId().equals(classInfo1.getClassId())){
@@ -797,11 +801,11 @@ public class RecordServiceImpl implements RecordService{
                 }
 
 	            result.setItem(lists);
-	            result.setMessage("查询记录成功!");
+	            result.setMessage("Query record successful!");
 	            return result;
 	        } catch (Exception e) {
 	            result.setRet(Constant.ERROR);
-	            result.setMessage("查询记录失败！");
+	            result.setMessage("Query record failed！");
 	            result.setDetail(IOUtils.getError(e));
 	            log.error(IOUtils.getError(e));
 	            return result;

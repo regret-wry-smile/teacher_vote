@@ -201,7 +201,7 @@ public class ScoreServiceImpl implements ScoreService {
 	public void insertRecord2(){
 		try {
 			result = new Result();
-			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//结束时间
+			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");//结束时间
 			record2.setAnswerEnd(df.format(new Date()));
 			List<Record2> records = RedisMapScore.getScoreRecordList();
 			if (StringUtils.isEmpty(records)){
