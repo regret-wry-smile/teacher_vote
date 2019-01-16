@@ -20,6 +20,8 @@ app.controller('answerRecordCtrl', function($scope,$modal,toastr) {
 		$scope.onechecked = [];
 		$scope.checkedId = [];
 		$scope.checkedstudentIds = []; //学生id数组
+		$scope.onechecked = [];
+		$scope.checkedId = [];
 		//答题类型数组
 		$scope.answerTypeList = [{
 			key: '0',
@@ -70,12 +72,14 @@ app.controller('answerRecordCtrl', function($scope,$modal,toastr) {
 						}
 						$scope.classList.push(item);
 						
-						$scope.setClass.classes = $scope.classList[0].key;
-						$scope.classesobject = $scope.classList[0];
-						$scope.setClass.classes1 = angular.copy($scope.setClass.classes);
-						_getsubject($scope.setClass.classes);
+						
 
 					})
+					$scope.classList.unshift({key:'',value:"all"});
+					$scope.setClass.classes = $scope.classList[0].key;
+					$scope.classesobject = $scope.classList[0];
+					$scope.setClass.classes1 = angular.copy($scope.setClass.classes);
+					_getsubject($scope.setClass.classes);
 				}
 			} else {
 				toastr.error($scope.result.message);
@@ -91,11 +95,18 @@ app.controller('answerRecordCtrl', function($scope,$modal,toastr) {
 			if(result.ret=='success'){
 				if(result.item&&result.item.length>0){
 					$scope.subjectlists = [];
-				for(var i=0;i<result.item.length;i++){				
-					$scope.subjectlists.push(result.item[i].subjectName);
-					$scope.setClass.subject = $scope.subjectlists[0];
-					$scope.setClass.subject1 = angular.copy($scope.setClass.subject);
+				for(var i=0;i<result.item.length;i++){	
+						var item = {
+							key: result.item[i].subjectId,
+							value: result.item[i].subjectName
+						}
+						$scope.subjectlists.push(item);
+					//$scope.subjectlists.push(result.item[i].subjectName);
+					
 				}
+					$scope.subjectlists.unshift({key:'',value:"all"})
+					$scope.setClass.subject = $scope.subjectlists[0].key;
+					$scope.setClass.subject1 = angular.copy($scope.setClass.subject);
 			}	else{
 				$scope.subjectlists=[];
 				$scope.setClass.subject='';
@@ -126,29 +137,34 @@ app.controller('answerRecordCtrl', function($scope,$modal,toastr) {
 				} 
 
 		}
+		/*清空全选*/
+		var _clearAllSelected=function(){
+			$scope.onechecked = [];
+			$scope.checkedId = [];
+			$scope.selected=false;
+		}
 			//切换班级
 
 		$scope.changeClass = function(classes) {
 				$scope.setClass.classes = classes;
 				$scope.setClass.classes1=angular.copy(classes)
 				_getsubject($scope.setClass.classes)
-				
-				
-
+				_clearAllSelected()
 			}
 			//切换科目
 		$scope.changeSubject = function(subject) {
 			$scope.setClass.subject = subject;
 			$scope.setClass.subject1=angular.copy(subject);
 			_selectRecord();
+			_clearAllSelected()
 		}
 
 		//切换课程
-		$scope.changeClassHour = function(sujectHour) {
-			
+		$scope.changeClassHour = function(sujectHour) {			
 			$scope.setClass.sujectHour = sujectHour;
 			$scope.setClass.sujectHour1=angular.copy(sujectHour);
 			_selectRecord();
+			_clearAllSelected()
 
 		};
 		$scope.changeTime = function() {
@@ -159,6 +175,12 @@ app.controller('answerRecordCtrl', function($scope,$modal,toastr) {
 					}
 				}
 			_selectRecord();
+			_clearAllSelected()
+		}
+		//筛选备注
+		$scope.changeRemark=function(){
+			_selectRecord();
+			_clearAllSelected()
 		}
 		var _init = function() {
 			_selectClass();
@@ -170,17 +192,31 @@ app.controller('answerRecordCtrl', function($scope,$modal,toastr) {
 			if($scope.selected) {
 				$scope.onechecked = [];
 				angular.forEach($scope.recordList, function(i) {
-					i.checked = true;
+					angular.forEach(i.datalists,function(j){
+						j.checked = true;
+						var item = j;
+						$scope.checkedId.push(i);
+						$scope.onechecked.push(item);
+					})
+					/*i.checked = true;
 					var item = i;
 					$scope.checkedId.push(i.id.toString());
-					$scope.onechecked.push(item);
+					$scope.onechecked.push(item);*/
 
 				})
 			} else {
-				angular.forEach($scope.recordList, function(i) {
+				/*angular.forEach($scope.recordList, function(i) {
 					i.checked = false;
 					$scope.onechecked = [];
 					$scope.checkedId = [];
+				})*/
+				angular.forEach($scope.recordList, function(i) {
+					angular.forEach(i.datalists,function(j){
+						j.checked = false;
+						$scope.onechecked = [];
+						$scope.checkedId = [];
+					})
+					
 				})
 			}
 
@@ -189,8 +225,26 @@ app.controller('answerRecordCtrl', function($scope,$modal,toastr) {
 		$scope.selectOne = function(param) {
 			$scope.onechecked = [];
 			$scope.checkedId = [];
-			angular.forEach($scope.recordList, function(i) {
-				//console.log("是什么"+JSON.stringify(i))
+			angular.forEach($scope.recordList,function(i){
+				angular.forEach(i.datalists,function(j){
+					var index = $scope.checkedId.indexOf(j);
+					if(j.checked && index === -1) {
+					var item = j;
+					$scope.onechecked.push(item);
+					$scope.checkedId.push(j);
+				} else if(!j.checked && index !== -1) {
+					$scope.selected = false;
+					$scope.onechecked.splice(index, 1);
+					$scope.checkedId.splice(index, 1);
+				};
+				if(i.datalists.length === $scope.onechecked.length) {
+				$scope.selected = true;
+			} else {
+				$scope.selected = false;
+			}
+				})
+			})
+			/*angular.forEach($scope.recordList, function(i) {
 				var index = $scope.checkedId.indexOf(i.id);
 				if(i.checked && index === -1) {
 					var item = i;
@@ -207,9 +261,20 @@ app.controller('answerRecordCtrl', function($scope,$modal,toastr) {
 				$scope.selected = true;
 			} else {
 				$scope.selected = false;
-			}
+			}*/
 		}
-
+		//清空时间
+		$scope.delanswerStart=function(){
+			$scope.setClass.answerStart='';
+			_selectRecord();
+			_clearAllSelected()
+		}
+		//清空时间
+		$scope.delRemark=function(){
+			$scope.setClass.remark='';
+			_selectRecord();
+			_clearAllSelected()
+		}
 		//删除记录
 		$scope.deleteRcord = function() {
 
@@ -231,20 +296,20 @@ app.controller('answerRecordCtrl', function($scope,$modal,toastr) {
 						$scope.checkedstudentIds.push($scope.onechecked[i].studentId);
 					}*/
 					var param = {
-						ids:$scope.checkedId
+						/*ids:$scope.checkedId*/
+						datalists:$scope.checkedId
 						/*testId: $scope.setClass.paper,
 						studentIds: $scope.checkedstudentIds*/
 					}
-					console.log(JSON.stringify(param))
-					$scope.result = JSON.parse(execute_record("delete_record", JSON.stringify(param)));
-					if($scope.result.ret == 'success') {
-						toastr.success($scope.result.message);
+					var result = JSON.parse(execute_record("delete_record", JSON.stringify(param)));
+					if(result.ret == 'success') {
+						toastr.success(result.message);
 						_selectRecord();
 						$scope.onechecked = [];
 						$scope.checkedId = [];
 						$scope.selected = false;
 					} else {
-						toastr.error($scope.result.message);
+						toastr.error(result.message);
 					}
 
 				}, function() {
@@ -279,7 +344,7 @@ app.controller('answerRecordCtrl', function($scope,$modal,toastr) {
 			}
 			//导出
 		$scope.exportRecord = function() {
-				if($scope.setClass.classes && $scope.setClass.subject) {
+//				if($scope.setClass.classes && $scope.setClass.subject) {
 					_showModal();
 					var param = {
 						classId: $scope.setClass.classes,
@@ -288,7 +353,7 @@ app.controller('answerRecordCtrl', function($scope,$modal,toastr) {
 						answerStart: $scope.setClass.answerStart,
 						answerEnd: $scope.setClass.answerEnd
 					}
-					console.log("导出参数" + JSON.stringify(param))
+					//console.log("导出参数" + JSON.stringify(param))
 					$scope.result = JSON.parse(execute_record('test_export', JSON.stringify(param)));
 					if($scope.result.ret == 'success') {
 						//toastr.success($scope.result.message);
@@ -296,9 +361,9 @@ app.controller('answerRecordCtrl', function($scope,$modal,toastr) {
 						/*toastr.error($scope.result.message);
 						console.log(JSON.stringify($scope.result.message))*/
 					}
-				} else {
+				/*} else {
 					toastr.warning("Necessary conditions are lacking and cannot be derived.");
-				}
+				}*/
 
 			}
 			//显示loading
@@ -443,17 +508,17 @@ app.directive('select1', function() {
 			scope.$watch('defalutvalue+list', function() {
                 var str = '';
                 //var str ='<option value="">please selected</option>'
-		         if(scope.defalutvalue) { 
+		        /* if(scope.defalutvalue) { */
 		         	if(scope.list) {
 						for(var i = 0; i < scope.list.length; i++) {
 							str += '<option value="' + scope.list[i] + '">' + scope.list[i] + '</option>';
 						} 
 					}
-                  }
+                  /*}*/
 				$(element).html(str);
 				$(element).multiselect({
 						multiple: false,
-						selectedHtmlValue: 'please selected',
+						selectedHtmlValue: 'all',
 						defalutvalue: scope.defalutvalue,
 						change: function() {
 							$(element).val($(this).val());
@@ -480,7 +545,7 @@ app.directive('select2', function() {
 		},
 		link: function(scope, element, attrs, ngModelCtr) {
 			scope.$watch('defalutvalue+list', function() {
-				if(scope.defalutvalue) {
+				/*if(scope.defalutvalue) {*/
 					if(scope.list) {
 						var str = '';
 						for(var i = 0; i < scope.list.length; i++) {
@@ -489,10 +554,10 @@ app.directive('select2', function() {
 						$(element).html(str);
 					}
 
-				}
+				/*}*/
 				$(element).multiselect({
 					multiple: false,
-					selectedHtmlValue: 'please selected',
+					selectedHtmlValue: 'all',
 					defalutvalue: scope.defalutvalue,
 					change: function() {
 						$(element).val($(this).val());

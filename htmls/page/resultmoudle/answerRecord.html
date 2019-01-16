@@ -13,7 +13,7 @@
 		<link rel="stylesheet" href="../../css/bootstrap.css" />
 		<link rel="stylesheet" href="../../css/common.css" />
 		<link rel="stylesheet" href="../../css/page.css" />
-		<script src="../../js/angular.js" type="text/javascript" charset="utf-8"></script>			
+		<script src="../../js/angular.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../js/angular-bootstrap/ui-bootstrap-tpls.js"></script>
 		<link rel="stylesheet" href="../../js/angular-toastr/angular-toastr.min.css" />
 		<script src="../../js/angular-toastr/angular-toastr.min.js"></script>
@@ -28,33 +28,35 @@
 		<link rel="stylesheet" href="../../js/datetimepicker/datetimepicker.min.css" />
 
 		<link href="../../js/select/font-awesome.min.css" />
-		<script type="text/javascript" src="../../js/select/select.jquery.js" ></script>
+		<script type="text/javascript" src="../../js/select/select.jquery.js"></script>
 		<!--<script src="../../js/common.js"></script>-->
 		<script src="../../js/jquery.nicescroll.min.js"></script>
 		<!--<script src="../../js/ui-validate.js"></script>-->
-		<script src="../../js/vconsole.min.js"></script>
-		<script type="text/javascript" src="../../js/bootstrap.js" ></script>
-		<script type="text/javascript" src="../../js/app.js" ></script>
+		<!--<script src="../../js/vconsole.min.js"></script>-->
+		<script type="text/javascript" src="../../js/bootstrap.js"></script>
+		<script type="text/javascript" src="../../js/app.js"></script>
 		<script src="../../js/controllers/answerRecordController.js"></script>
 		<!--<script src="../../js/controllers/uploadfileModalCtrl.js"></script>-->
-		  <!--[if IE 8]>
+		<!--[if IE 8]>
         <script src="js/es5-shim.min.js"></script>        
     	<![endif]-->
 	</head>
 	<style>
-		.newSelect{
+		.newSelect {
 			width: 1.5rem !important;
 			overflow: hidden;
-			text-overflow:ellipsis;
+			text-overflow: ellipsis;
 			white-space: nowrap;
-		    line-height:0.36rem;
-   			height: 0.36rem;
+			line-height: 0.36rem;
+			height: 0.36rem;
 		}
-		.newOptions{
+		
+		.newOptions {
 			width: 1.5rem !important;
 			max-height: 200px !important;
 		}
-		input[type='text']{
+		
+		input[type='text'] {
 			line-height: 36px;
 			border: none;
 			background: #fff;
@@ -66,27 +68,64 @@
 			vertical-align: middle;
 			border: 1px solid #e0e0e0;
 		}
-		.search-item{
+		
+		.search-item {
 			float: left;
 		}
-		.search-item label{
+		
+		.search-item label {
 			height: 36px;
 			line-height: 36px;
 			padding: 0 5px;
 			float: left;
 		}
-		 a.opbtn {
+		
+		a.opbtn {
+			display: inline-block;
 			width: 60px;
 			background: #04BE02;
 			padding: 5px;
 			color: #fff;
 			text-align: center;
 			border-radius: 4px;
+			margin-top: 2px;
 		}
-		a.opbtn.del{
+		
+		a.opbtn.del {
 			background: red;
 		}
+		
+		.border {
+			border-left: 1px solid #fff;
+			border-right: 1px solid #fff;
+		}
+		
+		.clear_input {
+			position: relative;
+		}
+		
+		.clear_input input {
+			padding: 0 5px;
+		}
+		
+		.clear_input .delbutton {
+			position: absolute;
+			right: 5px;
+			top: 10px;
+			cursor: pointer;
+		}
+		
+		.mb5 {
+			margin-bottom: 5px;
+		}
+		
+		@media screen and (min-width: 921px) {
+			.col-main {
+				top: 0.6rem !important;
+			}
+		}
 	</style>
+
 	<body class="bg" ng-controller="answerRecordCtrl">
 		<div id="myModal" class="modal fade" data-keyboard="false" data-backdrop="static" data-role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 			<div id="loading" class="loading">loading</div>
@@ -108,105 +147,133 @@
 				</div>
 			</form>
 		</script>
-			<div class="header clearfix">
-				<div class="pull-left">
-					<img src="../../image/set.png" class="ml25" />
-					<span>Records</span>
-				</div>
-				<div class="pull-right">
-					<!--<a href="javascript:history.go(-1);">
+		<div class="header clearfix">
+			<div class="pull-left">
+				<img src="../../image/set.png" class="ml25" />
+				<span>Records</span>
+			</div>
+			<div class="pull-right">
+				<!--<a href="javascript:history.go(-1);">
 					<img src="../../image/return.png" />
 					</a>-->
-				</div>
 			</div>
-			<div ng-cloak class="content content1 bgf5 clearfix" style="top: 1.2rem;">		
-				<div class="searchbar clearfix">
-				    <label >Group</label>			    	
-			    	<select class="single" select2 ng-model="setClass.classes" defalutvalue='setClass.classes1' ng-change="changeClass(setClass.classes)" list='classList'>
+		</div>
+		<div ng-cloak class="content content1 bgf5 clearfix" style="top: 1.2rem;">
+			<div class="searchbar clearfix">
+				<div class="pull-left mb5">
+					<label>Group</label>
+					<select class="single" select2 ng-model="setClass.classes" defalutvalue='setClass.classes1' ng-change="changeClass(setClass.classes)" list='classList'>
 					</select>
-					<label >Scenario</label>
-					<select class="single" select1 ng-model="setClass.subject" defalutvalue='setClass.subject1' list="subjectlists" ng-change="changeSubject(setClass.subject)">
-				   			<!--<option ng-repeat="subjectitem in subjectlists track by $index" value="{{subjectitem}}">{{subjectitem}}</option>-->
-					</select>					
+					<label>Scenario</label>
+					<select class="single" select2 ng-model="setClass.subject" defalutvalue='setClass.subject1' ng-change="changeSubject(setClass.subject)" list='subjectlists'>
+					</select>
+					<!--<select class="single" select1 ng-model="setClass.subject" defalutvalue='setClass.subject1' list="subjectlists" ng-change="changeSubject(setClass.subject)">
+					   			<!--<option ng-repeat="subjectitem in subjectlists track by $index" value="{{subjectitem}}">{{subjectitem}}</option>-->
+					<!--</select>					-->
 					<label>Answer Type</label>
-				   <select class="single" select2 ng-model="setClass.sujectHour" defalutvalue='setClass.sujectHour1'  ng-change="changeClassHour(setClass.sujectHour)" list="answerTypeList" >			   							   		
-					</select>							
-					<a href="javascript:;" class="del ml20 mr10 opbtn" ng-click="deleteRcord()">Delete</a>
-					<a href="javascript:;" class="edit opbtn" ng-click="exportRecord()">Export</a>
+					<select class="single" select2 ng-model="setClass.sujectHour" defalutvalue='setClass.sujectHour1' ng-change="changeClassHour(setClass.sujectHour)" list="answerTypeList">
+					</select>
 				</div>
-				<div class="searchbar clearfix mt5">
-					<div class="search-item">
-						<label>remark</label>			    	
-			    		<input type="text" defalutvalue='setClass.remark'/>		
+				<div class="pull-left mb5">
+					<div class="search-item clear_input">
+						<label>remark</label>
+						<input type="text" ng-model='setClass.remark' ng-change="changeRemark()" />
+						<img src="../../image/delete.png" ng-click="delRemark()" ng-show="setClass.remark" class="delbutton" />
 					</div>
-					<div class="search-item">
+					<div class="search-item clear_input">
 						<label>Start Date</label>
-						<input  type="text" value="" datetimepicker  id="datetimepicker" ng-model="setClass.answerStart" ng-change="changeTime()" >
+						<input type="text" value="" datetimepicker id="datetimepicker" ng-model="setClass.answerStart" ng-change="changeTime()" readonly="readonly">
+						<img src="../../image/delete.png" ng-click="delanswerStart()" ng-show="setClass.answerStart" class="delbutton" />
+					</div>
+				</div>
+				<a href="javascript:;" class="del ml20 mr10 opbtn" ng-click="deleteRcord()">Delete</a>
+				<a href="javascript:;" class="edit opbtn" ng-click="exportRecord()">Export</a>
+			</div>
+			<!--<div class="searchbar clearfix mt5">
+					<div class="search-item clear_input" >
+						<label>remark</label>			    	
+			    		<input type="text" ng-model='setClass.remark' ng-change="changeRemark()"/>	
+			    		<img src="../../image/delete.png" ng-click="delRemark()" ng-show="setClass.remark" class="delbutton"/>
+					</div>
+					<div class="search-item clear_input">
+						<label>Start Date</label>
+						<input  type="text" value="" datetimepicker  id="datetimepicker" ng-model="setClass.answerStart" ng-change="changeTime()" readonly="readonly" >
+						<img src="../../image/delete.png" ng-click="delanswerStart()" ng-show="setClass.answerStart" class="delbutton"/>
 					</div>
 				    		
-				</div>
-				<div class="searchbar clearfix mt5">
-					<!--<div class="search-item">
+				</div>-->
+			<!--<div class="searchbar clearfix mt5">
+					<div class="search-item">
 						<label>Start Date</label>
 						<input  type="text" value="" datetimepicker  id="datetimepicker" ng-model="setClass.answerStart" ng-change="changeTime()" >
 					</div>-->
-					<!--<div class="search-item">
+			<!--<div class="search-item">
 					<label>End Date</label>
 					<input  type="text" value="" datetimepicker  id="datetimepicker" ng-model="setClass.answerEnd" ng-change="changeTime()" >
-					</div>-->
-				</div>
-				<div class="col-main" style="position: absolute;top: 1.0rem;left: 0;right: 0;bottom: .25rem;overflow-x: hidden;overflow-y: auto; width:100%;padding:0 0.25rem;">	
-					<table class="table table-stripe subject">
-						<thead>
-							<tr >
-								<th style="width: 5%;">No.</th>
-								<!--<th style="width: 8%;">Audience ID</th>-->
-								<th style="width: 8%;">Group</th>
-								<th style="width: 12%;">Scenario</th>
-								<th style="width: 10%;">Answer Type</th>
-								<!--<th style="width: 8%;">Result</th>		-->					
-								<th style="width: 10%;">Date</th>
-								<th style="width: 8%;" class="pr1">Select
-								<label style="margin-bottom: 0;"><input type="checkbox" class="allCheck" ng-model="selected" ng-change="selectAll()"></label></th>
-							</tr>
-						</thead>					
-					</table>
-					<div style="overflow-x: hidden;position: absolute; top: 0.36rem; left: 0.25rem; right: 0.25rem; bottom: 0; overflow-y: auto;" id="testlist">
-					<table class="table table-stripe subject">
-						<tbody>
-							<tr ng-repeat="item in recordList track by $index" ng-click="$event.stopPropagation();">
-								<td style="width: 5%;">{{$index+1}}</td>
-								<td style="width: 8%;">{{item.className}}</td>
-								<!--<td style="width: 8%;">{{item.studentId}}</td>-->
-								<th style="width: 12%;">{{item.subject}}</th>
-								<td style="width: 10%;">
-									<span ng-if="item.questionType=='1'">letter</span>
-									<span ng-if="item.questionType=='2'">digit</span>
-									<span ng-if="item.questionType=='3'">judge</span>
-									<span ng-if="item.questionType=='4'">multiple choice</span>
-									<span ng-if="item.questionType=='5'">vote</span>
-									<span ng-if="item.questionType=='6'">survey</span>
-								</td>
-								<!--<td style="width: 8%;">{{item.answer}}</td>-->
-								<td style="width: 10%;">{{item.answerStart}}</td>	
-								<!--<td style="width: 22%;">{{item.answerStart}}~{{item.answerEnd}}</td>-->	
-								<td style="width: 8%;" class="ml5"><input type="checkbox" style="margin-left: 0.45rem;" ng-model="item.checked" class="ml32" name="check" ng-change="selectOne()" ng-click="$event.stopPropagation();"></td>
-							</tr>
-							</tbody>
-					</table>
 					</div>
-			  	</div>
+				</div>-->
+			<div class="col-main" style="position: absolute;top: 1.0rem;left: 0;right: 0;bottom: .25rem;overflow-x: hidden;overflow-y: auto; width:100%;padding:0 0.25rem;">
+				<table class="table table-stripe subject">
+					<thead>
+						<tr>
+							<th style="width: 80px;">No.</th>
+							<!--<th style="width: 8%;">Audience ID</th>-->
+							<th>Group</th>
+							<th>Scenario</th>
+							<th>Answer Type</th>
+							<!--<th style="width: 8%;">Result</th>		-->
+							<th>Remark</th>
+							<th>Date</th>
+
+							<th class="pr1">Select
+								<label style="margin-bottom: 0;"><input type="checkbox" class="allCheck" ng-model="selected" ng-change="selectAll()"></label></th>
+						</tr>
+					</thead>
+				</table>
+				<div style="overflow-x: hidden;position: absolute; top: 0.36rem; left: 0.25rem; right: 0.25rem; bottom: 0; overflow-y: auto;" id="testlist">
+					<table class="table table-stripe subject">
+						<tbody ng-repeat="item in recordList track by $index" ng-click="$event.stopPropagation();">
+							<tr style="border: none;">
+								<td rowspan="{{item.datalists.length+1}}" style="width: 80px;vertical-align: middle;">{{$index+1}}</td>
+								<td rowspan="{{item.datalists.length+1}}" style="vertical-align: middle;">{{item.classId}}</td>
+								<!--<td style="width: 8%;">{{item.studentId}}</td>-->
+								<th rowspan="{{item.datalists.length+1}}" style="vertical-align: middle;border: none;">{{item.subject}}</th>
+								<td rowspan="{{item.datalists.length+1}}" style="vertical-align: middle;">
+									{{item.questionShow}}
+								</td>
+								<td rowspan="{{item.datalists.length+1}}" style="vertical-align: middle;">{{item.remark}}</td>
+								<td style="padding: 0 !important;"></td>
+								<td style="padding: 0 !important;"></td>
+								<!--<td style="width: 8%;">{{item.answer}}</td>-->
+
+								<!--<td style="width: 22%;">{{item.answerStart}}~{{item.answerEnd}}</td>-->
+
+							</tr>
+							<tr ng-repeat="x in item.datalists">
+								<td ng-class="{'border':item.datalists.length+1>2}">{{x.answerEnd}}</td>
+								<td class="ml5" style="vertical-align: middle;"><input type="checkbox" style="margin-left: 0.45rem;" ng-model="x.checked" class="ml32" name="check" ng-change="selectOne()" ng-click="$event.stopPropagation();"></td>
+							</tr>
+
+						</tbody>
+					</table>
+				</div>
 			</div>
-			<div id="getTip" ng-click="getTip()" style="display: none;"></div>
-			<div id="refreSelectRecord" ng-click="refreSelectRecord()" style="display: none;"></div>
-			<div id="removeLoading" ng-click="removeLoading()" style="display: none;"></div>
-			<div id="showLoading" ng-click="showLoading()" style="display: none;"></div>
+		</div>
+		<div id="getTip" ng-click="getTip()" style="display: none;"></div>
+		<div id="refreSelectRecord" ng-click="refreSelectRecord()" style="display: none;"></div>
+		<div id="removeLoading" ng-click="removeLoading()" style="display: none;"></div>
+		<div id="showLoading" ng-click="showLoading()" style="display: none;"></div>
 	</body>
+
 </html>
 
 <script type="text/javascript">
-	 $(document).ready(function() { 
-	var nice = $("html").niceScroll();  // The document page (body)
-	 $("#testlist").niceScroll({cursorborder:"",cursorcolor:"#d9d9d9",boxzoom:true}); // First scrollable 	
-  });
+	$(document).ready(function() {
+		var nice = $("html").niceScroll(); // The document page (body)
+		$("#testlist").niceScroll({
+			cursorborder: "",
+			cursorcolor: "#d9d9d9",
+			boxzoom: true
+		}); // First scrollable 	
+	});
 </script>

@@ -386,9 +386,11 @@ app.controller('stopSingeAnswerCtrl', function($scope,$rootScope, $location, toa
 				      for (var i in $scope.resultmap) {
 				         if ($scope.resultmap.hasOwnProperty(i)){
 				         	 if(i=='true'){
-				         	 	i='Yes';			         	 	
+				         	 	i='Agree';			         	 	
 				         	 }else if(i=='false'){
-				         	 	i='No';
+				         	 	i='Disagree';
+				         	 }else if(i=='abstention'){
+				         	 	i='Quit';
 				         	 }
 				         	 keys1.push(i);
 				         }
@@ -406,9 +408,9 @@ app.controller('stopSingeAnswerCtrl', function($scope,$rootScope, $location, toa
 						rangeList=keys1;
 						//rangeList = ["Yes", "No"];
 						$scope.resultmap = {
-							"Yes": $scope.resultmap["true"],
-							"No": $scope.resultmap["false"],
-							"abstention":$scope.resultmap["abstention"]
+							"Agree": $scope.resultmap["true"],
+							"Disagree": $scope.resultmap["false"],
+							"Quit":$scope.resultmap["abstention"]
 						}
 					}
 					//$scope.rangeList=["A","B","C","D","E"];
@@ -551,10 +553,12 @@ app.controller('stopSingeAnswerCtrl', function($scope,$rootScope, $location, toa
 							if(datavalue == params.name) {
 								option.series[0].data[params.dataIndex].itemStyle.normal.color = '#5ed6be';
 								if($scope.answerType == 'judge') {
-									if(datavalue == "Yes") {
+									if(datavalue == "Agree") {
 										datavalue = "true";
-									} else {
+									} else if(datavalue == "Disagree"){
 										datavalue = "false";
+									}else if(datavalue == "Quit"){
+										datavalue = "abstention";
 									}
 								}
 								var dataparam = {
