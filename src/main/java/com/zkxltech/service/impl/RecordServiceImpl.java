@@ -682,7 +682,7 @@ public class RecordServiceImpl implements RecordService{
         try {
         	
         	String str = object.toString();
-        	 JSONObject jo=JSONObject.fromObject(str);
+        	JSONObject jo=JSONObject.fromObject(str);
         	JSONArray arrays = (JSONArray) jo.get("Ids");
         	char[] ar = arrays.toString().toCharArray();
         	List<Integer> list1 = new ArrayList<>();
