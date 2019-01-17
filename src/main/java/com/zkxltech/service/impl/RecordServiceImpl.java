@@ -679,18 +679,24 @@ public class RecordServiceImpl implements RecordService{
         Result r = new Result();
         r.setRet(Constant.ERROR);
         try {
-            Record2 record = com.zkxltech.ui.util.StringUtils.parseJSON(object, Record2.class);
+        	Record2 record = new Record2();
+        	Record2 records = com.zkxltech.ui.util.StringUtils.parseJSON(object,Record2.class);
+        	Object o = records.getDatalists();
+        	List<Record2> list = com.zkxltech.ui.util.StringUtils.parseJSON(o,List.class);
+        	
+        	for(Record2 record2 : list){
+        		RecordSql2 sql = new RecordSql2();
+            	 r = sql.deleteRecord(record2);
+	            if (r.getRet().equals(Constant.ERROR)) {
+	                return r;
+	            }
+                
+        	}
             /*if (StringUtils.isBlank(record.getTestId())||record.getStudentIds()== null || record.getStudentIds().size() < 1) {
                 r.setMessage("试卷id和学生id参数不能为空");
                 return r;
             }*/
-            RecordSql2 sql = new RecordSql2();
-            for(Record2 record2 : record.getDatalists()){
-            	 r = sql.deleteRecord(record);
-	            if (r.getRet().equals(Constant.ERROR)) {
-	                return r;
-	            }
-            }
+            
            
         } catch (Exception e) {
             r.setMessage("Delete failed");
@@ -772,6 +778,7 @@ public class RecordServiceImpl implements RecordService{
                 removeDuplicate(typeList);
 
                 //整合数据
+                int i =0;
                 List<Record2> lists = new ArrayList<>();
                 for (String str1 : groupList) {
                     for(String str2 : scenzrioList){
@@ -797,8 +804,9 @@ public class RecordServiceImpl implements RecordService{
                                 removeDuplicate(list);
                                 if(list.size() != 0){
                                 	for(String str5 : list){
-                                		
+                                		i++;
                                         Record2 record3 = new Record2();
+                                        record3.setId(i);
                                         record3.setAnswerEnd(str5);
                                         dataList.add(record3);
                                     }
