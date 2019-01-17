@@ -49,7 +49,8 @@ import net.sf.json.JSONObject;
 
 public class RecordServiceImpl implements RecordService{
     private static final Logger log = LoggerFactory.getLogger(RecordServiceImpl.class);
-    private Result result ;
+    private Result result;
+    private static Object ob;
     
     private RecordSql recordSql = new RecordSql();
     private RecordSql2 recordSql2 = new RecordSql2();
@@ -679,25 +680,71 @@ public class RecordServiceImpl implements RecordService{
         Result r = new Result();
         r.setRet(Constant.ERROR);
         try {
-        	Record2 record = new Record2();
-        	Record2 records = com.zkxltech.ui.util.StringUtils.parseJSON(object,Record2.class);
-        	Object o = records.getDatalists();
-        	List<Record2> list = com.zkxltech.ui.util.StringUtils.parseJSON(o,List.class);
+        	
+        	String str = object.toString();
+        	 JSONObject jo=JSONObject.fromObject(str);
+        	JSONArray arrays = (JSONArray) jo.get("Ids");
+        	char[] ar = arrays.toString().toCharArray();
+        	List<Integer> list1 = new ArrayList<>();
+        	for (int i =0;i<arrays.toString().length();i++) {
+        		try{
+        			String s = arrays.getString(i);
+        			int l = Integer.parseInt(s);
+        			list1.add(l);
+        		}catch(Exception e){
+        			
+        		}
+			}
+   	
+        	RecordServiceImpl rsi = new RecordServiceImpl();
+        	Result result = new Result();
+        	List<Record2> list = new ArrayList<>();
+        	for(int i =0;i<list1.size();i++){
+        		int j = list1.get(i);
+        		result = rsi.selectRecord2(ob);
+        		List<Record2> recordList = (List<Record2>) result.getItem();
+        		for (Record2 record2 : recordList) {
+        			Record2 record4 = new Record2();
+        			record4.setClassId(record2.getClassId());
+        			record4.setSubject(record2.getSubject());
+        			record4.setRemark(record2.getRemark());
+        			record4.setQuestionShow(record2.getQuestionShow());
+					for(Record2 record3 : record2.getDatalists()){
+						if(j == record3.getId()){
+							record4.setAnswerEnd(record3.getAnswerEnd());
+						}
+					}
+					if(record4.getAnswerEnd() != null){
+						list.add(record4);
+					}
+				}
+        	}
+        	
+        	
         	
         	for(Record2 record2 : list){
+        		ClassHour classHour = new ClassHour();
+             	ClassHourSql c = new ClassHourSql();
+             	classHour.setClassName(record2.getClassId());
+             	classHour.setSubjectName(record2.getSubject());
+                Result result1 = c.selectClassHour(classHour);
+                List<ClassHour> classList= (List<ClassHour>) result1.getItem();
+        		
+                for(ClassHour classHour1 : classList){
+                    if(record2.getClassId().equals(classHour1.getClassName()) && record2.getSubject().equals(classHour1.getSubjectName())){
+                        record2.setClassId(classHour1.getClassId());
+                        record2.setSubject(classHour1.getSubjectId());
+                    }
+                }
+        		
         		RecordSql2 sql = new RecordSql2();
-            	 r = sql.deleteRecord(record2);
+           	 	r = sql.deleteRecord(record2);
 	            if (r.getRet().equals(Constant.ERROR)) {
 	                return r;
 	            }
-                
+        		
         	}
-            /*if (StringUtils.isBlank(record.getTestId())||record.getStudentIds()== null || record.getStudentIds().size() < 1) {
-                r.setMessage("试卷id和学生id参数不能为空");
-                return r;
-            }*/
-            
-           
+        	
         } catch (Exception e) {
             r.setMessage("Delete failed");
             r.setDetail(IOUtils.getError(e));
@@ -733,6 +780,7 @@ public class RecordServiceImpl implements RecordService{
     }
 	@Override
 	public Result selectRecord2(Object object) {
+		  ob = object;
 		  result = new Result();
 	        try {
 	            Record2 record = com.zkxltech.ui.util.StringUtils.parseJSON(object, Record2.class);

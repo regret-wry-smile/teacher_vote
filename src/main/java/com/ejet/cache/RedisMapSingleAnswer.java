@@ -113,15 +113,15 @@ public class RedisMapSingleAnswer {
                               switch (record2.getQuestionType()) {
                                   case "s":
                                       record2.setQuestionType("1");
-                                      record2.setQuestionShow("Questionnaire-Letter");
+                                      record2.setQuestionShow("Letter");
                                       break;
                                   case "d":
                                       record2.setQuestionType("2");
-                                      record2.setQuestionShow("Questionnaire-Digit");
+                                      record2.setQuestionShow("Digit");
                                       break;
                                   case "j":
                                       record2.setQuestionType("3");
-                                      record2.setQuestionShow("Questionnaire-Y/N");
+                                      record2.setQuestionShow("Y/N");
                                       if(result.equals("true")){
                                     	  record2.setAnswer("√");
                                       }else{

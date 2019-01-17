@@ -78,7 +78,6 @@ public class RecordSql2 {
 				index++;
 			}
 		}
-		System.out.println(sqlBuilder.toString());
 		return dbHelper.onQuery(sqlBuilder.toString(),record);
 	}
 	
@@ -95,22 +94,13 @@ public class RecordSql2 {
   				}else {
   					sqlBuilder.append(" and ");
   				}
-  				if ("answer_end".equals(dbHelper.HumpToUnderline(files[i].getName()))){
-  					List<Record2> list = record.getDatalists();
-  					sqlBuilder.append(dbHelper.HumpToUnderline(files[i].getName()) + "in (");
-	  		          for (int j = 0; j< list.size();j++) {
-	  		            sqlBuilder.append(list.get(j));
-	  		            if (j != list.size()-1) {
-	  		              sqlBuilder.append(",");
-	  		            }
-	  		          }
-	  		          sqlBuilder.append(")");
-				}else if("remark".equals(dbHelper.HumpToUnderline(files[i].getName()))){
+  				if("remark".equals(dbHelper.HumpToUnderline(files[i].getName()))){
 					if(record.getRemark() == null){
 						sqlBuilder.append(dbHelper.HumpToUnderline(files[i].getName())+"is ?");
 					}else{
+						
 						sqlBuilder.append(dbHelper.HumpToUnderline(files[i].getName())+" like \"%"+record.getRemark()+"%\"");
-						sqlBuilder.append("and ? is not null");
+						sqlBuilder.append(" and ? is not null");
 					}
 					
 				}else{

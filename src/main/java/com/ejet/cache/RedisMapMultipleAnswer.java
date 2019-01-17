@@ -120,7 +120,7 @@ public class RedisMapMultipleAnswer {
 				record2.setSubject(str1);
 				
 				record2.setRemark(Global.getClassHour().getClassHourName());
-				record2.setQuestionShow("MutipleChoice-letter");
+				record2.setQuestionShow("Mutiple Choice");
 				record2.setQuestionType("4");
 				record2.setIclickerId(iclicker);
 				record2.setStudentId(studentInfo.getStudentId());
