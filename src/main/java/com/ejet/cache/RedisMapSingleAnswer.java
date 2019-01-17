@@ -121,7 +121,7 @@ public class RedisMapSingleAnswer {
                                       break;
                                   case "j":
                                       record2.setQuestionType("3");
-                                      record2.setQuestionShow("Y/N");
+                                      record2.setQuestionShow("Judge");
                                       if(result.equals("true")){
                                     	  record2.setAnswer("√");
                                       }else{
