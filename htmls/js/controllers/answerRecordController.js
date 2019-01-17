@@ -195,7 +195,7 @@ app.controller('answerRecordCtrl', function($scope,$modal,toastr) {
 					angular.forEach(i.datalists,function(j){
 						j.checked = true;
 						var item = j;
-						$scope.checkedId.push(i);
+						$scope.checkedId.push(j.id);
 						$scope.onechecked.push(item);
 					})
 					/*i.checked = true;
@@ -227,11 +227,11 @@ app.controller('answerRecordCtrl', function($scope,$modal,toastr) {
 			$scope.checkedId = [];
 			angular.forEach($scope.recordList,function(i){
 				angular.forEach(i.datalists,function(j){
-					var index = $scope.checkedId.indexOf(j);
+					var index = $scope.checkedId.indexOf(j.id);
 					if(j.checked && index === -1) {
-					var item = j;
+					var item = j;					
 					$scope.onechecked.push(item);
-					$scope.checkedId.push(j);
+					$scope.checkedId.push(j.id);
 				} else if(!j.checked && index !== -1) {
 					$scope.selected = false;
 					$scope.onechecked.splice(index, 1);
@@ -296,8 +296,7 @@ app.controller('answerRecordCtrl', function($scope,$modal,toastr) {
 						$scope.checkedstudentIds.push($scope.onechecked[i].studentId);
 					}*/
 					var param = {
-						/*ids:$scope.checkedId*/
-						datalists:$scope.checkedId
+						Ids:$scope.checkedId
 						/*testId: $scope.setClass.paper,
 						studentIds: $scope.checkedstudentIds*/
 					}
