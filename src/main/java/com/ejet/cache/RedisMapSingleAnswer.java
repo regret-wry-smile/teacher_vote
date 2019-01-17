@@ -6,16 +6,9 @@ import com.ejet.core.util.comm.ListUtils;
 import com.ejet.core.util.constant.Constant;
 import com.ejet.core.util.constant.Global;
 import com.ejet.core.util.io.IOUtils;
-import com.zkxltech.domain.Answer;
-import com.zkxltech.domain.ClassHour;
-import com.zkxltech.domain.ClassInfo;
-import com.zkxltech.domain.Record2;
-import com.zkxltech.domain.Result;
-import com.zkxltech.domain.StudentInfo;
+import com.zkxltech.domain.*;
 import com.zkxltech.service.impl.AnswerInfoServiceImpl;
 import com.zkxltech.sql.ClassHourSql;
-import com.zkxltech.sql.ClassInfoSql;
-
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.slf4j.Logger;
@@ -287,6 +280,14 @@ public class RedisMapSingleAnswer {
             Integer i=0;
             i=RedisMapAttendance.getSignMap().size()-iclickerAnswerMap.size();
             singleAnswerNumMap.put("abstention",i);
+            List<StudentInfo> list = new ArrayList<>();
+            for (String iclickerId:RedisMapAttendance.getSignMap().keySet()){
+                if (StringUtils.isEmpty(iclickerAnswerMap.get(iclickerId))){
+                    StudentInfo studentInfo = studentInfoMap.get(iclickerId);
+                    list.add(studentInfo);
+                }
+            }
+            singleAnswerStudentNameMap.put("abstention",list);
         }
         return JSONObject.fromObject(singleAnswerNumMap).toString();
     }
