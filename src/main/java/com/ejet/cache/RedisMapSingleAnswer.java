@@ -101,12 +101,26 @@ public class RedisMapSingleAnswer {
                           record2.setAnswer(result);
                          
                           if (RedisMapSingleAnswer.getCondition().equals(Constant.BUSINESS_VOTE)){
-                              record2.setQuestionType("5");
-                              record2.setQuestionShow("Vote");
-                              if(result.equals("true")){
-                            	  record2.setAnswer("agree");
-                              }else{
-                            	  record2.setAnswer("disagree");
+                        	  
+                        	  record2.setQuestionType(answerJO.getString("type"));//s位字母，d位数字，j位判断
+                              switch (record2.getQuestionType()) {
+                                  case "s":
+                                      record2.setQuestionType("5");
+                                      record2.setQuestionShow("Vote");
+                                      break;
+                                  case "d":
+                                      record2.setQuestionType("5");
+                                      record2.setQuestionShow("Vote");
+                                      break;
+                                  case "j":
+                                      record2.setQuestionType("5");
+                                      record2.setQuestionShow("Vote");
+                                      if(result.equals("true")){
+                                    	  record2.setAnswer("agree");
+                                      }else{
+                                    	  record2.setAnswer("disagree");
+                                      }
+                                      break;
                               }
                           }else {
                               record2.setQuestionType(answerJO.getString("type"));//s位字母，d位数字，j位判断
