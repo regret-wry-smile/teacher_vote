@@ -336,6 +336,8 @@ $('#myModal').modal('hide');
 });
 //停止单选答题
 app.controller('stopSingeAnswerCtrl', function($scope,$rootScope, $location, toastr, $window) {	
+	
+	
 	$('#myModal').modal('hide');
 	//隐藏loading
 	var _hideModal=function(){
@@ -362,6 +364,9 @@ app.controller('stopSingeAnswerCtrl', function($scope,$rootScope, $location, toa
 		$scope.studentNum=0;
 		//获取答题人数
 		var ajaxnum1=0;//防止页面闪烁
+		$scope.result=JSON.parse(execute_answer('get_single_answer_num'));
+		$scope.studentNum = $scope.result.current;
+		$scope.totalStudent = $scope.result.totalStudent;
 		$scope.refresAnswerNum = function() {
 				$scope.result = JSON.parse(execute_answer("get_single_answer_num"));
 				$scope.studentNum = $scope.result.current;

@@ -45,6 +45,43 @@
 			color: #fff;
 			margin-right: 0.10rem;
 		}
+		@media screen and (max-width:1599px){
+			div.txt.Survey{
+				margin-top: 10px;
+			}
+			.Survey .Survey-con{
+				margin-top: 0px;
+				padding-right: 5px;
+			}
+			.Survey label{
+				margin-bottom: 0px;
+				
+			}
+		}
+		@media screen and (min-width:1600px) and (max-width:1919px){
+			div.txt.Survey{
+				margin-top: 80px;
+			}
+			.Survey .Survey-con{
+				margin-top: 0.07rem;
+				
+			}
+			.Survey label{
+				margin-bottom: 5px;
+			}
+		}
+		@media screen and (min-width:1920px){
+			div.txt.Survey{
+				margin-top: 80px;
+			}
+			.Survey .Survey-con{
+				margin-top: 0.07rem;
+			}
+			.Survey label{
+				margin-bottom: 5px;
+			}
+		}
+				
 	</style>
 	<body class="bg" ng-controller="quickMarkCountCtrl">
 			<div class="header clearfix" ng-cloak>
@@ -67,9 +104,19 @@
 							<p class="con">{{markInfo.title}}</p>
 						</div>
 					</div>
-					<div class="text clearfix vote" style="margin-top: 40px;">
+					<div class="text clearfix vote Survey" >
+						<label class="pull-left" style="font-weight: bold;">Instuctions:</label>
+						<div class="pull-left Survey-con" style="width: 80%; vertical-align: middle;">
+							<p class="con">1 for very dissatisfied.</p>
+							<p class="con">2 for dissatisfied.</p>
+							<p class="con">3 for neutral.</p>
+							<p class="con">4 for satisfeid.</p>
+							<p class="con">5 for very satisfeid.</p>
+						</div>
+					</div>							      
+					<div class="text clearfix vote Survey" >
 						<label class="pull-left" style="font-weight: bold;">Survey content:</label>
-						<div class="pull-left" style="width: 80%; vertical-align: middle;margin-top: 0.07rem;">
+						<div class="pull-left Survey-con" style="width: 80%; vertical-align: middle;">
 							<p class="con">{{markInfo.describe}}</p>
 						</div>
 					</div>
