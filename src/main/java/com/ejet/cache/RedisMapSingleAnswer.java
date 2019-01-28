@@ -63,12 +63,11 @@ public class RedisMapSingleAnswer {
             	Record2 record2 = new Record2();
                 JSONObject jsonObject = JSONObject.fromObject(object);
                 if (!jsonObject.containsKey("result")) {
-                	  String card_id = jsonObject.getString("card_id");
-                    if (!StringUtils.isEmpty(iclickerAnswerMap.get(card_id))){
+                    String card_id = jsonObject.getString("card_id");
+                    if (!StringUtils.isEmpty(iclickerAnswerMap.get(card_id))||StringUtils.isEmpty(RedisMapAttendance.getSignMap().get(card_id))){
                         continue;
                     }
                       StudentInfo studentInfo = studentInfoMap.get(card_id);
-                      
                       record2.setStudentId(studentInfo.getStudentId());
                       record2.setStudentName(studentInfo.getStudentName());
                       record2.setClassId(studentInfo.getClassId());
@@ -176,8 +175,6 @@ public class RedisMapSingleAnswer {
                 RedisMapUtil.setRedisMap(everyAnswerMap, keyEveryAnswerMap, 0, record2);	//[0691699866, 1]
 
             }
-           
-            
             BrowserManager.refresAnswerNum();
 		} catch (Exception e) {
 			  logger.error(IOUtils.getError(e));
@@ -295,6 +292,7 @@ public class RedisMapSingleAnswer {
             i=RedisMapAttendance.getSignMap().size()-iclickerAnswerMap.size();
             singleAnswerNumMap.put("abstention",i);
             List<StudentInfo> list = new ArrayList<>();
+            Map<String, Object> signMap = RedisMapAttendance.getSignMap();
             for (String iclickerId:RedisMapAttendance.getSignMap().keySet()){
                 if (StringUtils.isEmpty(iclickerAnswerMap.get(iclickerId))){
                     StudentInfo studentInfo = studentInfoMap.get(iclickerId);
