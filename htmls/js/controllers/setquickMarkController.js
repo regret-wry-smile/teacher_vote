@@ -108,6 +108,7 @@ app.controller('quickMarkCountCtrl', function($rootScope, $scope, $modal, toastr
 		$scope.result = JSON.parse(execute_score("get_scoreTitleInfo"));
 		if($scope.result.ret == 'success' && $scope.result.item) {
 			$scope.markInfo = $scope.result.item;
+			$scope.markInfo.describe="This is a multiple question session,please click the "+ '"Page Down"'+" key to the next answering.";
 			console.log($scope.result);
 		} else {
 			toastr.error($scope.result.message);
