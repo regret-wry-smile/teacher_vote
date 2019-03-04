@@ -1,24 +1,15 @@
 package com.zkxltech.ui;
 
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.GraphicsEnvironment;
-import java.awt.Panel;
-import java.awt.Rectangle;
-import java.awt.Toolkit;
-import java.awt.event.MouseMotionAdapter;
-import java.text.SimpleDateFormat;
-
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-
+import com.App;
+import com.ejet.core.util.io.IOUtils;
+import com.sun.awt.AWTUtilities;
+import com.zkxltech.config.ConfigConstant;
+import com.zkxltech.config.Global;
+import com.zkxltech.service.impl.ClassHourServiceImpl;
+import com.zkxltech.ui.util.*;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
-import org.eclipse.swt.events.MouseAdapter;
-import org.eclipse.swt.events.MouseEvent;
-import org.eclipse.swt.events.MouseTrackAdapter;
-import org.eclipse.swt.events.TraverseEvent;
-import org.eclipse.swt.events.TraverseListener;
+import org.eclipse.swt.events.*;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
@@ -26,17 +17,10 @@ import org.eclipse.wb.swt.SWTResourceManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.App;
-import com.ejet.core.util.io.IOUtils;
-import com.sun.awt.AWTUtilities;
-import com.zkxltech.config.ConfigConstant;
-import com.zkxltech.config.Global;
-import com.zkxltech.service.impl.ClassHourServiceImpl;
-import com.zkxltech.ui.util.Colors;
-import com.zkxltech.ui.util.PageConstant;
-import com.zkxltech.ui.util.StringConstant;
-import com.zkxltech.ui.util.StringUtils;
-import com.zkxltech.ui.util.SwtTools;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.MouseMotionAdapter;
+import java.text.SimpleDateFormat;
 /*
  * 	页面回调指令
  * 	start_answer 开始作答
@@ -314,7 +298,7 @@ public class MainStart {
 			 
 			//关闭
 			CLabel cLabel01 = new CLabel(shell, SWT.NONE);
-			cLabel01.setToolTipText("Shut down");//关闭
+			cLabel01.setToolTipText("Close");//关闭
 			cLabel01.setBackground(SWTResourceManager.getImage(MainStart.class, PageConstant.select_close));
 			cLabel01.setBounds(0, 0, 60, 38);
 			cLabel01.addMouseListener(new MouseAdapter() {
@@ -335,7 +319,7 @@ public class MainStart {
 			
 			//答题
 			CLabel cLabel02 = new CLabel(shell, SWT.NONE);
-			cLabel02.setToolTipText("Answer the questions");//答题
+			cLabel02.setToolTipText("Answering");//答题
 			cLabel02.setBackground(SWTResourceManager.getImage(MainStart.class, PageConstant.select_answer));
 			cLabel02.setBounds(0, 38, 59, 38);
 			cLabel02.addMouseListener(new MouseAdapter() {
@@ -353,7 +337,7 @@ public class MainStart {
 			});
 			//设置
 			CLabel cLabel03 = new CLabel(shell, SWT.NONE);
-			cLabel03.setToolTipText("Setting up");//设置
+			cLabel03.setToolTipText("Setting");//设置
 			cLabel03.setBackground(SWTResourceManager.getImage(MainStart.class, PageConstant.select_set));
 			cLabel03.setBounds(0, 76, 60, 40);
 			cLabel03.addMouseListener(new MouseAdapter() {
@@ -368,7 +352,7 @@ public class MainStart {
 			});
 			//记录
 			CLabel cLabel04 = new CLabel(shell, SWT.NONE);
-			cLabel04.setToolTipText("Record");//记录
+			cLabel04.setToolTipText("Records");//记录
 			cLabel04.setBackground(SWTResourceManager.getImage(MainStart.class, PageConstant.select_record));
 			cLabel04.setBounds(0, 114, 60, 40);
 			cLabel04.addMouseListener(new MouseAdapter() {
