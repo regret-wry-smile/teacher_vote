@@ -335,9 +335,7 @@ $('#myModal').modal('hide');
 	}
 });
 //停止单选答题
-app.controller('stopSingeAnswerCtrl', function($scope,$rootScope, $location, toastr, $window) {	
-	
-	
+app.controller('stopSingeAnswerCtrl', function($scope,$rootScope, $location, toastr, $window) {
 	$('#myModal').modal('hide');
 	//隐藏loading
 	var _hideModal=function(){
@@ -386,23 +384,36 @@ app.controller('stopSingeAnswerCtrl', function($scope,$rootScope, $location, toa
 				}
 				if($scope.result.ret == 'success') {
 					$rootScope.isStopAswer = true;
+                    $scope.resultmap={};
 					$scope.resultmap = JSON.parse(execute_answer("get_single_answer"));
 					 var keys1 = [];
-				      for (var i in $scope.resultmap) {
-				         if ($scope.resultmap.hasOwnProperty(i)){
-				         	 if(i=='true'){
-				         	 	i='Agree';			         	 	
-				         	 }else if(i=='false'){
-				         	 	i='Disagree';
-				         	 }else if(i=='abstention'){
-				         	 	i='Quit';
-				         	 }
-				         	 keys1.push(i);
-				         }
-				         
-				             
-				     }
-					console.log("data" + JSON.stringify($scope.resultmap));
+					 if($scope.resultmap.abstention){
+                         for (var i in $scope.resultmap) {
+                             if ($scope.resultmap.hasOwnProperty(i)){
+                                 if(i=='true'){
+                                     i='Agree';
+                                 }else if(i=='false'){
+                                     i='Disagree';
+                                 }else if(i=='abstention'){
+                                     i='Abstain';
+                                 }
+                                 keys1.push(i);
+                             }
+                         }
+                     }else{
+                         for (var i in $scope.resultmap) {
+                             if ($scope.resultmap.hasOwnProperty(i)){
+                                 if(i=='true'){
+                                     i='Yes';
+                                 }else{
+                                     i='No';
+                                 }
+                                 keys1.push(i);
+                             }
+
+
+                         }
+                     }
 					if($scope.answerType == 'char') {
 						//rangeList = ["A", "B", "C", "D"];
 						rangeList=keys1;
@@ -412,11 +423,19 @@ app.controller('stopSingeAnswerCtrl', function($scope,$rootScope, $location, toa
 					} else if($scope.answerType == 'judge') {
 						rangeList=keys1;
 						//rangeList = ["Yes", "No"];
-						$scope.resultmap = {
-							"Agree": $scope.resultmap["true"],
-							"Disagree": $scope.resultmap["false"],
-							"Quit":$scope.resultmap["abstention"]
+						if($scope.resultmap.abstention){
+                            $scope.resultmap = {
+                                "Agree": $scope.resultmap["true"],
+                                "Disagree": $scope.resultmap["false"],
+                                "Abstain":$scope.resultmap["abstention"]
+                            }
+						}else{
+                            $scope.resultmap = {
+                                "Yes": $scope.resultmap["true"],
+                                "No": $scope.resultmap["false"],
+                            }
 						}
+
 					}
 					//$scope.rangeList=["A","B","C","D","E"];
 					//console.log("答题范围" + JSON.stringify(rangeList))
@@ -558,11 +577,11 @@ app.controller('stopSingeAnswerCtrl', function($scope,$rootScope, $location, toa
 							if(datavalue == params.name) {
 								option.series[0].data[params.dataIndex].itemStyle.normal.color = '#5ed6be';
 								if($scope.answerType == 'judge') {
-									if(datavalue == "Agree") {
+									if(datavalue == "Agree"||datavalue == "Yes") { //这个答题显示yes和no
 										datavalue = "true";
-									} else if(datavalue == "Disagree"){
+									} else if(datavalue == "Disagree"||datavalue == "No"){
 										datavalue = "false";
-									}else if(datavalue == "Quit"){
+									}else if(datavalue == "Abstain"){
 										datavalue = "abstention";
 									}
 								}
