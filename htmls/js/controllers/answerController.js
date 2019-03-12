@@ -347,6 +347,7 @@ app.controller('stopSingeAnswerCtrl', function($scope,$rootScope, $location, toa
 	}
 		if($location.search()) {
 			$scope.answerType = $location.search().answerType; //单选类型(数字,字母,判断)
+			console.log($scope.answerType)
 		}
 		$rootScope.userdetailshow = false; //默认答题详情页面隐藏
 		$rootScope.isStopAswer = false;//默认在停止答题页面
@@ -387,33 +388,45 @@ app.controller('stopSingeAnswerCtrl', function($scope,$rootScope, $location, toa
                     $scope.resultmap={};
 					$scope.resultmap = JSON.parse(execute_answer("get_single_answer"));
 					 var keys1 = [];
-					 if($scope.resultmap.abstention){
-                         for (var i in $scope.resultmap) {
-                             if ($scope.resultmap.hasOwnProperty(i)){
-                                 if(i=='true'){
-                                     i='Agree';
-                                 }else if(i=='false'){
-                                     i='Disagree';
-                                 }else if(i=='abstention'){
-                                     i='Abstain';
+					 if($scope.answerType=='judge'){
+                         if($scope.resultmap.abstention){
+                             for (var i in $scope.resultmap) {
+                                 if ($scope.resultmap.hasOwnProperty(i)){
+                                     if(i=='true'){
+                                         i='Agree';
+                                     }else if(i=='false'){
+                                         i='Disagree';
+                                     }else if(i=='abstention'){
+                                         i='Abstain';
+                                     }
+                                     keys1.push(i);
                                  }
-                                 keys1.push(i);
+                             }
+                         }else{
+                             for (var i in $scope.resultmap) {
+                                 if ($scope.resultmap.hasOwnProperty(i)){
+                                     if(i=='true'){
+                                         i='Yes';
+                                     }else{
+                                         i='No';
+                                     }
+                                     keys1.push(i);
+                                 }
+
+
                              }
                          }
-                     }else{
+					 }else{
+
                          for (var i in $scope.resultmap) {
                              if ($scope.resultmap.hasOwnProperty(i)){
-                                 if(i=='true'){
-                                     i='Yes';
-                                 }else{
-                                     i='No';
-                                 }
                                  keys1.push(i);
                              }
 
 
                          }
-                     }
+					 }
+
 					if($scope.answerType == 'char') {
 						//rangeList = ["A", "B", "C", "D"];
 						rangeList=keys1;
