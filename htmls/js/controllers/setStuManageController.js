@@ -530,7 +530,8 @@ app.controller('uploadfileModalCtrl', function($scope,$modalInstance,toastr,info
         var form = new FormData();
         form.append('file', files);
         $scope.filepath=filepath;
-        $("#filename").html(filepath);
+        $("#filename").val(filepath);
+        // $("#filename").html(filepath);
 	}
 	$scope.ok = function() {
 		//$('#myModal').modal('hide');
