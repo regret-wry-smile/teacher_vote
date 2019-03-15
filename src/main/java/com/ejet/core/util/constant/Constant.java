@@ -62,7 +62,7 @@ public class Constant {
     /* 数字题型*/
     public static final String SINGLE_ANSWER_NUMBER = "[{'type':'d','id':'1','range':'0-9'}]";
     /* 判断题*/
-    public static final String SINGLE_ANSWER_JUDGE = "[{'type':'j','id':'1','range':''}]";
+    public static final String SINGLE_ANSWER_JUDGE = "[{'type':'v','id':'1','range':''}]";
     /* 多选题*/
     private static String multiple_answer_char  = "[{'type':'m','id':'1','range':''}]";
     /**
