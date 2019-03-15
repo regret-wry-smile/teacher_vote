@@ -395,12 +395,12 @@ app.controller('stopSingeAnswerCtrl', function($scope,$rootScope, $location, toa
                          if($scope.resultmap.abstention||$scope.resultmap.abstention==0){
                              for (var i in $scope.resultmap) {
                                  if ($scope.resultmap.hasOwnProperty(i)){
-                                     if(i=='true'){
+                                     if(i=='approve'){
                                          i='Agree';
-                                     }else if(i=='false'){
+                                     }else if(i=='oppose'){
                                          i='Disagree';
-                                     }else if(i=='abstention'){
-                                         i='Abstain';
+                                     }else if(i=='abandon'){
+                                         i='Abandon';
                                      }
                                      keys1.push(i);
                                  }
@@ -408,9 +408,9 @@ app.controller('stopSingeAnswerCtrl', function($scope,$rootScope, $location, toa
                          }else{
                              for (var i in $scope.resultmap) {
                                  if ($scope.resultmap.hasOwnProperty(i)){
-                                     if(i=='true'){
+                                     if(i=='approve'){
                                          i='Yes';
-                                     }else{
+                                     }else if(i=='oppose'){
                                          i='No';
                                      }
                                      keys1.push(i);
@@ -441,14 +441,14 @@ app.controller('stopSingeAnswerCtrl', function($scope,$rootScope, $location, toa
 						//rangeList = ["Yes", "No"];
 						if($scope.resultmap.abstention||$scope.resultmap.abstention==0){
                             $scope.resultmap = {
-                                "Agree": $scope.resultmap["true"],
-                                "Disagree": $scope.resultmap["false"],
-                                "Abstain":$scope.resultmap["abstention"]
+                                "Agree": $scope.resultmap["approve"],
+                                "Disagree": $scope.resultmap["oppose"],
+                                "Abandon":$scope.resultmap["abandon"]
                             }
 						}else{
                             $scope.resultmap = {
-                                "Yes": $scope.resultmap["true"],
-                                "No": $scope.resultmap["false"],
+                                "Yes": $scope.resultmap["approve"],
+                                "No": $scope.resultmap["oppose"],
                             }
 						}
 
@@ -594,11 +594,11 @@ app.controller('stopSingeAnswerCtrl', function($scope,$rootScope, $location, toa
 								option.series[0].data[params.dataIndex].itemStyle.normal.color = '#5ed6be';
 								if($scope.answerType == 'judge') {
 									if(datavalue == "Agree"||datavalue == "Yes") { //这个答题显示yes和no
-										datavalue = "true";
+										datavalue = "approve";
 									} else if(datavalue == "Disagree"||datavalue == "No"){
-										datavalue = "false";
-									}else if(datavalue == "Abstain"){
-										datavalue = "abstention";
+										datavalue = "oppose";
+									}else if(datavalue == "Abandon"){
+										datavalue = "abandon";
 									}
 								}
 								var dataparam = {
