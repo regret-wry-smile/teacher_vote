@@ -391,8 +391,8 @@ app.controller('stopSingeAnswerCtrl', function($scope,$rootScope, $location, toa
                     console.log(JSON.stringify($scope.resultmap))
 					 var keys1 = [];
 					 if($scope.answerType=='judge'){
-					 	console.log(JSON.stringify($scope.resultmap.abstention))
-                         if($scope.resultmap.abstention||$scope.resultmap.abstention==0){
+					 	console.log(JSON.stringify($scope.resultmap.abandon))
+                         if($scope.resultmap.abandon||$scope.resultmap.abandon==0){
                              for (var i in $scope.resultmap) {
                                  if ($scope.resultmap.hasOwnProperty(i)){
                                      if(i=='approve'){
@@ -439,7 +439,7 @@ app.controller('stopSingeAnswerCtrl', function($scope,$rootScope, $location, toa
 					} else if($scope.answerType == 'judge') {
 						rangeList=keys1;
 						//rangeList = ["Yes", "No"];
-						if($scope.resultmap.abstention||$scope.resultmap.abstention==0){
+						if($scope.resultmap.abandon||$scope.resultmap.abandon==0){
                             $scope.resultmap = {
                                 "Agree": $scope.resultmap["approve"],
                                 "Disagree": $scope.resultmap["oppose"],
