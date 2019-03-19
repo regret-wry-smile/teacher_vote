@@ -51,7 +51,8 @@ public class RedisMapSingleAnswer {
     public static final String  CHAR_A = "A",CHAR_B = "B",CHAR_C = "C",CHAR_D = "D",CHAR_E = "E",CHAR_F= "F",
                                 NUMBER_1 = "1", NUMBER_2 = "2",NUMBER_3 = "3",NUMBER_4 = "4",NUMBER_5 = "5",
                                 NUMBER_6 = "6",NUMBER_7 = "7",NUMBER_8 = "8",NUMBER_9 = "9",
-                                JUDGE_TRUE = "approve",JUDGE_FALSE = "oppose",JUDGE_ABANDON="abandon";
+                                JUDGE_TRUE = "true",JUDGE_FALSE = "false",
+                                VOTE_APPROVE="approve",VOTE_OPPOSE="oppose", VOTE_ABANDON="abandon";
     
     public static void addAnswer(String jsonData){
     	try {
@@ -59,7 +60,7 @@ public class RedisMapSingleAnswer {
         	logger.info("【单选接收到的数据】"+jsonData);
             JSONArray jsonArray= JSONArray.fromObject(jsonData);
             
-            a : for (Object object : jsonArray) {
+            for (Object object : jsonArray) {
             	Record2 record2 = new Record2();
                 JSONObject jsonObject = JSONObject.fromObject(object);
                 if (!jsonObject.containsKey("result")) {
@@ -108,9 +109,9 @@ public class RedisMapSingleAnswer {
                                       record2.setQuestionType("5");
                                       record2.setQuestionShow("Vote");
                                       if(result.equals("approve")){
-                                    	  record2.setAnswer("agree");
+                                    	  record2.setAnswer("approve");
                                       }else if (result.equals("oppose")){
-                                    	  record2.setAnswer("disagree");
+                                    	  record2.setAnswer("oppose");
                                       }else if (result.equals("abandon")){
                                           record2.setAnswer("abandon");
                                       }
@@ -127,15 +128,13 @@ public class RedisMapSingleAnswer {
                                       record2.setQuestionType("2");
                                       record2.setQuestionShow("Digit");
                                       break;
-                                  case "v":
+                                  case "j":
                                       record2.setQuestionType("3");
                                       record2.setQuestionShow("Judge");
-                                      if(result.equals("approve")){
+                                      if(result.equals("true")){
                                     	  record2.setAnswer("√");
-                                      }else if (result.equals("oppose")){
+                                      }else{
                                     	  record2.setAnswer("×");
-                                      }else if (result.equals("abandon")){
-                                          continue a;
                                       }
                                       break;
                               }
@@ -162,6 +161,9 @@ public class RedisMapSingleAnswer {
                                   break;
                               case Constant.ANSWER_JUDGE_TYPE:
                                   setJudgeCount(result);
+                                  break;
+                              case Constant.ANSWER_VOTE_TYPE:
+                                  setVoteCount(result);
                                   break;
                           }
                           
@@ -224,6 +226,19 @@ public class RedisMapSingleAnswer {
 			return null;
 		}
     }
+    private static void setVoteCount(String result) {
+        switch (result) {
+            case VOTE_APPROVE:
+                singleAnswerNumMap.put(VOTE_APPROVE, singleAnswerNumMap.get(VOTE_APPROVE)+1);
+                break;
+            case VOTE_OPPOSE:
+                singleAnswerNumMap.put(VOTE_OPPOSE, singleAnswerNumMap.get(VOTE_OPPOSE)+1);
+                break;
+            case VOTE_ABANDON:
+                singleAnswerNumMap.put(VOTE_ABANDON, singleAnswerNumMap.get(VOTE_ABANDON)+1);
+                break;
+        }
+    }
     private static void setJudgeCount(String result) {
         switch (result) {
             case JUDGE_TRUE:
@@ -231,9 +246,6 @@ public class RedisMapSingleAnswer {
                 break;
             case JUDGE_FALSE:
                 singleAnswerNumMap.put(JUDGE_FALSE, singleAnswerNumMap.get(JUDGE_FALSE)+1);
-                break;
-            case JUDGE_ABANDON:
-                singleAnswerNumMap.put(JUDGE_ABANDON, singleAnswerNumMap.get(JUDGE_ABANDON)+1);
                 break;
         }
     }
@@ -294,23 +306,6 @@ public class RedisMapSingleAnswer {
     }
     //获取每个答案对应的人数
     public static String getSingleAnswer(){
-//        if (RedisMapSingleAnswer.getCondition().equals(Constant.BUSINESS_VOTE)){
-//            Integer i=0;
-//            i=RedisMapAttendance.getSignMap().size()-iclickerAnswerMap.size();
-//            singleAnswerNumMap.put("abstention",i);
-//            List<StudentInfo> list = new ArrayList<>();
-//            Map<String, Object> signMap = RedisMapAttendance.getSignMap();
-//            for (String iclickerId:RedisMapAttendance.getSignMap().keySet()){
-//                if (StringUtils.isEmpty(iclickerAnswerMap.get(iclickerId))){
-//                    StudentInfo studentInfo = studentInfoMap.get(iclickerId);
-//                    list.add(studentInfo);
-//                }
-//            }
-//            singleAnswerStudentNameMap.put("abstention",list);
-//        }
-        if (!RedisMapSingleAnswer.getCondition().equals(Constant.BUSINESS_VOTE)){
-            singleAnswerNumMap.remove("abandon");
-        }
         return JSONObject.fromObject(singleAnswerNumMap).toString();
     }
     //获取当前提交答案的人数

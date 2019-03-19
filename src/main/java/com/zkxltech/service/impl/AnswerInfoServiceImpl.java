@@ -289,8 +289,13 @@ public class AnswerInfoServiceImpl implements AnswerInfoService{
                     r = EquipmentServiceImpl.getInstance().answer_start(0, Constant.SINGLE_ANSWER_JUDGE);
                     RedisMapSingleAnswer.getSingleAnswerNumMap().put(RedisMapSingleAnswer.JUDGE_TRUE, 0);
                     RedisMapSingleAnswer.getSingleAnswerNumMap().put(RedisMapSingleAnswer.JUDGE_FALSE, 0);
-					RedisMapSingleAnswer.getSingleAnswerNumMap().put(RedisMapSingleAnswer.JUDGE_ABANDON, 0);
                     break;
+				case Constant.ANSWER_VOTE_TYPE:
+					r = EquipmentServiceImpl.getInstance().answer_start(0, Constant.SINGLE_ANSWER_VOTE);
+					RedisMapSingleAnswer.getSingleAnswerNumMap().put(RedisMapSingleAnswer.VOTE_APPROVE, 0);
+					RedisMapSingleAnswer.getSingleAnswerNumMap().put(RedisMapSingleAnswer.VOTE_OPPOSE, 0);
+					RedisMapSingleAnswer.getSingleAnswerNumMap().put(RedisMapSingleAnswer.VOTE_ABANDON, 0);
+					break;
                 default:
                     r.setMessage("Error Parameter");//参数错误
                     return r;

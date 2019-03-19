@@ -390,36 +390,36 @@ app.controller('stopSingeAnswerCtrl', function($scope,$rootScope, $location, toa
 
                     console.log(JSON.stringify($scope.resultmap))
 					 var keys1 = [];
-					 if($scope.answerType=='judge'){
-					 	console.log(JSON.stringify($scope.resultmap.abandon))
-                         if($scope.resultmap.abandon||$scope.resultmap.abandon==0){
-                             for (var i in $scope.resultmap) {
-                                 if ($scope.resultmap.hasOwnProperty(i)){
-                                     if(i=='approve'){
-                                         i='Agree';
-                                     }else if(i=='oppose'){
-                                         i='Disagree';
-                                     }else if(i=='abandon'){
-                                         i='Abandon';
-                                     }
-                                     keys1.push(i);
-                                 }
-                             }
-                         }else{
-                             for (var i in $scope.resultmap) {
-                                 if ($scope.resultmap.hasOwnProperty(i)){
-                                     if(i=='approve'){
-                                         i='Yes';
-                                     }else if(i=='oppose'){
-                                         i='No';
-                                     }
-                                     keys1.push(i);
-                                 }
-
-
-                             }
-                         }
-					 }else{
+					 // if($scope.answerType=='judge'){
+					 // 	console.log(JSON.stringify($scope.resultmap.abandon))
+                     //     if($scope.resultmap.abandon||$scope.resultmap.abandon==0){
+                     //         for (var i in $scope.resultmap) {
+                     //             if ($scope.resultmap.hasOwnProperty(i)){
+                     //                 if(i=='approve'){
+                     //                     i='Agree';
+                     //                 }else if(i=='oppose'){
+                     //                     i='Disagree';
+                     //                 }else if(i=='abandon'){
+                     //                     i='Abandon';
+                     //                 }
+                     //                 keys1.push(i);
+                     //             }
+                     //         }
+                     //     }else{
+                     //         for (var i in $scope.resultmap) {
+                     //             if ($scope.resultmap.hasOwnProperty(i)){
+                     //                 if(i=='approve'){
+                     //                     i='Yes';
+                     //                 }else if(i=='oppose'){
+                     //                     i='No';
+                     //                 }
+                     //                 keys1.push(i);
+                     //             }
+					 //
+					 //
+                     //         }
+                     //     }
+					 // }else{
 
                          for (var i in $scope.resultmap) {
                              if ($scope.resultmap.hasOwnProperty(i)){
@@ -428,7 +428,7 @@ app.controller('stopSingeAnswerCtrl', function($scope,$rootScope, $location, toa
 
 
                          }
-					 }
+					 // }
 
 					if($scope.answerType == 'char') {
 						//rangeList = ["A", "B", "C", "D"];
@@ -439,19 +439,22 @@ app.controller('stopSingeAnswerCtrl', function($scope,$rootScope, $location, toa
 					} else if($scope.answerType == 'judge') {
 						rangeList=keys1;
 						//rangeList = ["Yes", "No"];
-						if($scope.resultmap.abandon||$scope.resultmap.abandon==0){
-                            $scope.resultmap = {
-                                "Agree": $scope.resultmap["approve"],
-                                "Disagree": $scope.resultmap["oppose"],
-                                "Abandon":$scope.resultmap["abandon"]
-                            }
-						}else{
-                            $scope.resultmap = {
-                                "Yes": $scope.resultmap["approve"],
-                                "No": $scope.resultmap["oppose"],
-                            }
-						}
+						// if($scope.resultmap.abandon||$scope.resultmap.abandon==0){
+                        //     $scope.resultmap = {
+                        //         "Agree": $scope.resultmap["approve"],
+                        //         "Disagree": $scope.resultmap["oppose"],
+                        //         "Abandon":$scope.resultmap["abandon"]
+                        //     }
+						// }else{
+                        //     $scope.resultmap = {
+                        //         "Yes": $scope.resultmap["approve"],
+                        //         "No": $scope.resultmap["oppose"],
+                        //     }
+						// }
 
+					} else if ($scope.answerType == 'vote') {
+                        rangeList=keys1;
+                        //rangeList = ["1", "2", "3", "4", "5", "6", "7", "8", "9"];
 					}
 					//$scope.rangeList=["A","B","C","D","E"];
 					//console.log("答题范围" + JSON.stringify(rangeList))
@@ -592,15 +595,15 @@ app.controller('stopSingeAnswerCtrl', function($scope,$rootScope, $location, toa
 							var datavalue = objs.data[i];
 							if(datavalue == params.name) {
 								option.series[0].data[params.dataIndex].itemStyle.normal.color = '#5ed6be';
-								if($scope.answerType == 'judge') {
-									if(datavalue == "Agree"||datavalue == "Yes") { //这个答题显示yes和no
-										datavalue = "approve";
-									} else if(datavalue == "Disagree"||datavalue == "No"){
-										datavalue = "oppose";
-									}else if(datavalue == "Abandon"){
-										datavalue = "abandon";
-									}
-								}
+								// if($scope.answerType == 'judge') {
+								// 	if(datavalue == "Agree"||datavalue == "Yes") { //这个答题显示yes和no
+								// 		datavalue = "approve";
+								// 	} else if(datavalue == "Disagree"||datavalue == "No"){
+								// 		datavalue = "oppose";
+								// 	}else if(datavalue == "Abandon"){
+								// 		datavalue = "abandon";
+								// 	}
+								// }
 								var dataparam = {
 									answer: datavalue
 								}
